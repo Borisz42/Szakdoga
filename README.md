@@ -1,4 +1,4 @@
-# Szakdoga
+# Tematika
 ELTE IK 2020 Informatikai kar szakdolgozat - Borbély Dávid
 
 Számítógépes grafikában gyakran megjelennek érdekességképpen a fraktálok, de gyakorlati felhasználási módjuk is akad, például tájak generálásban. Az esetek jelentős részében meg szoktak állni a fraktál megjelenítésénél, mert az önmagában is elég kihívást és vizuális élményt jelent, ám a velük való interakció további érdekességeket rejthet magában. 
