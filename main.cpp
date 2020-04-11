@@ -21,7 +21,7 @@ void exitProgram()
 int main( int argc, char* args[] )
 {
 	// állítsuk be, hogy kilépés elõtt hívja meg a rendszer az exitProgram() függvényt - Kérdés: mi lenne enélkül?
-	atexit( exitProgram );
+	//atexit( exitProgram );
 
 	//
 	// 1. lépés: inicializáljuk az SDL-t

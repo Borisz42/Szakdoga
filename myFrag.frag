@@ -13,7 +13,7 @@ uniform float time;
 
 #define MAX_STEPS 1000
 #define MAX_DIST 1000.
-#define SURF_DIST .001
+#define SURF_DIST .0005
 
 #define MAXMANDELBROTDIST 2.5
 #define MANDELBROTSTEPS 200
@@ -63,7 +63,7 @@ float RayMarch(vec3 ro, vec3 rd) {
 
 vec3 GetNormal(vec3 p) {
 	float d = GetDist(p);
-    vec2 e = vec2(.001, 0);
+    vec2 e = vec2(.0001, 0);
     
     vec3 n = d - vec3(
         GetDist(p-e.xyy),
