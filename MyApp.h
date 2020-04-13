@@ -23,6 +23,9 @@ public:
 	bool Init();
 	void Clean();
 
+	float GetDist(glm::vec3 pos);
+	glm::vec3 GetNormal(glm::vec3 p);
+
 	void Update();
 	void Render(int WindowX, int WindowY);
 
@@ -45,6 +48,17 @@ protected:
 	// OpenGL-es dolgok
 	GLuint m_vaoID; // vertex array object erõforrás azonosító
 	GLuint m_vboID; // vertex buffer object erõforrás azonosító
+
+	// Labda
+	glm::vec4 ballPos = glm::vec4(3, 0, 0, 0.07);
+	glm::vec3 ballVel = glm::vec3(0, 0, 0);
+	float energyRemaining = 0.8;
+	float gravity = 10;
+	bool playerCall = false;
+	float shoot_time;
+	GLuint	m_loc_ballPos;
+
+	float time;
 
 
 	// mátrixok helye a shaderekben

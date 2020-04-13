@@ -3,6 +3,9 @@
 
 #include <math.h>
 
+#define MAXMANDELBROTDIST 1.5
+#define MANDELBROTSTEPS 100
+
 CMyApp::CMyApp(void)
 {
 	m_vaoID = 0;
@@ -123,6 +126,7 @@ bool CMyApp::Init()
 	m_loc_at = glGetUniformLocation(m_programID, "at");
 	m_loc_up = glGetUniformLocation(m_programID, "up");
 	m_loc_time = glGetUniformLocation(m_programID, "time");
+	m_loc_ballPos = glGetUniformLocation(m_programID, "ballPos");
 	
 
 	return true;
@@ -136,12 +140,108 @@ void CMyApp::Clean()
 	glDeleteProgram( m_programID );
 }
 
+float CMyApp::GetDist(glm::vec3 pos) {
+	float Power = 3.0 + 4.0 * (sin(1 / 10.0) + 1.0);
+	glm::vec3 z = pos;
+	float dr = 1.0;
+	float r = 0.0;
+	for (int i = 0; i < MANDELBROTSTEPS; i++) {
+		r = glm::length(z);
+		if (r > MAXMANDELBROTDIST) break;
+
+		// convert to polar coordinates
+		float theta = acos(z.z / r);
+		float phi = atan(z.y / z.x);
+		dr = pow(r, Power - 1.0) * Power * dr + 1.0;
+
+		// scale and rotate the point
+		float zr = pow(r, Power);
+		theta = theta * Power;
+		phi = phi * Power;
+
+		// convert back to cartesian coordinates
+		z = zr * glm::vec3(sin(theta) * cos(phi), sin(phi) * sin(theta), cos(theta));
+		z += pos;
+	}
+	float fractalDist = 0.5 * log(r) * r / dr;
+	float planeDist = pos.y + 1.5;
+	glm::vec3 temp = abs(pos - glm::vec3(-3.5, -0.75, 6)) - glm::vec3(1, .75, 1);
+	float boxDist = glm::length(max(temp, glm::vec3(0.0, 0.0, 0.0)));
+
+	float minDist = glm::min(fractalDist, planeDist);
+	minDist = glm::min(minDist, boxDist);
+
+
+	return minDist;
+}
+
+glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
+	float d = GetDist(p);
+	float e = 0.00001;
+
+	glm::vec3 n = d - glm::vec3(
+		GetDist(p - glm::vec3(e, 0, 0)),
+		GetDist(p - glm::vec3(0, e, 0)),
+		GetDist(p - glm::vec3(0, 0, e)));
+
+	return glm::normalize(n);
+}
+
+
+
 void CMyApp::Update()
 {
 	static Uint32 last_time = SDL_GetTicks();
 	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
-
 	m_camera.Update(delta_time*0.1);
+	time = SDL_GetTicks() / 1000.0f;
+
+	glm::vec3 eye = m_camera.GetEye();
+	glm::vec3 at = m_camera.GetAt();
+	glm::vec3 forward = glm::normalize(at - eye);
+	forward *= 0.5;
+	glm::vec3 ballHome = eye + forward;
+
+
+	if (GetDist(ballPos) < ballPos.w + 0.001) //Ütközés bármivel
+	{
+		glm::vec3 norm = GetNormal(ballPos);
+		if (glm::dot(norm, glm::normalize(ballVel)) < 0)
+		{
+			glm::vec4 ballVel_temp = glm::rotate<float>(3.14159265359, norm) * glm::vec4(ballVel, 0);
+			ballVel.x = ballVel_temp.x * -1;
+			ballVel.y = ballVel_temp.y * -1;
+			ballVel.z = ballVel_temp.z * -1;
+			ballVel *= energyRemaining;
+		}
+		if (GetDist(ballPos) < ballPos.w) 
+		{
+			ballVel.y += gravity * delta_time; //gravitáció ellenzése
+		}
+
+	}
+
+	ballVel.y -= gravity * delta_time; //Gravitáció
+	
+
+	if (playerCall) 
+	{
+		ballVel.x = ballHome.x - ballPos.x;
+		ballVel.y = ballHome.y - ballPos.y;
+		ballVel.z = ballHome.z - ballPos.z;
+		ballVel *= 5.0;
+		shoot_time = last_time + delta_time * 2000.0;
+	}
+
+	if (last_time < shoot_time && !playerCall)
+	{
+		ballVel = forward;
+		ballVel *= 15;
+	}
+
+	ballPos.x += delta_time * ballVel.x;
+	ballPos.y += delta_time * ballVel.y;
+	ballPos.z += delta_time * ballVel.z;
 
 	last_time = SDL_GetTicks();
 }
@@ -158,7 +258,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glm::vec3 at = m_camera.GetAt();
 	glm::vec3 up = m_camera.GetUp();
 
-	float time = SDL_GetTicks() / 1000.0f;
+	time = SDL_GetTicks() / 1000.0f;
 
 	glUniform1f(m_loc_window_x, GLfloat(WindowX));
 	glUniform1f(m_loc_window_y, GLfloat(WindowY));
@@ -166,6 +266,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glUniform3f(m_loc_at, at.x, at.y, at.z);
 	glUniform3f(m_loc_up, up.x, up.y, up.z);
 	glUniform1f(m_loc_time, time);
+	glUniform4f(m_loc_ballPos, ballPos.x, ballPos.y, ballPos.z, ballPos.w);
 
 
 	// kapcsoljuk be a VAO-t (a VBO jön vele együtt)
@@ -184,11 +285,13 @@ void CMyApp::Render(int WindowX, int WindowY)
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 {
 	m_camera.KeyboardDown(key);
+	if (key.keysym.sym == SDLK_SPACE) { playerCall = true; }
 }
 
 void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 {
 	m_camera.KeyboardUp(key);
+	if (key.keysym.sym == SDLK_SPACE) { playerCall = false; }
 }
 
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)

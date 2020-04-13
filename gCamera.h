@@ -48,6 +48,7 @@ public:
 		return m_matViewProj;
 	}
 
+
 	void Resize(int _w, int _h);
 
 	void KeyboardDown(SDL_KeyboardEvent& key);

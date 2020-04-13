@@ -103,10 +103,10 @@ void gCamera::KeyboardDown(SDL_KeyboardEvent& key)
 			m_goFw = -1;
 		break;
 	case SDLK_a:
-			m_goRight = -1;
+			m_goRight = 1;
 		break;
 	case SDLK_d:
-			m_goRight = 1;
+			m_goRight = -1;
 		break;
 	}
 }
@@ -139,7 +139,7 @@ void gCamera::MouseMove(SDL_MouseMotionEvent& mouse)
 {
 	if ( mouse.state & SDL_BUTTON_LMASK )
 	{
-		UpdateUV(mouse.xrel/100.0f, mouse.yrel/100.0f);
+		UpdateUV(mouse.xrel/-500.0f, mouse.yrel/500.0f);
 	}
 }
 
