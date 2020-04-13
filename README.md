@@ -9,7 +9,9 @@ A megvalósításhoz C++ nyelvet választottam, OpenGL segítségével. Sphere t
 
 ## Program futtatása
 
-Miután a C:/ helyre kicsomagoltad az alpábbi állományt: [OGLPack.zip](cg.elte.hu/~bsc_cg/resources/OGLPack.zip)
-
-
-Futtasd a "subst T: C:/" parancsot, majd nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása. WASD billenytűkkel és nyomva tartott balklikkel lehet mozogni. A szóköz lenyomására elénk kerül a fehér labda, felengedésére kilövell.
+Csomagold ki a C:/ helyre az alpábbi állományt: [OGLPack.zip](cg.elte.hu/~bsc_cg/resources/OGLPack.zip)
+majd futtasd a 
+```
+subst T: C:/
+```
+parancsot, ezután nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása. WASD billenytűkkel és nyomva tartott balklikkel lehet mozogni. A szóköz lenyomására elénk kerül a fehér labda, felengedésére kilövell.
