@@ -7,9 +7,9 @@ Szakdolgozatomban fraktálok jelenlétében valósítok meg egyszerű szimuláci
 
 A megvalósításhoz C++ nyelvet választottam, OpenGL segítségével. Sphere tracing algoritmust és GPU-val gyorsított kirajzolást használok, hogy valós időben tudjam megjeleníteni a számításköltséges fraktálokat.
 
-# Program futtatása
-Miután a C:/ helyre kicsomagoltad az alpábbi állományt:
-cg.elte.hu/~bsc_cg/resources/OGLPack.zip
-Futtasd a 
-subst T: C:/
-parancsot, majd nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása. WASD billenytűkkel és nyomva tartott balklikkel lehet mozogni. A szóköz lenyomására elénk kerül a fehér labda, felengedésére kilövell.
+## Program futtatása
+
+Miután a C:/ helyre kicsomagoltad az alpábbi állományt: [OGLPack.zip](cg.elte.hu/~bsc_cg/resources/OGLPack.zip)
+
+
+Futtasd a "subst T: C:/" parancsot, majd nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása. WASD billenytűkkel és nyomva tartott balklikkel lehet mozogni. A szóköz lenyomására elénk kerül a fehér labda, felengedésére kilövell.
