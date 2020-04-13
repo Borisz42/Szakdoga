@@ -11,5 +11,5 @@ A megvalósításhoz C++ nyelvet választottam, OpenGL segítségével. Sphere t
 Miután a C:/ helyre kicsomagoltad az alpábbi állományt:
 cg.elte.hu/~bsc_cg/resources/OGLPack.zip
 Futtasd a 
-> subst T: C:/
+subst T: C:/
 parancsot, majd nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása. WASD billenytűkkel és nyomva tartott balklikkel lehet mozogni. A szóköz lenyomására elénk kerül a fehér labda, felengedésére kilövell.
