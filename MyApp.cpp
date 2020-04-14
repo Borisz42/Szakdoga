@@ -202,8 +202,9 @@ void CMyApp::Update()
 	forward *= 0.5;
 	glm::vec3 ballHome = eye + forward;
 
+	float Collision = GetDist(ballPos) - ballPos.w;
 
-	if (GetDist(ballPos) < ballPos.w + 0.001) //Ütközés bármivel
+	if (Collision < 0.0) //Ütközés bármivel
 	{
 		glm::vec3 norm = GetNormal(ballPos);
 		if (glm::dot(norm, glm::normalize(ballVel)) < 0)
@@ -212,16 +213,25 @@ void CMyApp::Update()
 			ballVel.x = ballVel_temp.x * -1;
 			ballVel.y = ballVel_temp.y * -1;
 			ballVel.z = ballVel_temp.z * -1;
-			ballVel *= energyRemaining;
-		}
-		if (GetDist(ballPos) < ballPos.w) 
+		}		
+		if (Collision < -0.004)
 		{
-			ballVel.y += gravity * delta_time; //gravitáció ellenzése
-		}
-
+			norm *= 0.005;
+			ballPos.x += norm.x;
+			ballPos.y += norm.y;
+			ballPos.z += norm.z;
+		}		
+			ballVel *= energyRemaining;
 	}
-
-	ballVel.y -= gravity * delta_time; //Gravitáció
+	else if (Collision < 0.004)
+	{
+		ballVel.y -= gravity * delta_time * Collision; //Gravitáció
+		ballVel *= energyRemaining;
+	}
+	else
+	{
+		ballVel.y -= gravity * delta_time; //Gravitáció
+	}
 	
 
 	if (playerCall) 
@@ -230,7 +240,7 @@ void CMyApp::Update()
 		ballVel.y = ballHome.y - ballPos.y;
 		ballVel.z = ballHome.z - ballPos.z;
 		ballVel *= 5.0;
-		shoot_time = last_time + delta_time * 2000.0;
+		//shoot_time = last_time + delta_time * 2000.0;
 	}
 
 	if (last_time < shoot_time && !playerCall)
