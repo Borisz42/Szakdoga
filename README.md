@@ -9,7 +9,7 @@ A megvalósításhoz C++ nyelvet választottam, OpenGL segítségével. Sphere t
 
 ## Program futtatása
 
-Csomagold ki a C:/ helyre az alpábbi állományt: [OGLPack.zip](cg.elte.hu/~bsc_cg/resources/OGLPack.zip)
+Csomagold ki a C:/ helyre az alpábbi állományt: [OGLPack.zip](http://cg.elte.hu/~bsc_cg/resources/OGLPack.zip)
 majd futtasd a 
 ```
 subst T: C:/
