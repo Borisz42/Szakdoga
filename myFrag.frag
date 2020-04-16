@@ -16,43 +16,38 @@ uniform vec4 ballPos;
 #define MAX_DIST 1000.
 #define SURF_DIST .0005
 
-#define MAXMANDELBROTDIST 1.5
-#define MANDELBROTSTEPS 100
+#define PI 3.14159
 
-// distance estimator from: https://www.shadertoy.com/view/wdjGWR
+float sdBox( vec3 p, vec3 b )
+{
+  vec3 q = abs(p) - b;
+  return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
+}
+
+vec3 fold(vec3 p, vec3 n){
+    p -= 2.0 * min(0.0, dot(p, n)) * n;
+    return p;
+}
+
+vec3 iter_fold(vec3 p){
+    vec3 n = normalize(vec3(1.0));
+    vec3 folded = fold(p, n);
+    for (int i = 1; i<5; ++i){
+        n = cross(n, vec3(1., 2., 3.));
+        folded = fold(folded, normalize(n));
+    }
+    return folded;
+}
+
 float GetDist(vec3 pos, out float col) {
-	float Power = 3.0+4.0*(sin(1/10.0)+1.0);
-	vec3 z = pos;
-	float dr = 1.0;
-	float r = 0.0;
-	for (int i = 0; i < MANDELBROTSTEPS ; i++) {
-		r = length(z);
-        col = min(i/4.5, 1.0);
-		if (r>MAXMANDELBROTDIST) break;
-		
-		// convert to polar coordinates
-		float theta = acos(z.z/r);
-		float phi = atan(z.y,z.x);
-		dr =  pow( r, Power-1.0)*Power*dr + 1.0;
-		
-		// scale and rotate the point
-		float zr = pow( r,Power);
-		theta = theta*Power;
-		phi = phi*Power;
-		
-		// convert back to cartesian coordinates
-		z = zr*vec3(sin(theta)*cos(phi), sin(phi)*sin(theta), cos(theta));
-		z+=pos;
-	}
-    float fractalDist = 0.5*log(r)*r/dr;
+    float boxDist = sdBox(iter_fold(pos), vec3(1.0));
     float planeDist = pos.y+1.5;
     float ballDist = length(pos - ballPos.xyz) - ballPos.w;
-    float boxDist = length(max(abs(pos-vec3(-3.5, -0.75, 6))-vec3(1,.75,1), 0.));
 
-    float minDist = min(fractalDist, planeDist);
+    float minDist = min(boxDist, planeDist);
     minDist = min(minDist, ballDist);
-    minDist = min(minDist, boxDist);
 
+    col = 0.1;
     if (minDist == planeDist) {col = 2.1;}
     if (minDist == ballDist) {col = 3.1;}
 
@@ -115,7 +110,7 @@ void main()
     vec3 right = normalize(cross(up, forward));
     vec3 upward = normalize(cross(forward, right));
 
-    vec3 canvas = ray_origin + forward*1.0;
+    vec3 canvas = ray_origin + forward*2.0;
     vec3 canvas_point = canvas + uv.x*right + uv.y*upward;
     vec3 ray_direction = normalize(canvas_point - ray_origin);
 
@@ -129,6 +124,7 @@ void main()
         light = GetLight(p);
         GetDist(p, getColor);
         if (getColor < 2.0) {
+            //col = GetNormal(p); 
             col = min(light * 1.5 * normalize(vec3(0.1, 0.2, 0.3)) + 0.1, 1.0);
         }else if (getColor < 3.0){
             col = min(light * normalize(vec3(0.1, 0.8, 0.2)) + 0.1, 1.0);     

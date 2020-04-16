@@ -140,44 +140,30 @@ void CMyApp::Clean()
 	glDeleteProgram( m_programID );
 }
 
+
+float sdBox(glm::vec3 p, glm::vec3 b)
+{
+	glm::vec3 q = abs(p) - b;
+	float ret1 = glm::length(max(q, glm::vec3(0.0)));
+	float max1 = glm::max(q.y, q.z);
+	float max2 = glm::max(q.x, max1);
+	return ret1 + glm::min(max2, (float)0.0);
+}
+
 float CMyApp::GetDist(glm::vec3 pos) {
-	float Power = 3.0 + 4.0 * (sin(1 / 10.0) + 1.0);
-	glm::vec3 z = pos;
-	float dr = 1.0;
-	float r = 0.0;
-	for (int i = 0; i < MANDELBROTSTEPS; i++) {
-		r = glm::length(z);
-		if (r > MAXMANDELBROTDIST) break;
-
-		// convert to polar coordinates
-		float theta = acos(z.z / r);
-		float phi = atan(z.y / z.x);
-		dr = pow(r, Power - 1.0) * Power * dr + 1.0;
-
-		// scale and rotate the point
-		float zr = pow(r, Power);
-		theta = theta * Power;
-		phi = phi * Power;
-
-		// convert back to cartesian coordinates
-		z = zr * glm::vec3(sin(theta) * cos(phi), sin(phi) * sin(theta), cos(theta));
-		z += pos;
-	}
-	float fractalDist = 0.5 * log(r) * r / dr;
+	float boxDist = sdBox(pos, glm::vec3(1.0));
 	float planeDist = pos.y + 1.5;
-	glm::vec3 temp = abs(pos - glm::vec3(-3.5, -0.75, 6)) - glm::vec3(1, .75, 1);
-	float boxDist = glm::length(max(temp, glm::vec3(0.0, 0.0, 0.0)));
+	float ballDist = glm::length(pos - glm::vec3(ballPos.x, ballPos.y, ballPos.z) - ballPos.w);
 
-	float minDist = glm::min(fractalDist, planeDist);
-	minDist = glm::min(minDist, boxDist);
-
+	float minDist = glm::min(boxDist, planeDist);
+	minDist = glm::min(minDist, ballDist);
 
 	return minDist;
 }
 
 glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
 	float d = GetDist(p);
-	float e = 0.00001;
+	float e = 0.0001;
 
 	glm::vec3 n = d - glm::vec3(
 		GetDist(p - glm::vec3(e, 0, 0)),
@@ -204,10 +190,10 @@ void CMyApp::Update()
 
 	float Collision = GetDist(ballPos) - ballPos.w;
 
-	if (Collision < 0.0) //Ütközés bármivel
+	if (Collision < 0) //Ütközés bármivel
 	{
 		glm::vec3 norm = GetNormal(ballPos);
-		if (glm::dot(norm, glm::normalize(ballVel)) < 0)
+		if (glm::dot(norm, glm::normalize(ballVel)) < 0.0)
 		{
 			glm::vec4 ballVel_temp = glm::rotate<float>(3.14159265359, norm) * glm::vec4(ballVel, 0);
 			ballVel.x = ballVel_temp.x * -1;
@@ -216,7 +202,7 @@ void CMyApp::Update()
 		}		
 		if (Collision < -0.004)
 		{
-			norm *= 0.005;
+			norm *= 0.007;
 			ballPos.x += norm.x;
 			ballPos.y += norm.y;
 			ballPos.z += norm.z;
@@ -225,10 +211,10 @@ void CMyApp::Update()
 	}
 	else if (Collision < 0.004)
 	{
-		ballVel.y -= gravity * delta_time * Collision; //Gravitáció
+		ballVel.y -= gravity * delta_time * Collision; //Gyengített gravitáció
 		ballVel *= energyRemaining;
 	}
-	else
+	else if (!playerCall)
 	{
 		ballVel.y -= gravity * delta_time; //Gravitáció
 	}
@@ -239,8 +225,8 @@ void CMyApp::Update()
 		ballVel.x = ballHome.x - ballPos.x;
 		ballVel.y = ballHome.y - ballPos.y;
 		ballVel.z = ballHome.z - ballPos.z;
-		ballVel *= 5.0;
-		//shoot_time = last_time + delta_time * 2000.0;
+		ballVel *= 10.0;
+		shoot_time = last_time + delta_time * 2000.0;
 	}
 
 	if (last_time < shoot_time && !playerCall)
