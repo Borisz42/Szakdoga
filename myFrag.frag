@@ -29,18 +29,75 @@ vec3 fold(vec3 p, vec3 n){
     return p;
 }
 
-vec3 iter_fold(vec3 p){
-    vec3 n = normalize(vec3(1.0));
-    vec3 folded = fold(p, n);
-    for (int i = 1; i<5; ++i){
-        n = cross(n, vec3(1., 2., 3.));
-        folded = fold(folded, normalize(n));
+ vec2 fold(vec2 p, float ang){
+    vec2 n=vec2(cos(-ang),sin(-ang));
+    p-=2.*min(0.,dot(p,n))*n;
+    return p;
+}
+#define PI 3.14159
+
+vec3 tri_fold(vec3 pt) {
+    pt.xy = fold(pt.xy,PI/3.+.5);
+    pt.xy = fold(pt.xy,-PI/3.);
+    pt.yz = fold(pt.yz,PI/6.+.7);
+    pt.yz = fold(pt.yz,-PI/6.);
+    return pt;
+}
+vec3 tri_curve(vec3 pt) {
+    for(int i=0;i<20;i++){
+        pt*=1.5;
+        pt.x-=1.6;
+        pt.z+=1.9;
+        pt=tri_fold(pt);
     }
+    return pt/pow(1.5, 20);
+}
+
+void rotX(inout vec3 z, float a) {
+    float s = sin(a);
+    float c = cos(a);
+    z.yz = vec2(c*z.y + s*z.z, c*z.z - s*z.y);
+}
+void rotY(inout vec3 z, float a) {
+    float s = sin(a);
+    float c = cos(a);
+	z.xz = vec2(c*z.x - s*z.z, c*z.z + s*z.x);
+}
+void rotZ(inout vec3 z, float a) {
+    float s = sin(a);
+    float c = cos(a);
+	z.xy = vec2(c*z.x + s*z.y, c*z.y - s*z.x);
+}
+
+mat3 rotationMatrix(vec3 axis, float angle){
+    axis = normalize(axis);
+    float s = sin(angle);
+    float c = cos(angle);
+    float oc = 1.0 - c;
+    
+    return mat3(oc * axis.x * axis.x + c,           oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,
+                oc * axis.x * axis.y + axis.z * s,  oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,
+                oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c         );
+}
+
+vec3 iter_fold(vec3 p){
+    vec2 one = vec2(1.0, -1.0);
+    vec2 e = vec2(0.0, 1.0);
+    vec3 folded = p;
+    vec3 shift = vec3(0);
+    for (int i = 0; i<2; ++i){
+        rotX(folded, 1.);
+        rotY(folded, 1.);
+        folded = fold(folded+shift, normalize(e.yxx));
+        folded = fold(folded+shift, normalize(e.xyx));
+        folded += vec3(0.1, 1.5, 0.1);
+        shift += vec3(0.1, 1.5, 0.1);
+    } 
     return folded;
 }
 
 float GetDist(vec3 pos, out float col) {
-    float boxDist = sdBox(iter_fold(pos), vec3(1.0));
+    float boxDist = sdBox(tri_curve(pos), vec3(1., 1., 2.));
     float planeDist = pos.y+1.5;
     float ballDist = length(pos - ballPos.xyz) - ballPos.w;
 

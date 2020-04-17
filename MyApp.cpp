@@ -150,8 +150,38 @@ float sdBox(glm::vec3 p, glm::vec3 b)
 	return ret1 + glm::min(max2, (float)0.0);
 }
 
+
+glm::vec2 fold(glm::vec2 p, float ang) {
+	glm::vec2 n = glm::vec2(cos(-ang), sin(-ang));
+	p -= glm::vec2(2.) * glm::min(glm::vec2(0.), glm::dot(p, n)) * n;
+	return p;
+}
+#define PI 3.14159
+
+glm::vec3 tri_fold(glm::vec3 pt) {
+	pt.x = fold(glm::vec2(pt.x, pt.y), (float)(PI / 3. + .5)).x;
+	pt.y = fold(glm::vec2(pt.x, pt.y), (float)(PI / 3. + .5)).y;
+	pt.x = fold(glm::vec2(pt.x, pt.y), (float)(-PI / 3.)).x;
+	pt.y = fold(glm::vec2(pt.x, pt.y), (float)(-PI / 3.)).y;
+	pt.z = fold(glm::vec2(pt.z, pt.y), (float)(PI / 6. + .7)).x;
+	pt.y = fold(glm::vec2(pt.z, pt.y), (float)(PI / 6. + .7)).y;
+	pt.z = fold(glm::vec2(pt.z, pt.y), (float)(-PI / 6.)).x;
+	pt.y = fold(glm::vec2(pt.z, pt.y), (float)(-PI / 6.)).y;
+	return pt;
+}
+glm::vec3 tri_curve(glm::vec3 pt) {
+	for (int i = 0; i < 20; i++) {
+		pt *= 1.5;
+		pt.x -= 1.6;
+		pt.z += 1.9;
+		pt = tri_fold(pt);
+	}
+	pt /= pow(1.5, 20);
+	return pt;
+}
+
 float CMyApp::GetDist(glm::vec3 pos) {
-	float boxDist = sdBox(pos, glm::vec3(1.0));
+	float boxDist = sdBox(tri_curve(pos), glm::vec3(1., 1., 2.));
 	float planeDist = pos.y + 1.5;
 	float ballDist = glm::length(pos - glm::vec3(ballPos.x, ballPos.y, ballPos.z) - ballPos.w);
 
@@ -173,6 +203,16 @@ glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
 	return glm::normalize(n);
 }
 
+glm::mat3 rotationMatrix(glm::vec3 axis, float angle) {
+	axis = normalize(axis);
+	float s = sin(angle);
+	float c = cos(angle);
+	float oc = 1.0 - c;
+
+	return glm::mat3(oc * axis.x * axis.x + c, oc * axis.x * axis.y - axis.z * s, oc * axis.z * axis.x + axis.y * s,
+					 oc * axis.x * axis.y + axis.z * s, oc * axis.y * axis.y + c, oc * axis.y * axis.z - axis.x * s,
+					 oc * axis.z * axis.x - axis.y * s, oc * axis.y * axis.z + axis.x * s, oc * axis.z * axis.z + c);
+}
 
 
 void CMyApp::Update()
@@ -195,10 +235,8 @@ void CMyApp::Update()
 		glm::vec3 norm = GetNormal(ballPos);
 		if (glm::dot(norm, glm::normalize(ballVel)) < 0.0)
 		{
-			glm::vec4 ballVel_temp = glm::rotate<float>(3.14159265359, norm) * glm::vec4(ballVel, 0);
-			ballVel.x = ballVel_temp.x * -1;
-			ballVel.y = ballVel_temp.y * -1;
-			ballVel.z = ballVel_temp.z * -1;
+			ballVel = rotationMatrix(norm, 3.14159) * ballVel;
+			ballVel *= -1;
 		}		
 		if (Collision < -0.004)
 		{
