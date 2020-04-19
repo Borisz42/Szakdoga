@@ -14,4 +14,4 @@ majd futtasd a
 ```
 subst T: C:/
 ```
-parancsot, ezután nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása. WASD billenytűkkel és nyomva tartott balklikkel lehet mozogni. A szóköz lenyomására elénk kerül a fehér labda, felengedésére kilövell.
+parancsot, ezután nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása.
