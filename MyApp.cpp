@@ -1,17 +1,18 @@
 #include "MyApp.h"
 #include "GLUtils.hpp"
-
+#include <imgui/imgui.h>
 #include <math.h>
 
-#define MAXMANDELBROTDIST 1.5
-#define MANDELBROTSTEPS 100
+#define MAX_STEPS 1000
+#define MAX_DIST 1000.
+#define SURF_DIST .0005
 
 CMyApp::CMyApp(void)
 {
 	m_vaoID = 0;
 	m_vboID = 0;
 	m_programID = 0;
-	m_camera.SetView(glm::vec3(4, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	m_camera.SetView(glm::vec3(8, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 }
 
 
@@ -127,7 +128,15 @@ bool CMyApp::Init()
 	m_loc_up = glGetUniformLocation(m_programID, "up");
 	m_loc_time = glGetUniformLocation(m_programID, "time");
 	m_loc_ballPos = glGetUniformLocation(m_programID, "ballPos");
-	
+
+	m_loc_shift_x = glGetUniformLocation(m_programID, "shift_x");
+	m_loc_shift_z = glGetUniformLocation(m_programID, "shift_z");
+	m_loc_fold_z = glGetUniformLocation(m_programID, "fold_z");
+	m_loc_fold_x = glGetUniformLocation(m_programID, "fold_x");
+	m_loc_rot_x = glGetUniformLocation(m_programID, "rot_x");
+	m_loc_rot_y = glGetUniformLocation(m_programID, "rot_y");
+	m_loc_iterations = glGetUniformLocation(m_programID, "iterations");
+
 
 	return true;
 }
@@ -150,43 +159,48 @@ float sdBox(glm::vec3 p, glm::vec3 b)
 	return ret1 + glm::min(max2, (float)0.0);
 }
 
+glm::vec3 rotX(glm::vec3 z, float a) {
+	float s = sin(a);
+	float c = cos(a);
+	return glm::vec3(z.x, c * z.y + s * z.z, c * z.z - s * z.y);
+}
+glm::vec3 rotY(glm::vec3 z, float a) {
+	float s = sin(a);
+	float c = cos(a);
+	return glm::vec3(c * z.x - s * z.z, z.y, c * z.z + s * z.x);
+}
 
 glm::vec2 fold(glm::vec2 p, float ang) {
 	glm::vec2 n = glm::vec2(cos(-ang), sin(-ang));
-	p -= glm::vec2(2.) * glm::min(glm::vec2(0.), glm::dot(p, n)) * n;
+	n *= 2. * glm::min((float)0.0, glm::dot(p, n));
+	p -= n;
 	return p;
 }
 #define PI 3.14159
 
-glm::vec3 tri_fold(glm::vec3 pt) {
-	pt.x = fold(glm::vec2(pt.x, pt.y), (float)(PI / 3. + .5)).x;
-	pt.y = fold(glm::vec2(pt.x, pt.y), (float)(PI / 3. + .5)).y;
-	pt.x = fold(glm::vec2(pt.x, pt.y), (float)(-PI / 3.)).x;
-	pt.y = fold(glm::vec2(pt.x, pt.y), (float)(-PI / 3.)).y;
-	pt.z = fold(glm::vec2(pt.z, pt.y), (float)(PI / 6. + .7)).x;
-	pt.y = fold(glm::vec2(pt.z, pt.y), (float)(PI / 6. + .7)).y;
-	pt.z = fold(glm::vec2(pt.z, pt.y), (float)(-PI / 6.)).x;
-	pt.y = fold(glm::vec2(pt.z, pt.y), (float)(-PI / 6.)).y;
-	return pt;
+glm::vec3 CMyApp::multi_fold(glm::vec3 pt) {
+	pt = glm::vec3( fold(glm::vec2(pt.x, pt.y), (float)(PI / 3. + fold_z)), pt.z);
+	pt = glm::vec3( fold(glm::vec2(pt.x, pt.y), (float)(-PI / 3.)), pt.z);
+	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(PI / 6. + fold_x)));
+	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(-PI / 6.)));
+	return pt;				 
 }
-glm::vec3 tri_curve(glm::vec3 pt) {
-	for (int i = 0; i < 20; i++) {
-		pt *= 1.5;
-		pt.x -= 1.6;
-		pt.z += 1.9;
-		pt = tri_fold(pt);
+glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
+	for (int i = 1; i < iterations+1; ++i) {
+		pt.x += shift_x;
+		pt.z += shift_z;
+		pt = rotX(pt, 1 / i + rot_x);
+		pt = rotY(pt, 1 / i + rot_y);
+		pt = multi_fold(pt);
 	}
-	pt /= pow(1.5, 20);
 	return pt;
 }
 
 float CMyApp::GetDist(glm::vec3 pos) {
-	float boxDist = sdBox(tri_curve(pos), glm::vec3(1., 1., 2.));
-	float planeDist = pos.y + 1.5;
-	float ballDist = glm::length(pos - glm::vec3(ballPos.x, ballPos.y, ballPos.z) - ballPos.w);
+	float boxDist = sdBox(iter_fold(pos), glm::vec3(1., 1., 2.));
+	float planeDist = pos.y + 4;
 
 	float minDist = glm::min(boxDist, planeDist);
-	minDist = glm::min(minDist, ballDist);
 
 	return minDist;
 }
@@ -201,6 +215,19 @@ glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
 		GetDist(p - glm::vec3(0, 0, e)));
 
 	return glm::normalize(n);
+}
+
+float  CMyApp::RayMarch(glm::vec3 ro, glm::vec3 rd) {
+	float dist = 0.;
+
+	for (int i = 0; i < MAX_STEPS; i++) {
+		glm::vec3 p = ro + rd * dist;
+		float dS = GetDist(p);
+		dist += dS;
+		if (dist > MAX_DIST || dS < SURF_DIST) break;
+	}
+
+	return dist;
 }
 
 glm::mat3 rotationMatrix(glm::vec3 axis, float angle) {
@@ -229,6 +256,7 @@ void CMyApp::Update()
 	glm::vec3 ballHome = eye + forward;
 
 	float Collision = GetDist(ballPos) - ballPos.w;
+	getDist = Collision;
 
 	if (Collision < 0) //Ütközés bármivel
 	{
@@ -249,7 +277,7 @@ void CMyApp::Update()
 	}
 	else if (Collision < 0.004)
 	{
-		ballVel.y -= gravity * delta_time * Collision; //Gyengített gravitáció
+		ballVel.y -= gravity * delta_time * 0.01; //Gyengített gravitáció
 		ballVel *= energyRemaining;
 	}
 	else if (!playerCall)
@@ -264,7 +292,7 @@ void CMyApp::Update()
 		ballVel.y = ballHome.y - ballPos.y;
 		ballVel.z = ballHome.z - ballPos.z;
 		ballVel *= 10.0;
-		shoot_time = last_time + delta_time * 2000.0;
+	//	shoot_time = last_time + delta_time * 2000.0;
 	}
 
 	if (last_time < shoot_time && !playerCall)
@@ -283,6 +311,28 @@ void CMyApp::Update()
 
 void CMyApp::Render(int WindowX, int WindowY)
 {
+	if (ImGui::Begin("MyWindow")) {
+		if (ImGui::Button("Gravity upside down")) {
+			gravity *= -1;
+		}
+	
+		ImGui::Text("Distance from anything: %f", getDist);
+		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
+		ImGui::DragFloat("shift_z", &shift_z, 0.001f);
+		ImGui::DragFloat("fold_x", &fold_x, 0.001f);
+		ImGui::DragFloat("fold_z", &fold_z, 0.001f);
+		ImGui::DragFloat("rot_x", &rot_x, 0.001f);
+		ImGui::DragFloat("rot_y", &rot_y, 0.001f);
+		ImGui::SliderInt("iterations", &iterations, 0, 30);
+
+
+
+
+	}
+	ImGui::End();
+
+	//ImGui::ShowTestWindow();
+
 	// töröljük a frampuffert (GL_COLOR_BUFFER_BIT) és a mélységi Z puffert (GL_DEPTH_BUFFER_BIT)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -301,6 +351,13 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glUniform3f(m_loc_up, up.x, up.y, up.z);
 	glUniform1f(m_loc_time, time);
 	glUniform4f(m_loc_ballPos, ballPos.x, ballPos.y, ballPos.z, ballPos.w);
+	glUniform1f(m_loc_shift_x, shift_x);
+	glUniform1f(m_loc_shift_z, shift_z);
+	glUniform1f(m_loc_fold_z, fold_z);
+	glUniform1f(m_loc_fold_x, fold_x);
+	glUniform1f(m_loc_rot_x, rot_x);
+	glUniform1f(m_loc_rot_y, rot_y);
+	glUniform1i(m_loc_iterations, iterations);
 
 
 	// kapcsoljuk be a VAO-t (a VBO jön vele együtt)
@@ -314,6 +371,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 
 	// shader kikapcsolasa
 	glUseProgram( 0 );
+
 }
 
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)

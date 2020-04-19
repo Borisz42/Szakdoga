@@ -56,7 +56,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -86,15 +86,29 @@
     <ClCompile Include="gCamera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyApp.cpp" />
+    <ClCompile Include="T:\OGLPack\include\imgui\imdock.cpp" />
+    <ClCompile Include="T:\OGLPack\include\imgui\imgui.cpp" />
+    <ClCompile Include="T:\OGLPack\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="T:\OGLPack\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="T:\OGLPack\include\imgui\imgui_impl_sdl_gl3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gCamera.h" />
     <ClInclude Include="GLUtils.hpp" />
     <ClInclude Include="MyApp.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="T:\OGLPack\include\imgui\imconfig.h" />
+    <ClInclude Include="T:\OGLPack\include\imgui\imdock.h" />
+    <ClInclude Include="T:\OGLPack\include\imgui\imgui.h" />
+    <ClInclude Include="T:\OGLPack\include\imgui\imgui_impl_sdl_gl3.h" />
+    <ClInclude Include="T:\OGLPack\include\imgui\imgui_internal.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="myFrag.frag" />
     <None Include="myVert.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FractalCollision.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

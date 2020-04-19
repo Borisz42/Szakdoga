@@ -1,6 +1,10 @@
 // GLEW
 #include <GL/glew.h>
 
+// ImGui
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_sdl_gl3.h>
+
 // SDL
 #include <SDL.h>
 #include <SDL_opengl.h>
@@ -122,6 +126,9 @@ int main( int argc, char* args[] )
 	window_title << "OpenGL " << glVersion[0] << "." << glVersion[1];
 	SDL_SetWindowTitle(win, window_title.str().c_str());
 
+	//Imgui init
+	ImGui_ImplSdlGL3_Init(win);
+
 	//
 	// 3. lépés: indítsuk el a fõ üzenetfeldolgozó ciklust
 	// 
@@ -146,6 +153,9 @@ int main( int argc, char* args[] )
 		// amíg van feldolgozandó üzenet dolgozzuk fel mindet:
 		while ( SDL_PollEvent(&ev) )
 		{
+			ImGui_ImplSdlGL3_ProcessEvent(&ev);
+			bool is_mouse_captured = ImGui::GetIO().WantCaptureMouse; //kell-e az imgui-nak az egér
+			bool is_keyboard_captured = ImGui::GetIO().WantCaptureKeyboard;	//kell-e az imgui-nak a billentyûzet
 			switch (ev.type)
 			{
 			case SDL_QUIT:
@@ -179,9 +189,11 @@ int main( int argc, char* args[] )
 				break;
 			}
 		}
+		ImGui_ImplSdlGL3_NewFrame(win); //Ezután lehet imgui parancsokat hívni az ImGui::Render()-ig
 
 		app.Update();
 		app.Render( SDL_GetWindowSurface(win)->w , SDL_GetWindowSurface(win)->h );
+		ImGui::Render();
 
 		SDL_GL_SwapWindow(win);
 	}
@@ -194,6 +206,7 @@ int main( int argc, char* args[] )
 	// takarítson el maga után az objektumunk
 	app.Clean();
 
+	ImGui_ImplSdlGL3_Shutdown();
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow( win );
 

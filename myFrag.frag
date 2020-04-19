@@ -4,54 +4,25 @@ in vec3 vs_out_col;
 in vec2 vs_out_pos;
 out vec4 fs_out_col;
 
-
-
 uniform vec3 eye;
 uniform vec3 at;
 uniform vec3 up;
 uniform float time;
 uniform vec4 ballPos;
 
-#define MAX_STEPS 1000
-#define MAX_DIST 1000.
-#define SURF_DIST .0005
+uniform float shift_x;
+uniform float shift_z;
+uniform float fold_z;
+uniform float fold_x;
+uniform float rot_x;
+uniform float rot_y;
+uniform int iterations;
+
+#define MAX_STEPS 100
+#define MAX_DIST 50.
+#define SURF_DIST .001
 
 #define PI 3.14159
-
-float sdBox( vec3 p, vec3 b )
-{
-  vec3 q = abs(p) - b;
-  return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
-}
-
-vec3 fold(vec3 p, vec3 n){
-    p -= 2.0 * min(0.0, dot(p, n)) * n;
-    return p;
-}
-
- vec2 fold(vec2 p, float ang){
-    vec2 n=vec2(cos(-ang),sin(-ang));
-    p-=2.*min(0.,dot(p,n))*n;
-    return p;
-}
-#define PI 3.14159
-
-vec3 tri_fold(vec3 pt) {
-    pt.xy = fold(pt.xy,PI/3.+.5);
-    pt.xy = fold(pt.xy,-PI/3.);
-    pt.yz = fold(pt.yz,PI/6.+.7);
-    pt.yz = fold(pt.yz,-PI/6.);
-    return pt;
-}
-vec3 tri_curve(vec3 pt) {
-    for(int i=0;i<20;i++){
-        pt*=1.5;
-        pt.x-=1.6;
-        pt.z+=1.9;
-        pt=tri_fold(pt);
-    }
-    return pt/pow(1.5, 20);
-}
 
 void rotX(inout vec3 z, float a) {
     float s = sin(a);
@@ -80,25 +51,42 @@ mat3 rotationMatrix(vec3 axis, float angle){
                 oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c         );
 }
 
-vec3 iter_fold(vec3 p){
-    vec2 one = vec2(1.0, -1.0);
-    vec2 e = vec2(0.0, 1.0);
-    vec3 folded = p;
-    vec3 shift = vec3(0);
-    for (int i = 0; i<2; ++i){
-        rotX(folded, 1.);
-        rotY(folded, 1.);
-        folded = fold(folded+shift, normalize(e.yxx));
-        folded = fold(folded+shift, normalize(e.xyx));
-        folded += vec3(0.1, 1.5, 0.1);
-        shift += vec3(0.1, 1.5, 0.1);
-    } 
-    return folded;
+float sdBox( vec3 p, vec3 b )
+{
+  vec3 q = abs(p) - b;
+  return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
 }
 
+vec2 fold(vec2 p, float ang){
+    vec2 n=vec2(cos(-ang),sin(-ang));
+    p-=2.*min(0.,dot(p,n))*n;
+    return p;
+}
+
+vec3 multi_fold(vec3 pt) {
+    pt.xy = fold(pt.xy,PI/3. + fold_z );
+    pt.xy = fold(pt.xy,-PI/3.);
+    pt.yz = fold(pt.yz,PI/6. + fold_x );
+    pt.yz = fold(pt.yz,-PI/6.);
+    return pt;
+}
+
+vec3 iter_fold(vec3 pt) {
+    for(int i = 1; i < iterations+1; ++i){
+        pt.x += shift_x;
+        pt.z += shift_z;
+        rotX(pt, 1/i + rot_x);
+        rotY(pt, 1/i + rot_y);
+        pt=multi_fold(pt);
+    }
+    return pt;
+}
+
+
+
 float GetDist(vec3 pos, out float col) {
-    float boxDist = sdBox(tri_curve(pos), vec3(1., 1., 2.));
-    float planeDist = pos.y+1.5;
+    float boxDist = sdBox(iter_fold(pos), vec3(1., 1., 2.));
+    float planeDist = pos.y+4;
     float ballDist = length(pos - ballPos.xyz) - ballPos.w;
 
     float minDist = min(boxDist, planeDist);
@@ -143,8 +131,8 @@ vec3 GetNormal(vec3 p) {
 }
 
 float GetLight(vec3 p) {
-    vec3 lightPos = vec3(0, 4, 0);                // a fény kiinduló helyzete
-    lightPos.xz += vec2(sin(time), cos(time))*6.; // a fény körpályán mozog
+    vec3 lightPos = vec3(0, 5, 0);                // a fény kiinduló helyzete
+    lightPos.xz += vec2(sin(time), cos(time))*12.; // a fény körpályán mozog
     vec3 l = normalize(lightPos-p);
     vec3 n = GetNormal(p);
     
