@@ -1,4 +1,4 @@
-#include "MyApp.h"
+Ôªø#include "MyApp.h"
 #include "GLUtils.hpp"
 #include <imgui/imgui.h>
 #include <math.h>
@@ -22,12 +22,12 @@ CMyApp::~CMyApp(void)
 
 bool CMyApp::Init()
 {
-	// tˆrlÈsi szÌn legyen kÈkes
+	// t√∂rl√©si sz√≠n legyen k√©kes
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	glEnable(GL_CULL_FACE); // kapcsoljuk be a hatrafele nezo lapok eldobasat
-	glEnable(GL_DEPTH_TEST); // mÈlysÈgi teszt bekapcsol·sa (takar·s)
-	glCullFace(GL_BACK); // GL_BACK: a kamer·tÛl "elfelÈ" nÈzı lapok, GL_FRONT: a kamera felÈ nÈzı lapok
+	glEnable(GL_DEPTH_TEST); // m√©lys√©gi teszt bekapcsol√°sa (takar√°s)
+	glCullFace(GL_BACK); // GL_BACK: a kamer√°t√≥l "elfel√©" n√©z√µ lapok, GL_FRONT: a kamera fel√© n√©z√µ lapok
 
 	//
 	// geometria letrehozasa
@@ -35,13 +35,13 @@ bool CMyApp::Init()
 
 	Vertex vert[] =
 	{ 
-		// 1. h·romszˆg
+		// 1. h√°romsz√∂g
 		//          x,  y, z             R, G, B
 		{glm::vec3(-1, -1, 0), glm::vec3(1, 0, 0)},
 		{glm::vec3( 1, -1, 0), glm::vec3(0, 1, 0)},
 		{glm::vec3(-1,  1, 0), glm::vec3(0, 0, 1)},
 
-		// 2. h·romszˆg
+		// 2. h√°romsz√∂g
 		{glm::vec3(-1,  1, 0), glm::vec3(0, 0, 1)},
 		{glm::vec3( 1, -1, 0), glm::vec3(0, 1, 0)},
 		{glm::vec3( 1,  1, 0), glm::vec3(1, 1, 1)},
@@ -49,32 +49,32 @@ bool CMyApp::Init()
 
 	// 1 db VAO foglalasa
 	glGenVertexArrays(1, &m_vaoID);
-	// a frissen gener·lt VAO beallitasa aktÌvnak
+	// a frissen gener√°lt VAO beallitasa akt√≠vnak
 	glBindVertexArray(m_vaoID);
 	
-	// hozzunk lÈtre egy ˙j VBO erıforr·s nevet
+	// hozzunk l√©tre egy √∫j VBO er√µforr√°s nevet
 	glGenBuffers(1, &m_vboID); 
-	glBindBuffer(GL_ARRAY_BUFFER, m_vboID); // tegy¸k "aktÌvv·" a lÈtrehozott VBO-t
-	// tˆlts¸k fel adatokkal az aktÌv VBO-t
-	glBufferData( GL_ARRAY_BUFFER,	// az aktÌv VBO-ba tˆlts¸nk adatokat
-				  sizeof(vert),		// ennyi b·jt nagys·gban
-				  vert,	// errıl a rendszermemÛriabeli cÌmrıl olvasva
-				  GL_STATIC_DRAW);	// ˙gy, hogy a VBO-nkba nem tervez¸nk ezut·n Ìrni Ès minden kirajzol·skor felhasnz·ljuk a benne lÈvı adatokat
+	glBindBuffer(GL_ARRAY_BUFFER, m_vboID); // tegy√ºk "akt√≠vv√°" a l√©trehozott VBO-t
+	// t√∂lts√ºk fel adatokkal az akt√≠v VBO-t
+	glBufferData( GL_ARRAY_BUFFER,	// az akt√≠v VBO-ba t√∂lts√ºnk adatokat
+				  sizeof(vert),		// ennyi b√°jt nagys√°gban
+				  vert,	// err√µl a rendszermem√≥riabeli c√≠mr√µl olvasva
+				  GL_STATIC_DRAW);	// √∫gy, hogy a VBO-nkba nem tervez√ºnk ezut√°n √≠rni √©s minden kirajzol√°skor felhasnz√°ljuk a benne l√©v√µ adatokat
 	
 
-	// VAO-ban jegyezz¸k fel, hogy a VBO-ban az elsı 3 float sizeof(Vertex)-enkÈnt lesz az elsı attrib˙tum (pozÌciÛ)
-	glEnableVertexAttribArray(0); // ez lesz majd a pozÌciÛ
+	// VAO-ban jegyezz√ºk fel, hogy a VBO-ban az els√µ 3 float sizeof(Vertex)-enk√©nt lesz az els√µ attrib√∫tum (poz√≠ci√≥)
+	glEnableVertexAttribArray(0); // ez lesz majd a poz√≠ci√≥
 	glVertexAttribPointer(
-		0,				// a VB-ben tal·lhatÛ adatok kˆz¸l a 0. "index˚" attrib˙tumait ·llÌtjuk be
+		0,				// a VB-ben tal√°lhat√≥ adatok k√∂z√ºl a 0. "index√ª" attrib√∫tumait √°ll√≠tjuk be
 		3,				// komponens szam
 		GL_FLOAT,		// adatok tipusa
 		GL_FALSE,		// normalizalt legyen-e
 		sizeof(Vertex),	// stride (0=egymas utan)
-		0				// a 0. index˚ attrib˙tum hol kezdıdik a sizeof(Vertex)-nyi ter¸leten bel¸l
+		0				// a 0. index√ª attrib√∫tum hol kezd√µdik a sizeof(Vertex)-nyi ter√ºleten bel√ºl
 	); 
 
-	// a m·sodik attrib˙tumhoz pedig a VBO-ban sizeof(Vertex) ugr·s ut·n sizeof(glm::vec3)-nyit menve ˙jabb 3 float adatot tal·lunk (szÌn)
-	glEnableVertexAttribArray(1); // ez lesz majd a szÌn
+	// a m√°sodik attrib√∫tumhoz pedig a VBO-ban sizeof(Vertex) ugr√°s ut√°n sizeof(glm::vec3)-nyit menve √∫jabb 3 float adatot tal√°lunk (sz√≠n)
+	glEnableVertexAttribArray(1); // ez lesz majd a sz√≠n
 	glVertexAttribPointer(
 		1,
 		3, 
@@ -83,27 +83,27 @@ bool CMyApp::Init()
 		sizeof(Vertex),
 		(void*)(sizeof(glm::vec3)) );
 
-	glBindVertexArray(0); // feltˆlt¸tt¸k a VAO-t, kapcsoljuk le
-	glBindBuffer(GL_ARRAY_BUFFER, 0); // feltˆltˆtt¸k a VBO-t is, ezt is vegy¸k le
+	glBindVertexArray(0); // felt√∂lt√ºtt√ºk a VAO-t, kapcsoljuk le
+	glBindBuffer(GL_ARRAY_BUFFER, 0); // felt√∂lt√∂tt√ºk a VBO-t is, ezt is vegy√ºk le
 
 	GLuint vs_ID = loadShader(GL_VERTEX_SHADER,		"myVert.vert");
 	GLuint fs_ID = loadShader(GL_FRAGMENT_SHADER,	"myFrag.frag");
 
-	// a shadereket t·rolÛ program lÈtrehoz·sa
+	// a shadereket t√°rol√≥ program l√©trehoz√°sa
 	m_programID = glCreateProgram();
 
-	// adjuk hozz· a programhoz a shadereket
+	// adjuk hozz√° a programhoz a shadereket
 	glAttachShader(m_programID, vs_ID);
 	glAttachShader(m_programID, fs_ID);
 
-	// VAO-beli attrib˙tumok hozz·rendelÈse a shader v·ltozÛkhoz
-	// FONTOS: linkelÈs elıtt kell ezt megtenni!
-	glBindAttribLocation(	m_programID,	// shader azonosÌtÛja, amibıl egy v·ltozÛhoz szeretnÈnk hozz·rendelÈst csin·lni
-							0,				// a VAO-beli azonosÌtÛ index
-							"vs_in_pos");	// a shader-beli v·ltozÛnÈv
+	// VAO-beli attrib√∫tumok hozz√°rendel√©se a shader v√°ltoz√≥khoz
+	// FONTOS: linkel√©s el√µtt kell ezt megtenni!
+	glBindAttribLocation(	m_programID,	// shader azonos√≠t√≥ja, amib√µl egy v√°ltoz√≥hoz szeretn√©nk hozz√°rendel√©st csin√°lni
+							0,				// a VAO-beli azonos√≠t√≥ index
+							"vs_in_pos");	// a shader-beli v√°ltoz√≥n√©v
 	glBindAttribLocation( m_programID, 1, "vs_in_col");
 
-	// illessz¸k ˆssze a shadereket (kimenı-bemenı v·ltozÛk ˆsszerendelÈse stb.)
+	// illessz√ºk √∂ssze a shadereket (kimen√µ-bemen√µ v√°ltoz√≥k √∂sszerendel√©se stb.)
 	glLinkProgram(m_programID);
 
 	// linkeles ellenorzese
@@ -117,7 +117,7 @@ bool CMyApp::Init()
 	glDeleteShader( vs_ID );
 	glDeleteShader( fs_ID );
 
-	// vetÌtÈsi m·trix lÈtrehoz·sa
+	// vet√≠t√©si m√°trix l√©trehoz√°sa
 
 	m_camera.SetProj(45.0f, 640.0f / 480.0f, 0.01f, 1000.0f);
 
@@ -130,11 +130,14 @@ bool CMyApp::Init()
 	m_loc_ballPos = glGetUniformLocation(m_programID, "ballPos");
 
 	m_loc_shift_x = glGetUniformLocation(m_programID, "shift_x");
+	m_loc_shift_y = glGetUniformLocation(m_programID, "shift_y");
 	m_loc_shift_z = glGetUniformLocation(m_programID, "shift_z");
-	m_loc_fold_z = glGetUniformLocation(m_programID, "fold_z");
 	m_loc_fold_x = glGetUniformLocation(m_programID, "fold_x");
+	m_loc_fold_y = glGetUniformLocation(m_programID, "fold_y");
+	m_loc_fold_z = glGetUniformLocation(m_programID, "fold_z");
 	m_loc_rot_x = glGetUniformLocation(m_programID, "rot_x");
 	m_loc_rot_y = glGetUniformLocation(m_programID, "rot_y");
+	m_loc_rot_z = glGetUniformLocation(m_programID, "rot_z");
 	m_loc_iterations = glGetUniformLocation(m_programID, "iterations");
 
 
@@ -169,6 +172,11 @@ glm::vec3 rotY(glm::vec3 z, float a) {
 	float c = cos(a);
 	return glm::vec3(c * z.x - s * z.z, z.y, c * z.z + s * z.x);
 }
+glm::vec3 rotZ(glm::vec3 z, float a) {
+	float s = sin(a);
+	float c = cos(a);
+	return glm::vec3(c * z.x + s * z.y, c * z.y - s * z.x, z.z);
+}
 
 glm::vec2 fold(glm::vec2 p, float ang) {
 	glm::vec2 n = glm::vec2(cos(-ang), sin(-ang));
@@ -178,20 +186,28 @@ glm::vec2 fold(glm::vec2 p, float ang) {
 }
 #define PI 3.14159
 
-glm::vec3 CMyApp::multi_fold(glm::vec3 pt) {
-	pt = glm::vec3( fold(glm::vec2(pt.x, pt.y), (float)(PI / 3. + fold_z)), pt.z);
-	pt = glm::vec3( fold(glm::vec2(pt.x, pt.y), (float)(-PI / 3.)), pt.z);
-	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(PI / 6. + fold_x)));
-	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(-PI / 6.)));
+glm::vec3 CMyApp::multi_fold(glm::vec3 pt, float xx, float yy, float zz) {
+	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(2.0 * xx)));
+	glm::vec2 temp = fold(glm::vec2(pt.z, pt.x), (float)(2.0 * yy));
+	pt = glm::vec3(temp.y, pt.y, temp.x);
+	pt = glm::vec3( fold(glm::vec2(pt.x, pt.y), (float)(2.0 * zz)), pt.z);
+
+	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(-1.0 * xx)));
+	temp = fold(glm::vec2(pt.z, pt.x), (float)(-1.0 * yy));
+	pt = glm::vec3(temp.y, pt.y, temp.x);
+	pt = glm::vec3(fold(glm::vec2(pt.x, pt.y), (float)(-1.0 * zz)), pt.z);
+
 	return pt;				 
 }
 glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
 	for (int i = 1; i < iterations+1; ++i) {
 		pt.x += shift_x;
+		pt.y += shift_y;
 		pt.z += shift_z;
-		pt = rotX(pt, 1 / i + rot_x);
-		pt = rotY(pt, 1 / i + rot_y);
-		pt = multi_fold(pt);
+		pt = rotX(pt, rot_x);
+		pt = rotY(pt, rot_y);
+		pt = rotZ(pt, rot_z);
+		pt = multi_fold(pt, fold_x, fold_y, fold_z);
 	}
 	return pt;
 }
@@ -199,8 +215,10 @@ glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
 float CMyApp::GetDist(glm::vec3 pos) {
 	float boxDist = sdBox(iter_fold(pos), glm::vec3(1., 1., 2.));
 	float planeDist = pos.y + 4;
+	float mod_ballDist = glm::length(glm::vec3(fmod(pos.x, (float)15.0), pos.y, fmod(pos.z, (float)15.0)) - glm::vec3(4.0, -3.0, 8.0)) - 1.0;
 
 	float minDist = glm::min(boxDist, planeDist);
+	minDist = glm::min(minDist, mod_ballDist);
 
 	return minDist;
 }
@@ -245,7 +263,7 @@ glm::mat3 rotationMatrix(glm::vec3 axis, float angle) {
 void CMyApp::Update()
 {
 	static Uint32 last_time = SDL_GetTicks();
-	float delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
+	delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
 	m_camera.Update(delta_time*0.1);
 	time = SDL_GetTicks() / 1000.0f;
 
@@ -258,7 +276,7 @@ void CMyApp::Update()
 	float Collision = GetDist(ballPos) - ballPos.w;
 	getDist = Collision;
 
-	if (Collision < 0) //‹tkˆzÈs b·rmivel
+	if (Collision < 0) //√útk√∂z√©s b√°rmivel
 	{
 		glm::vec3 norm = GetNormal(ballPos);
 		if (glm::dot(norm, glm::normalize(ballVel)) < 0.0)
@@ -275,14 +293,14 @@ void CMyApp::Update()
 		}		
 			ballVel *= energyRemaining;
 	}
-	else if (Collision < 0.004)
+	else if (Collision < 0.003)
 	{
-		ballVel.y -= gravity * delta_time * 0.01; //GyengÌtett gravit·ciÛ
+		ballVel.y -= gravity * delta_time * 0.1; //Gyeng√≠tett gravit√°ci√≥
 		ballVel *= energyRemaining;
 	}
 	else if (!playerCall)
 	{
-		ballVel.y -= gravity * delta_time; //Gravit·ciÛ
+		ballVel.y -= gravity * delta_time; //Gravit√°ci√≥
 	}
 	
 
@@ -292,7 +310,7 @@ void CMyApp::Update()
 		ballVel.y = ballHome.y - ballPos.y;
 		ballVel.z = ballHome.z - ballPos.z;
 		ballVel *= 10.0;
-	//	shoot_time = last_time + delta_time * 2000.0;
+		shoot_time = last_time + delta_time * 2000.0;
 	}
 
 	if (last_time < shoot_time && !playerCall)
@@ -312,28 +330,43 @@ void CMyApp::Update()
 void CMyApp::Render(int WindowX, int WindowY)
 {
 	if (ImGui::Begin("MyWindow")) {
-		if (ImGui::Button("Gravity upside down")) {
-			gravity *= -1;
-		}
-	
+		ImGui::Text("Framerate: %d FPS", (int)floor(1/delta_time));
 		ImGui::Text("Distance from anything: %f", getDist);
 		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
+		ImGui::DragFloat("shift_y", &shift_y, 0.001f);
 		ImGui::DragFloat("shift_z", &shift_z, 0.001f);
 		ImGui::DragFloat("fold_x", &fold_x, 0.001f);
+		ImGui::DragFloat("fold_y", &fold_y, 0.001f);
 		ImGui::DragFloat("fold_z", &fold_z, 0.001f);
 		ImGui::DragFloat("rot_x", &rot_x, 0.001f);
 		ImGui::DragFloat("rot_y", &rot_y, 0.001f);
-		ImGui::SliderInt("iterations", &iterations, 0, 30);
-
-
-
-
+		ImGui::DragFloat("rot_z", &rot_z, 0.001f);
+		ImGui::SliderInt("iterations", &iterations, 0, 36);
+		if (ImGui::Button("Reset values")) {
+			shift_x = 0.0;
+			shift_y = 0.0;
+			shift_z = 0.0;
+			fold_x = 0.0;
+			fold_y = 0.0;
+			fold_z = 0.0;
+			rot_x = 0.0;
+			rot_y = 0.0;
+			rot_z = 0.0;
+			iterations = 1;
+		}	
+		ImGui::Text("---------------------------------------------");
+		ImGui::Text("--------------Hogyan mukodik?----------------");
+		ImGui::Text("A terben mozgashoz hasznald a WASD billenytuket!");
+		ImGui::Text("A kamera mozgatasahoz nyomd le a jobbegergombot!");
+		ImGui::Text("A labda hivasahoz nyomde le a space billenytut!");
+		ImGui::Text("A labda kilovesehez engedd fel a space billenytut!");
+		ImGui::Text("A fraktal beallitasahoz hasznald a csuszkakat!");
 	}
 	ImGui::End();
 
 	//ImGui::ShowTestWindow();
 
-	// tˆrˆlj¸k a frampuffert (GL_COLOR_BUFFER_BIT) Ès a mÈlysÈgi Z puffert (GL_DEPTH_BUFFER_BIT)
+	// t√∂r√∂lj√ºk a frampuffert (GL_COLOR_BUFFER_BIT) √©s a m√©lys√©gi Z puffert (GL_DEPTH_BUFFER_BIT)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// shader bekapcsolasa
@@ -351,19 +384,23 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glUniform3f(m_loc_up, up.x, up.y, up.z);
 	glUniform1f(m_loc_time, time);
 	glUniform4f(m_loc_ballPos, ballPos.x, ballPos.y, ballPos.z, ballPos.w);
+
 	glUniform1f(m_loc_shift_x, shift_x);
+	glUniform1f(m_loc_shift_y, shift_y);
 	glUniform1f(m_loc_shift_z, shift_z);
-	glUniform1f(m_loc_fold_z, fold_z);
 	glUniform1f(m_loc_fold_x, fold_x);
+	glUniform1f(m_loc_fold_y, fold_y);
+	glUniform1f(m_loc_fold_z, fold_z);
 	glUniform1f(m_loc_rot_x, rot_x);
 	glUniform1f(m_loc_rot_y, rot_y);
+	glUniform1f(m_loc_rot_z, rot_z);
 	glUniform1i(m_loc_iterations, iterations);
 
 
-	// kapcsoljuk be a VAO-t (a VBO jˆn vele egy¸tt)
+	// kapcsoljuk be a VAO-t (a VBO j√∂n vele egy√ºtt)
 	glBindVertexArray(m_vaoID);
 
-	// kirajzol·s
+	// kirajzol√°s
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	// VAO kikapcsolasa
@@ -403,7 +440,7 @@ void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 {
 }
 
-// a kÈt paramÈterbe az ˙j ablakmÈret szÈlessÈge (_w) Ès magass·ga (_h) tal·lhatÛ
+// a k√©t param√©terbe az √∫j ablakm√©ret sz√©less√©ge (_w) √©s magass√°ga (_h) tal√°lhat√≥
 void CMyApp::Resize(int _w, int _h)
 {
 	glViewport(0, 0, _w, _h);

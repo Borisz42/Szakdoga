@@ -11,11 +11,14 @@ uniform float time;
 uniform vec4 ballPos;
 
 uniform float shift_x;
+uniform float shift_y;
 uniform float shift_z;
-uniform float fold_z;
 uniform float fold_x;
+uniform float fold_y;
+uniform float fold_z;
 uniform float rot_x;
 uniform float rot_y;
+uniform float rot_z;
 uniform int iterations;
 
 #define MAX_STEPS 100
@@ -51,6 +54,24 @@ mat3 rotationMatrix(vec3 axis, float angle){
                 oc * axis.z * axis.x - axis.y * s,  oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c         );
 }
 
+void mengerFold(inout vec3 z) {
+	float a = min(z.x - z.y, 0.0);
+	z.x -= a;
+	z.y += a;
+	a = min(z.x - z.z, 0.0);
+	z.x -= a;
+	z.z += a;
+	a = min(z.y - z.z, 0.0);
+	z.y -= a;
+	z.z += a;
+}
+
+void sierpinskiFold(inout vec3 z) {
+	z.xy -= min(z.x + z.y, 0.0);
+	z.xz -= min(z.x + z.z, 0.0);
+	z.yz -= min(z.y + z.z, 0.0);
+}
+
 float sdBox( vec3 p, vec3 b )
 {
   vec3 q = abs(p) - b;
@@ -63,38 +84,47 @@ vec2 fold(vec2 p, float ang){
     return p;
 }
 
-vec3 multi_fold(vec3 pt) {
-    pt.xy = fold(pt.xy,PI/3. + fold_z );
-    pt.xy = fold(pt.xy,-PI/3.);
-    pt.yz = fold(pt.yz,PI/6. + fold_x );
-    pt.yz = fold(pt.yz,-PI/6.);
+vec3 multi_fold(vec3 pt, float xx, float yy, float zz) {
+    pt.yz = fold(pt.yz, 2.0 * xx );
+    pt.zx = fold(pt.zx, 2.0 * yy );
+    pt.xy = fold(pt.xy, 2.0 * zz );
+
+    pt.yz = fold(pt.yz, -1.0 * xx );
+    pt.zx = fold(pt.zx, -1.0 * yy );
+    pt.xy = fold(pt.xy, -1.0 * zz );
     return pt;
 }
 
-vec3 iter_fold(vec3 pt) {
+vec3 iter_fold(vec3 pt, out float col) {
+    vec3 before = pt;
     for(int i = 1; i < iterations+1; ++i){
         pt.x += shift_x;
+        pt.y += shift_y;
         pt.z += shift_z;
-        rotX(pt, 1/i + rot_x);
-        rotY(pt, 1/i + rot_y);
-        pt=multi_fold(pt);
+        rotX(pt, rot_x);
+        rotY(pt, rot_y);
+        rotZ(pt, rot_z);
+        pt=multi_fold(pt, fold_x, fold_y, fold_z);
+   //     mengerFold(pt);
     }
+    col = sin(length(before-pt));
     return pt;
 }
 
 
 
 float GetDist(vec3 pos, out float col) {
-    float boxDist = sdBox(iter_fold(pos), vec3(1., 1., 2.));
+    float boxDist = sdBox(iter_fold(pos, col), vec3(1., 1., 2.));
     float planeDist = pos.y+4;
     float ballDist = length(pos - ballPos.xyz) - ballPos.w;
+    float mod_ballDist = length(vec3(mod(pos.x, 15), pos.y, mod(pos.z, 15)) - vec3(4.0, -3.0, 8.0)) - 1.0; 
 
     float minDist = min(boxDist, planeDist);
     minDist = min(minDist, ballDist);
+    minDist = min(minDist, mod_ballDist);
 
-    col = 0.1;
     if (minDist == planeDist) {col = 2.1;}
-    if (minDist == ballDist) {col = 3.1;}
+    if (minDist == ballDist || minDist == mod_ballDist) {col = 3.1;}
 
 	return minDist;
 }
@@ -117,6 +147,39 @@ float RayMarch(vec3 ro, vec3 rd) {
     return dist;
 }
 
+// http://iquilezles.org/www/articles/rmshadows/rmshadows.htm
+float calcSoftshadow( in vec3 ro, in vec3 rd, in float mint, in float tmax )
+{
+    // bounding volume
+    float tp = (0.8-ro.y)/rd.y; if( tp>0.0 ) tmax = min( tmax, tp );
+
+    float res = 1.0;
+    float t = mint;
+    for( int i=0; i<20; i++ )
+    {
+		float h = GetDist( ro + rd*t );
+        float s = clamp(8.0*h/t,0.0,1.0);
+        res = min( res, s*s*(3.0-2.0*s) );
+        t += clamp( h, 0.02, 0.10 );
+        if( res<0.005 || t>tmax ) break;
+    }
+    return clamp( res, 0.0, 1.0 );
+}
+
+float calcAO( in vec3 pos, in vec3 nor )
+{
+	float occ = 0.0;
+    float sca = 1.0;
+    for( int i=0; i<5; i++ )
+    {
+        float hr = 0.01 + 0.12*float(i)/4.0;
+        vec3 aopos =  nor * hr + pos;
+        float dd = GetDist( aopos );
+        occ += -(dd-hr)*sca;
+        sca *= 0.95;
+    }
+    return clamp( 1.0 - 3.0*occ, 0.0, 1.0 ) * (0.5+0.5*nor.y);
+}
 
 vec3 GetNormal(vec3 p) {
 	float d = GetDist(p);
@@ -132,7 +195,7 @@ vec3 GetNormal(vec3 p) {
 
 float GetLight(vec3 p) {
     vec3 lightPos = vec3(0, 5, 0);                // a fény kiinduló helyzete
-    lightPos.xz += vec2(sin(time), cos(time))*12.; // a fény körpályán mozog
+    lightPos.xz += vec2(sin(time/time), cos(time/time))*12.; // a fény körpályán mozog
     vec3 l = normalize(lightPos-p);
     vec3 n = GetNormal(p);
     
@@ -143,21 +206,62 @@ float GetLight(vec3 p) {
     return dif;
 }
 
-void main()
+vec3 render(vec3 ro, vec3 rd)
+{ 
+    vec3 col = vec3(0.7, 0.7, 0.9) - max(rd.y,0.0)*0.3;
+    float dist = RayMarch(ro,rd);;
+    if (dist > MAX_DIST-2.0)  { return vec3( clamp(col,0.0,1.0) ); } 
+	float getColor = 0.0;
+
+    vec3 pos = ro + dist*rd;
+    GetDist(pos, getColor);
+    vec3 nor = (getColor==2.1) ? vec3(0.0,1.0,0.0) : GetNormal(pos);
+    vec3 ref = reflect( rd, nor );
+
+    if (getColor < 2.0) {
+          col = nor*0.6; 
+      }else if (getColor < 3.0){
+          col = vec3(0.01, 0.3, 0.01) * 0.6;     
+      }else if (getColor < 4.0){    
+          col = vec3(0.3);
+      }
+       
+    // lighting
+    float occ = calcAO( pos, nor );
+	vec3  lig = normalize( vec3(0.0, 0.4, -0.6) );
+    vec3  hal = normalize( lig-rd );
+	float amb = sqrt(clamp( 0.5+0.5*nor.y, 0.0, 1.0 ));
+    float dif = clamp( dot( nor, lig ), 0.0, 1.0 );
+    float bac = clamp( dot( nor, normalize(vec3(-lig.x,0.0,-lig.z))), 0.0, 1.0 )*clamp( 1.0-pos.y,0.0,1.0);
+    float dom = smoothstep( -0.2, 0.2, ref.y );
+    float fre = pow( clamp(1.0+dot(nor,rd),0.0,1.0), 2.0 );
+        
+    dif *= calcSoftshadow( pos, lig, 0.02, 3.5 );
+    dom *= calcSoftshadow( pos, ref, 0.02, 3.5 );
+
+	float spe = pow( clamp( dot( nor, hal ), 0.0, 1.0 ),16.0) * dif * (0.04 + 0.96*pow( clamp(1.0+dot(hal,rd),0.0,1.0), 5.0 ));
+
+	vec3 lin = vec3(0.0);
+    lin += 3.80*dif*vec3(1.30,1.00,0.70);
+    lin += 0.55*amb*vec3(0.40,0.60,1.15)*occ;
+    lin += 0.85*dom*vec3(0.40,0.60,1.30)*occ;
+    lin += 0.55*bac*vec3(0.25,0.25,0.25)*occ;
+    lin += 0.25*fre*vec3(1.00,1.00,1.00)*occ;
+	col = col*lin;
+
+    col += 7.00*spe*vec3(1.10,0.90,0.70);
+
+    // gamma
+    col = pow( col, vec3(0.4545) );
+    col = mix( col, vec3(0.7,0.7,0.9), 1.0-exp( -0.00003*dist*dist*dist ) );
+
+
+	return vec3( clamp(col,0.0,1.0) );
+}
+
+vec3 render_old(vec3 ray_origin, vec3 ray_direction)
 {
-
-    vec2 uv = vs_out_pos;
-
-    vec3 col = vec3(135.0, 206.0, 235.0)/255;
-    
-    vec3 ray_origin = eye;
-    vec3 forward = normalize(at - ray_origin); 
-    vec3 right = normalize(cross(up, forward));
-    vec3 upward = normalize(cross(forward, right));
-
-    vec3 canvas = ray_origin + forward*2.0;
-    vec3 canvas_point = canvas + uv.x*right + uv.y*upward;
-    vec3 ray_direction = normalize(canvas_point - ray_origin);
+    vec3 col = vec3(135.0, 206.0, 235.0)/255; 
 
     float distance = RayMarch(ray_origin, ray_direction);
     float light = 0.0;
@@ -169,14 +273,32 @@ void main()
         light = GetLight(p);
         GetDist(p, getColor);
         if (getColor < 2.0) {
-            //col = GetNormal(p); 
-            col = min(light * 1.5 * normalize(vec3(0.1, 0.2, 0.3)) + 0.1, 1.0);
+            col = GetNormal(p); 
+            //col = min(light * 1.5 * normalize(vec3(0.1, 0.2, 0.3)) + 0.1, 1.0);
         }else if (getColor < 3.0){
             col = min(light * normalize(vec3(0.1, 0.8, 0.2)) + 0.1, 1.0);     
         }else if (getColor < 4.0){    
             col = min(vec3(light)+0.15, 1.0);
         }
     }
+    return vec3( clamp(col,0.0,1.0) );
+}
+
+void main()
+{
+
+    vec2 uv = vs_out_pos;
+    
+    vec3 ray_origin = eye;
+    vec3 forward = normalize(at - ray_origin); 
+    vec3 right = normalize(cross(up, forward));
+    vec3 upward = normalize(cross(forward, right));
+
+    vec3 canvas = ray_origin + forward*2.5;
+    vec3 canvas_point = canvas + uv.x*right + uv.y*upward;
+    vec3 ray_direction = normalize(canvas_point - ray_origin); 
+
+    vec3 col = render(ray_origin, ray_direction);
 
 	fs_out_col = vec4(col,1.0);;
 }

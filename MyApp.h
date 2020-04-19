@@ -27,7 +27,7 @@ public:
 	float RayMarch(glm::vec3 ro, glm::vec3 rd);
 	glm::vec3 GetNormal(glm::vec3 p);
 	glm::vec3 iter_fold(glm::vec3 pt);
-	glm::vec3 multi_fold(glm::vec3 pt);
+	glm::vec3 multi_fold(glm::vec3 pt, float xx, float yy, float zz);
 
 	void Update();
 	void Render(int WindowX, int WindowY);
@@ -53,26 +53,30 @@ protected:
 	GLuint m_vboID; // vertex buffer object erõforrás azonosító
 
 	// Labda
-	glm::vec4 ballPos = glm::vec4(7, 0, 0, 0.07);
+	glm::vec4 ballPos = glm::vec4(0, 3, 0, 0.07);
 	glm::vec3 ballVel = glm::vec3(0, 0, 0);
 	float getDist;
-	float energyRemaining = 0.8;
+	float energyRemaining = 0.7;
 	float gravity = 10;
 	bool playerCall = false;
 	float shoot_time;
 	GLuint	m_loc_ballPos;
 
 	//Fraktál paraméterek
-	float shift_x = -0.1;
-	float shift_z = 0.3;
-	float fold_z = 0.5;
-	float fold_x = 0.7;
+	float shift_x = 0.0;
+	float shift_y = 0.0;
+	float shift_z = 0.0;
+	float fold_x = 0.0;
+	float fold_y = 0.0;
+	float fold_z = 0.0;
 	float rot_x = 0.0;
 	float rot_y = 0.0;
-	int iterations = 20;
+	float rot_z = 0.0;
+	int iterations = 1;
 
 
 	float time;
+	float delta_time;
 
 
 	// mátrixok helye a shaderekben
@@ -85,12 +89,16 @@ protected:
 	GLuint	m_loc_at;
 	GLuint	m_loc_up;
 	GLuint	m_loc_time;
+
 	GLuint  m_loc_shift_x;
+	GLuint  m_loc_shift_y;
 	GLuint  m_loc_shift_z;
-	GLuint  m_loc_fold_z;
 	GLuint  m_loc_fold_x;
+	GLuint  m_loc_fold_y;
+	GLuint  m_loc_fold_z;
 	GLuint  m_loc_rot_x;
 	GLuint  m_loc_rot_y;
+	GLuint  m_loc_rot_z;
 	GLuint  m_loc_iterations;
 
 	struct Vertex

@@ -10,7 +10,6 @@ out vec2 vs_out_pos;
 
 
 
-// shader külsõ paraméterei - most a három transzformációs mátrixot külön-külön vesszük át
 uniform float windowX;
 uniform float windowY;
 
