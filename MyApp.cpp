@@ -6,6 +6,7 @@
 #define MAX_STEPS 1000
 #define MAX_DIST 1000.
 #define SURF_DIST .0005
+#define PHYSICS_UNIT_TIME 0.0005
 
 CMyApp::CMyApp(void)
 {
@@ -201,9 +202,9 @@ glm::vec3 CMyApp::multi_fold(glm::vec3 pt, float xx, float yy, float zz) {
 }
 glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
 	for (int i = 1; i < iterations+1; ++i) {
-		pt.x += shift_x;
-		pt.y += shift_y;
-		pt.z += shift_z;
+		pt.x -= shift_x;
+		pt.y -= shift_y;
+		pt.z -= shift_z;
 		pt = rotX(pt, rot_x);
 		pt = rotY(pt, rot_y);
 		pt = rotZ(pt, rot_z);
@@ -261,10 +262,11 @@ glm::mat3 rotationMatrix(glm::vec3 axis, float angle) {
 
 
 void CMyApp::Update()
-{
-	static Uint32 last_time = SDL_GetTicks();
-	delta_time = (SDL_GetTicks() - last_time) / 1000.0f;
-	m_camera.Update(delta_time*0.1);
+{	
+	Last_Framerate = Framerate;
+	Last_Simulationsrate = Simulationsrate;
+	delta_time = (SDL_GetTicks() - last_time) / 1000.0;
+	m_camera.Update(delta_time * 0.1);
 	time = SDL_GetTicks() / 1000.0f;
 
 	glm::vec3 eye = m_camera.GetEye();
@@ -273,64 +275,80 @@ void CMyApp::Update()
 	forward *= 0.5;
 	glm::vec3 ballHome = eye + forward;
 
-	float Collision = GetDist(ballPos) - ballPos.w;
-	getDist = Collision;
-
-	if (Collision < 0) //Ütközés bármivel
-	{
-		glm::vec3 norm = GetNormal(ballPos);
-		if (glm::dot(norm, glm::normalize(ballVel)) < 0.0)
-		{
-			ballVel = rotationMatrix(norm, 3.14159) * ballVel;
-			ballVel *= -1;
-		}		
-		if (Collision < -0.004)
-		{
-			norm *= 0.007;
-			ballPos.x += norm.x;
-			ballPos.y += norm.y;
-			ballPos.z += norm.z;
-		}		
-			ballVel *= energyRemaining;
-	}
-	else if (Collision < 0.003)
-	{
-		ballVel.y -= gravity * delta_time * 0.1; //Gyengített gravitáció
-		ballVel *= energyRemaining;
-	}
-	else if (!playerCall)
-	{
-		ballVel.y -= gravity * delta_time; //Gravitáció
-	}
+	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
 	
+	loopindex = delta_time / PHYSICS_UNIT_TIME;
 
-	if (playerCall) 
+	for (int i = 0; i < loopindex; ++i)
 	{
-		ballVel.x = ballHome.x - ballPos.x;
-		ballVel.y = ballHome.y - ballPos.y;
-		ballVel.z = ballHome.z - ballPos.z;
-		ballVel *= 10.0;
-		shoot_time = last_time + delta_time * 2000.0;
-	}
 
-	if (last_time < shoot_time && !playerCall)
-	{
-		ballVel = forward;
-		ballVel *= 15;
-	}
+		float Collision = GetDist(ballPos) - ballPos.w;
+		getDist = Collision;
 
-	ballPos.x += delta_time * ballVel.x;
-	ballPos.y += delta_time * ballVel.y;
-	ballPos.z += delta_time * ballVel.z;
+		if (Collision < 0) //Ütközés bármivel
+		{
+			norm = GetNormal(ballPos);
+			if (glm::dot(norm, glm::normalize(ballVel)) < 0.0)
+			{
+				ballVel = rotationMatrix(norm, 3.14159) * ballVel;
+				ballVel *= -1;
+			}
+				norm *= 0.0005;
+				ballPos.x += norm.x;
+				ballPos.y += norm.y;
+				ballPos.z += norm.z;
+
+			if (Collision < -0.000001)
+			{
+				ballVel *= energyRemaining;
+			}
+		}
+		else if (Collision < 0.0005)
+		{	
+			norm = GetNormal(ballPos);
+			glm::vec3 roll = glm::normalize(glm::vec3(0.0, -1.0, 0.0) - norm);
+			roll *= gravity;
+			roll *= 2.0;
+			roll *= PHYSICS_UNIT_TIME;
+			ballVel -= roll; //Gurulás
+		}
+		else if (!playerCall)
+		{
+			ballVel.y -= gravity * PHYSICS_UNIT_TIME; //Gravitáció
+		}
+
+
+		if (playerCall)
+		{
+			ballVel.x = ballHome.x - ballPos.x;
+			ballVel.y = ballHome.y - ballPos.y;
+			ballVel.z = ballHome.z - ballPos.z;
+			ballVel *= 10.0;
+			shoot_time = last_time + delta_time * 2000.0;
+		}
+
+		if (last_time < shoot_time && !playerCall)
+		{
+			ballVel = forward;
+			ballVel *= 30;
+		}
+
+		ballPos.x += PHYSICS_UNIT_TIME * ballVel.x;
+		ballPos.y += PHYSICS_UNIT_TIME * ballVel.y;
+		ballPos.z += PHYSICS_UNIT_TIME * ballVel.z;
+	}
 
 	last_time = SDL_GetTicks();
+	Framerate = (int)(round((1.0 / delta_time + Last_Framerate)/2.0));
+	Simulationsrate = (int)(round((loopindex + Last_Simulationsrate)/2.0));
 }
 
 
 void CMyApp::Render(int WindowX, int WindowY)
 {
 	if (ImGui::Begin("MyWindow")) {
-		ImGui::Text("Framerate: %d FPS", (int)floor(1/delta_time));
+		ImGui::Text("Frame rate: %i FPS", Framerate);
+		ImGui::Text("Physics: %i Simulations/Frame", Simulationsrate);
 		ImGui::Text("Distance from anything: %f", getDist);
 		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
 		ImGui::DragFloat("shift_y", &shift_y, 0.001f);

@@ -57,7 +57,7 @@ protected:
 	glm::vec3 ballVel = glm::vec3(0, 0, 0);
 	float getDist;
 	float energyRemaining = 0.7;
-	float gravity = 10;
+	float gravity = 15;
 	bool playerCall = false;
 	float shoot_time;
 	GLuint	m_loc_ballPos;
@@ -76,7 +76,13 @@ protected:
 
 
 	float time;
-	float delta_time;
+	Uint32 last_time = 1;
+	double delta_time = 0.01;
+	double loopindex = 2.0;
+	int Framerate = 60;
+	int Simulationsrate = 2; 
+	int Last_Framerate = 60;
+	int Last_Simulationsrate = 2;
 
 
 	// mátrixok helye a shaderekben

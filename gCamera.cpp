@@ -93,7 +93,7 @@ void gCamera::KeyboardDown(SDL_KeyboardEvent& key)
 		if ( !m_slow )
 		{
 			m_slow = true;
-			m_speed /= 4.0f;
+			m_speed *= 4.0f;
 		}
 		break;
 	case SDLK_w:
@@ -121,7 +121,7 @@ void gCamera::KeyboardUp(SDL_KeyboardEvent& key)
 		if ( m_slow )
 		{
 			m_slow = false;
-			m_speed *= 4.0f;
+			m_speed /= 4.0f;
 		}
 		break;
 	case SDLK_w:

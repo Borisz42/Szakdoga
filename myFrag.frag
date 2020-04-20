@@ -98,9 +98,9 @@ vec3 multi_fold(vec3 pt, float xx, float yy, float zz) {
 vec3 iter_fold(vec3 pt, out float col) {
     vec3 before = pt;
     for(int i = 1; i < iterations+1; ++i){
-        pt.x += shift_x;
-        pt.y += shift_y;
-        pt.z += shift_z;
+        pt.x -= shift_x;
+        pt.y -= shift_y;
+        pt.z -= shift_z;
         rotX(pt, rot_x);
         rotY(pt, rot_y);
         rotZ(pt, rot_z);
@@ -155,7 +155,7 @@ float calcSoftshadow( in vec3 ro, in vec3 rd, in float mint, in float tmax )
 
     float res = 1.0;
     float t = mint;
-    for( int i=0; i<20; i++ )
+    for( int i=0; i<30; i++ )
     {
 		float h = GetDist( ro + rd*t );
         float s = clamp(8.0*h/t,0.0,1.0);
@@ -236,8 +236,8 @@ vec3 render(vec3 ro, vec3 rd)
     float dom = smoothstep( -0.2, 0.2, ref.y );
     float fre = pow( clamp(1.0+dot(nor,rd),0.0,1.0), 2.0 );
         
-    dif *= calcSoftshadow( pos, lig, 0.02, 3.5 );
-    dom *= calcSoftshadow( pos, ref, 0.02, 3.5 );
+    dif *= calcSoftshadow( pos, lig, 0.001, 8.5 );
+    dom *= calcSoftshadow( pos, ref, 0.001, 8.5 );
 
 	float spe = pow( clamp( dot( nor, hal ), 0.0, 1.0 ),16.0) * dif * (0.04 + 0.96*pow( clamp(1.0+dot(hal,rd),0.0,1.0), 5.0 ));
 
