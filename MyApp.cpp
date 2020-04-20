@@ -216,7 +216,7 @@ glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
 float CMyApp::GetDist(glm::vec3 pos) {
 	float boxDist = sdBox(iter_fold(pos), glm::vec3(1., 1., 2.));
 	float planeDist = pos.y + 4;
-	float mod_ballDist = glm::length(glm::vec3(fmod(pos.x, (float)15.0), pos.y, fmod(pos.z, (float)15.0)) - glm::vec3(4.0, -3.0, 8.0)) - 1.0;
+	float mod_ballDist = glm::length(glm::vec3(fmod( abs(pos.x), (float)15.0), pos.y, fmod( abs(pos.z), (float)15.0)) - glm::vec3(4.0, -3.0, 8.0)) - 1.0;
 
 	float minDist = glm::min(boxDist, planeDist);
 	minDist = glm::min(minDist, mod_ballDist);
@@ -308,7 +308,7 @@ void CMyApp::Update()
 			norm = GetNormal(ballPos);
 			glm::vec3 roll = glm::normalize(glm::vec3(0.0, -1.0, 0.0) - norm);
 			roll *= gravity;
-			roll *= 2.0;
+			roll *= 3.0;
 			roll *= PHYSICS_UNIT_TIME;
 			ballVel -= roll; //Gurulás
 		}
@@ -374,7 +374,8 @@ void CMyApp::Render(int WindowX, int WindowY)
 		}	
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("--------------Hogyan mukodik?----------------");
-		ImGui::Text("A terben mozgashoz hasznald a WASD billenytuket!");
+		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");
+		ImGui::Text("A gyorsbb mozgashoz nyomd le a SHIFT billentyut!");
 		ImGui::Text("A kamera mozgatasahoz nyomd le a jobbegergombot!");
 		ImGui::Text("A labda hivasahoz nyomde le a space billenytut!");
 		ImGui::Text("A labda kilovesehez engedd fel a space billenytut!");

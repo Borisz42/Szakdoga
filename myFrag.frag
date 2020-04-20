@@ -117,7 +117,7 @@ float GetDist(vec3 pos, out float col) {
     float boxDist = sdBox(iter_fold(pos, col), vec3(1., 1., 2.));
     float planeDist = pos.y+4;
     float ballDist = length(pos - ballPos.xyz) - ballPos.w;
-    float mod_ballDist = length(vec3(mod(pos.x, 15), pos.y, mod(pos.z, 15)) - vec3(4.0, -3.0, 8.0)) - 1.0; 
+    float mod_ballDist = length(vec3(mod(abs(pos.x), 15), pos.y, mod(abs(pos.z), 15)) - vec3(4.0, -3.0, 8.0)) - 1.0; 
 
     float minDist = min(boxDist, planeDist);
     minDist = min(minDist, ballDist);
@@ -150,9 +150,6 @@ float RayMarch(vec3 ro, vec3 rd) {
 // http://iquilezles.org/www/articles/rmshadows/rmshadows.htm
 float calcSoftshadow( in vec3 ro, in vec3 rd, in float mint, in float tmax )
 {
-    // bounding volume
-    float tp = (0.8-ro.y)/rd.y; if( tp>0.0 ) tmax = min( tmax, tp );
-
     float res = 1.0;
     float t = mint;
     for( int i=0; i<30; i++ )
@@ -160,7 +157,7 @@ float calcSoftshadow( in vec3 ro, in vec3 rd, in float mint, in float tmax )
 		float h = GetDist( ro + rd*t );
         float s = clamp(8.0*h/t,0.0,1.0);
         res = min( res, s*s*(3.0-2.0*s) );
-        t += clamp( h, 0.02, 0.10 );
+        t += h;
         if( res<0.005 || t>tmax ) break;
     }
     return clamp( res, 0.0, 1.0 );
@@ -208,7 +205,7 @@ float GetLight(vec3 p) {
 
 vec3 render(vec3 ro, vec3 rd)
 { 
-    vec3 col = vec3(0.7, 0.7, 0.9) - max(rd.y,0.0)*0.3;
+    vec3 col = vec3(0.7, 0.7, 0.9) - max(rd.y,0.0);
     float dist = RayMarch(ro,rd);;
     if (dist > MAX_DIST-2.0)  { return vec3( clamp(col,0.0,1.0) ); } 
 	float getColor = 0.0;
@@ -236,8 +233,8 @@ vec3 render(vec3 ro, vec3 rd)
     float dom = smoothstep( -0.2, 0.2, ref.y );
     float fre = pow( clamp(1.0+dot(nor,rd),0.0,1.0), 2.0 );
         
-    dif *= calcSoftshadow( pos, lig, 0.001, 8.5 );
-    dom *= calcSoftshadow( pos, ref, 0.001, 8.5 );
+    dif *= calcSoftshadow( pos, lig, 0.01, MAX_DIST );
+    dom *= calcSoftshadow( pos, ref, 0.01, 15.0 );
 
 	float spe = pow( clamp( dot( nor, hal ), 0.0, 1.0 ),16.0) * dif * (0.04 + 0.96*pow( clamp(1.0+dot(hal,rd),0.0,1.0), 5.0 ));
 
@@ -253,7 +250,7 @@ vec3 render(vec3 ro, vec3 rd)
 
     // gamma
     col = pow( col, vec3(0.4545) );
-    col = mix( col, vec3(0.7,0.7,0.9), 1.0-exp( -0.00003*dist*dist*dist ) );
+    col = mix( col, vec3(0.7,0.7,0.9), 1.0-exp( -0.00004*dist*dist*dist ) );
 
 
 	return vec3( clamp(col,0.0,1.0) );
