@@ -6,7 +6,7 @@
 #define MAX_STEPS 1000
 #define MAX_DIST 1000.
 #define SURF_DIST .0005
-#define PHYSICS_UNIT_TIME 0.0005
+#define PHYSICS_UNIT_TIME 0.001
 
 CMyApp::CMyApp(void)
 {
@@ -23,7 +23,7 @@ CMyApp::~CMyApp(void)
 
 bool CMyApp::Init()
 {
-	// törlési szín legyen kékes
+	// törlési szín 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	glEnable(GL_CULL_FACE); // kapcsoljuk be a hatrafele nezo lapok eldobasat
@@ -129,6 +129,7 @@ bool CMyApp::Init()
 	m_loc_up = glGetUniformLocation(m_programID, "up");
 	m_loc_time = glGetUniformLocation(m_programID, "time");
 	m_loc_ballPos = glGetUniformLocation(m_programID, "ballPos");
+	m_loc_multiBallPos = glGetUniformLocation(m_programID, "multiBallPos");
 
 	m_loc_shift_x = glGetUniformLocation(m_programID, "shift_x");
 	m_loc_shift_y = glGetUniformLocation(m_programID, "shift_y");
@@ -140,6 +141,19 @@ bool CMyApp::Init()
 	m_loc_rot_y = glGetUniformLocation(m_programID, "rot_y");
 	m_loc_rot_z = glGetUniformLocation(m_programID, "rot_z");
 	m_loc_iterations = glGetUniformLocation(m_programID, "iterations");
+
+	for (int i = 0; i < 20; ++i)
+	{
+		multiBallPos[i * 4 + 0] = 0.0;
+		multiBallPos[i * 4 + 1] = -3;
+		multiBallPos[i * 4 + 2] = -2.0 + i/5;
+		multiBallPos[i * 4 + 3] = 0.06;
+
+		multiBallVel[i * 3 + 0] = 0.0;
+		multiBallVel[i * 3 + 1] = 0.0;
+		multiBallVel[i * 3 + 2] = 0.0;
+
+	}
 
 
 	return true;
@@ -213,13 +227,32 @@ glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
 	return pt;
 }
 
+float CMyApp::MultiBallDist(glm::vec3 pos)
+{
+	float ballDist_arr[20];
+	float minDist = 100.0;
+	float same;
+	for (int i = 0; i < 20; ++i)
+	{
+		same = glm::length(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
+		if (same > 0.00015) 
+		{ 
+			ballDist_arr[i] = same - multiBallPos[i * 4 + 3];
+			minDist = glm::min(minDist, ballDist_arr[i]);
+		}		
+	}
+	return minDist;
+}
+
 float CMyApp::GetDist(glm::vec3 pos) {
 	float boxDist = sdBox(iter_fold(pos), glm::vec3(1., 1., 2.));
 	float planeDist = pos.y + 4;
 	float mod_ballDist = glm::length(glm::vec3(fmod( abs(pos.x), (float)15.0), pos.y, fmod( abs(pos.z), (float)15.0)) - glm::vec3(4.0, -3.0, 8.0)) - 1.0;
+	float multiBallDist = MultiBallDist(pos);
 
 	float minDist = glm::min(boxDist, planeDist);
 	minDist = glm::min(minDist, mod_ballDist);
+	minDist = glm::min(minDist, multiBallDist);
 
 	return minDist;
 }
@@ -271,75 +304,96 @@ void CMyApp::Update()
 
 	glm::vec3 eye = m_camera.GetEye();
 	glm::vec3 at = m_camera.GetAt();
+	glm::vec3 up = m_camera.GetUp();
 	glm::vec3 forward = glm::normalize(at - eye);
 	forward *= 0.5;
-	glm::vec3 ballHome = eye + forward;
+	glm::vec3 ballHome[20];
+
+	for (int i = 0; i < 20; ++i)
+	{
+		glm::vec3 right = glm::normalize(glm::cross(up, forward));
+		glm::vec3 upward = glm::normalize(glm::cross(forward, right));
+		glm::vec3 temp = eye + forward*(float)2.6;
+		ballHome[i] = temp + upward * rotationMatrix(forward, 3.14159 / 10 * i + time/5) * (float)0.5;
+	}
 
 	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
 	
 	loopindex = delta_time / PHYSICS_UNIT_TIME;
 
-	for (int i = 0; i < loopindex; ++i)
+	for (int j = 0; j < loopindex; ++j)
 	{
-
-		float Collision = GetDist(ballPos) - ballPos.w;
-		getDist = Collision;
-
-		if (Collision < 0) //Ütközés bármivel
+		for (int i = 0; i < 20; ++i)
 		{
-			norm = GetNormal(ballPos);
-			if (glm::dot(norm, glm::normalize(ballVel)) < 0.0)
+			float Collision = GetDist(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2])) - multiBallPos[i * 4 + 3];
+			getDist = Collision;
+
+			if (Collision < 0) //Ütközés bármivel
 			{
-				ballVel = rotationMatrix(norm, 3.14159) * ballVel;
-				ballVel *= -1;
-			}
-				norm *= 0.0005;
-				ballPos.x += norm.x;
-				ballPos.y += norm.y;
-				ballPos.z += norm.z;
+				norm = GetNormal(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
+				if (glm::dot(norm, glm::normalize(glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]))) < 0.0)
+				{
+					glm::vec3 temp = rotationMatrix(norm, 3.14159) * glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]);
+					multiBallVel[i * 3 + 0] = temp.x * -1;
+					multiBallVel[i * 3 + 1] = temp.y * -1;
+					multiBallVel[i * 3 + 2] = temp.z * -1;
+				}
+				norm *= 0.001;
+				multiBallPos[i * 4 + 0] += norm.x;
+				multiBallPos[i * 4 + 1] += norm.y;
+				multiBallPos[i * 4 + 2] += norm.z;
+				multiBallVel[i * 3 + 1] -= gravity * PHYSICS_UNIT_TIME;
 
-			if (Collision < -0.000001)
+				if (Collision < -0.000001)
+				{
+					multiBallVel[i * 3 + 0] *= energyRemaining;
+					multiBallVel[i * 3 + 1] *= energyRemaining;
+					multiBallVel[i * 3 + 2] *= energyRemaining;
+				}
+			}
+			else if (Collision < 0.0005)
 			{
-				ballVel *= energyRemaining;
+				norm = GetNormal(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
+				glm::vec3 roll = glm::normalize(glm::vec3(0.0, -1.0, 0.0) - norm);
+				roll *= gravity;
+				roll *= 3.0;
+				roll *= PHYSICS_UNIT_TIME;
+				multiBallVel[i * 3 + 0] -= roll.x;
+				multiBallVel[i * 3 + 1] -= roll.y;
+				multiBallVel[i * 3 + 2] -= roll.z;
 			}
-		}
-		else if (Collision < 0.0005)
-		{	
-			norm = GetNormal(ballPos);
-			glm::vec3 roll = glm::normalize(glm::vec3(0.0, -1.0, 0.0) - norm);
-			roll *= gravity;
-			roll *= 3.0;
-			roll *= PHYSICS_UNIT_TIME;
-			ballVel -= roll; //Gurulás
-		}
-		else if (!playerCall)
-		{
-			ballVel.y -= gravity * PHYSICS_UNIT_TIME; //Gravitáció
-		}
+			else if (!playerCall)
+			{
+				multiBallVel[i * 3 + 1] -= gravity * PHYSICS_UNIT_TIME; //Gravitáció
+			}
 
 
-		if (playerCall)
-		{
-			ballVel.x = ballHome.x - ballPos.x;
-			ballVel.y = ballHome.y - ballPos.y;
-			ballVel.z = ballHome.z - ballPos.z;
-			ballVel *= 10.0;
-			shoot_time = last_time + delta_time * 2000.0;
-		}
+			if (playerCall)
+			{
+				multiBallVel[i * 3 + 0] = ballHome[i].x - multiBallPos[i * 4 + 0];
+				multiBallVel[i * 3 + 1] = ballHome[i].y - multiBallPos[i * 4 + 1];
+				multiBallVel[i * 3 + 2] = ballHome[i].z - multiBallPos[i * 4 + 2];
+				multiBallVel[i * 3 + 0] *= 10.0;
+				multiBallVel[i * 3 + 1] *= 10.0;
+				multiBallVel[i * 3 + 2] *= 10.0;
+				shoot_time = last_time + (delta_time + 0.0005) * 2000.0;
+			}
 
-		if (last_time < shoot_time && !playerCall)
-		{
-			ballVel = forward;
-			ballVel *= 30;
-		}
+			if (last_time < shoot_time && !playerCall)
+			{
+				multiBallVel[i * 3 + 0] = forward.x * 30;
+				multiBallVel[i * 3 + 1] = forward.y * 30;
+				multiBallVel[i * 3 + 2] = forward.z * 30;
+			}
 
-		ballPos.x += PHYSICS_UNIT_TIME * ballVel.x;
-		ballPos.y += PHYSICS_UNIT_TIME * ballVel.y;
-		ballPos.z += PHYSICS_UNIT_TIME * ballVel.z;
+			multiBallPos[i * 4 + 0] += PHYSICS_UNIT_TIME * multiBallVel[i * 3 + 0];
+			multiBallPos[i * 4 + 1] += PHYSICS_UNIT_TIME * multiBallVel[i * 3 + 1];
+			multiBallPos[i * 4 + 2] += PHYSICS_UNIT_TIME * multiBallVel[i * 3 + 2];
+		}
 	}
 
 	last_time = SDL_GetTicks();
-	Framerate = (int)(round((1.0 / delta_time + Last_Framerate)/2.0));
+	Framerate = (int)(round(1.0 / glm::max(delta_time, 0.001)));
 	Simulationsrate = (int)(round((loopindex + Last_Simulationsrate)/2.0));
 }
 
@@ -402,8 +456,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glUniform3f(m_loc_at, at.x, at.y, at.z);
 	glUniform3f(m_loc_up, up.x, up.y, up.z);
 	glUniform1f(m_loc_time, time);
-	glUniform4f(m_loc_ballPos, ballPos.x, ballPos.y, ballPos.z, ballPos.w);
-
+	glProgramUniform4fv(m_programID, m_loc_multiBallPos, 20, multiBallPos);
 	glUniform1f(m_loc_shift_x, shift_x);
 	glUniform1f(m_loc_shift_y, shift_y);
 	glUniform1f(m_loc_shift_z, shift_z);

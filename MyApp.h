@@ -25,6 +25,7 @@ public:
 
 	float GetDist(glm::vec3 pos);
 	float RayMarch(glm::vec3 ro, glm::vec3 rd);
+	float MultiBallDist(glm::vec3 pos);
 	glm::vec3 GetNormal(glm::vec3 p);
 	glm::vec3 iter_fold(glm::vec3 pt);
 	glm::vec3 multi_fold(glm::vec3 pt, float xx, float yy, float zz);
@@ -52,15 +53,15 @@ protected:
 	GLuint m_vaoID; // vertex array object erõforrás azonosító
 	GLuint m_vboID; // vertex buffer object erõforrás azonosító
 
-	// Labda
-	glm::vec4 ballPos = glm::vec4(0, 3, 0, 0.07);
-	glm::vec3 ballVel = glm::vec3(0, 0, 0);
 	float getDist;
 	float energyRemaining = 0.7;
 	float gravity = 15;
 	bool playerCall = false;
 	float shoot_time;
 	GLuint	m_loc_ballPos;
+	GLuint	m_loc_multiBallPos;
+	float multiBallPos[80];
+	float multiBallVel[60];
 
 	//Fraktál paraméterek
 	float shift_x = 0.0;

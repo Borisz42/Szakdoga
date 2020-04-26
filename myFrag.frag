@@ -8,7 +8,7 @@ uniform vec3 eye;
 uniform vec3 at;
 uniform vec3 up;
 uniform float time;
-uniform vec4 ballPos;
+uniform vec4 multiBallPos[20];
 
 uniform float shift_x;
 uniform float shift_y;
@@ -95,7 +95,7 @@ vec3 multi_fold(vec3 pt, float xx, float yy, float zz) {
     return pt;
 }
 
-vec3 iter_fold(vec3 pt, out float col) {
+vec3 iter_fold(vec3 pt) {
     vec3 before = pt;
     for(int i = 1; i < iterations+1; ++i){
         pt.x -= shift_x;
@@ -107,24 +107,34 @@ vec3 iter_fold(vec3 pt, out float col) {
         pt=multi_fold(pt, fold_x, fold_y, fold_z);
    //     mengerFold(pt);
     }
-    col = sin(length(before-pt));
     return pt;
 }
 
+float MultiBallDist(vec3 pos)
+{
+    float ballDist_arr[20];
+    float minDist = 100.0;
+    for (int i = 0; i<20; ++i)
+    {
+         ballDist_arr[i] = length(pos - multiBallPos[i].xyz) - multiBallPos[i].w;
+         minDist = min(minDist, ballDist_arr[i]);
+    }
+    return minDist;
+}
 
 
 float GetDist(vec3 pos, out float col) {
-    float boxDist = sdBox(iter_fold(pos, col), vec3(1., 1., 2.));
+    float boxDist = sdBox(iter_fold(pos), vec3(1., 1., 2.));
     float planeDist = pos.y+4;
-    float ballDist = length(pos - ballPos.xyz) - ballPos.w;
     float mod_ballDist = length(vec3(mod(abs(pos.x), 15), pos.y, mod(abs(pos.z), 15)) - vec3(4.0, -3.0, 8.0)) - 1.0; 
+    float multiBallDist = MultiBallDist(pos);
 
     float minDist = min(boxDist, planeDist);
-    minDist = min(minDist, ballDist);
     minDist = min(minDist, mod_ballDist);
+    minDist = min(minDist, multiBallDist);
 
     if (minDist == planeDist) {col = 2.1;}
-    if (minDist == ballDist || minDist == mod_ballDist) {col = 3.1;}
+    if (minDist == mod_ballDist || minDist == multiBallDist) {col = 3.1;}
 
 	return minDist;
 }
@@ -156,7 +166,7 @@ float calcSoftshadow( in vec3 ro, in vec3 rd, in float mint, in float tmax )
     {
 		float h = GetDist( ro + rd*t );
         float s = clamp(8.0*h/t,0.0,1.0);
-        res = min( res, s*s*(3.0-2.0*s) );
+        res = min( res, s/1.5 );
         t += h;
         if( res<0.005 || t>tmax ) break;
     }
