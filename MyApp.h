@@ -62,6 +62,7 @@ protected:
 	GLuint	m_loc_multiBallPos;
 	float multiBallPos[80];
 	float multiBallVel[60];
+	int ballCount = 20;
 
 	//Fraktál paraméterek
 	float shift_x = 0.0;
@@ -107,6 +108,7 @@ protected:
 	GLuint  m_loc_rot_y;
 	GLuint  m_loc_rot_z;
 	GLuint  m_loc_iterations;
+	GLuint  m_loc_ballCount;
 
 	struct Vertex
 	{

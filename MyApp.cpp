@@ -141,13 +141,14 @@ bool CMyApp::Init()
 	m_loc_rot_y = glGetUniformLocation(m_programID, "rot_y");
 	m_loc_rot_z = glGetUniformLocation(m_programID, "rot_z");
 	m_loc_iterations = glGetUniformLocation(m_programID, "iterations");
+	m_loc_ballCount = glGetUniformLocation(m_programID, "ballCount");
 
 	for (int i = 0; i < 20; ++i)
 	{
 		multiBallPos[i * 4 + 0] = 0.0;
 		multiBallPos[i * 4 + 1] = -3;
 		multiBallPos[i * 4 + 2] = -2.0 + i/5;
-		multiBallPos[i * 4 + 3] = 0.06;
+		multiBallPos[i * 4 + 3] = 0.07;
 
 		multiBallVel[i * 3 + 0] = 0.0;
 		multiBallVel[i * 3 + 1] = 0.0;
@@ -229,16 +230,16 @@ glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
 
 float CMyApp::MultiBallDist(glm::vec3 pos)
 {
-	float ballDist_arr[20];
+	float ballDist;
 	float minDist = 100.0;
 	float same;
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < ballCount; ++i)
 	{
 		same = glm::length(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
 		if (same > 0.00015) 
 		{ 
-			ballDist_arr[i] = same - multiBallPos[i * 4 + 3];
-			minDist = glm::min(minDist, ballDist_arr[i]);
+			ballDist = same - multiBallPos[i * 4 + 3]  ;
+			minDist = glm::min(minDist, ballDist);
 		}		
 	}
 	return minDist;
@@ -309,12 +310,12 @@ void CMyApp::Update()
 	forward *= 0.5;
 	glm::vec3 ballHome[20];
 
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < ballCount; ++i)
 	{
 		glm::vec3 right = glm::normalize(glm::cross(up, forward));
 		glm::vec3 upward = glm::normalize(glm::cross(forward, right));
 		glm::vec3 temp = eye + forward*(float)2.6;
-		ballHome[i] = temp + upward * rotationMatrix(forward, 3.14159 / 10 * i + time/5) * (float)0.5;
+		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * 3.14159 / ballCount * i + time/5) * (float)(ballCount / 40.0);
 	}
 
 	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
@@ -323,7 +324,7 @@ void CMyApp::Update()
 
 	for (int j = 0; j < loopindex; ++j)
 	{
-		for (int i = 0; i < 20; ++i)
+		for (int i = 0; i < ballCount; ++i)
 		{
 			float Collision = GetDist(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2])) - multiBallPos[i * 4 + 3];
 			getDist = Collision;
@@ -414,6 +415,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::DragFloat("rot_y", &rot_y, 0.001f);
 		ImGui::DragFloat("rot_z", &rot_z, 0.001f);
 		ImGui::SliderInt("iterations", &iterations, 0, 36);
+		ImGui::SliderInt("ball count", &ballCount, 1, 20);
 		if (ImGui::Button("Reset values")) {
 			shift_x = 0.0;
 			shift_y = 0.0;
@@ -467,6 +469,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glUniform1f(m_loc_rot_y, rot_y);
 	glUniform1f(m_loc_rot_z, rot_z);
 	glUniform1i(m_loc_iterations, iterations);
+	glUniform1i(m_loc_ballCount, ballCount);
 
 
 	// kapcsoljuk be a VAO-t (a VBO jön vele együtt)

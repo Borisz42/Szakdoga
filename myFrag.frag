@@ -20,6 +20,7 @@ uniform float rot_x;
 uniform float rot_y;
 uniform float rot_z;
 uniform int iterations;
+uniform int ballCount;
 
 #define MAX_STEPS 100
 #define MAX_DIST 50.
@@ -105,19 +106,19 @@ vec3 iter_fold(vec3 pt) {
         rotY(pt, rot_y);
         rotZ(pt, rot_z);
         pt=multi_fold(pt, fold_x, fold_y, fold_z);
-   //     mengerFold(pt);
+ //       mengerFold(pt);
     }
     return pt;
 }
 
 float MultiBallDist(vec3 pos)
 {
-    float ballDist_arr[20];
+    float ballDist;
     float minDist = 100.0;
-    for (int i = 0; i<20; ++i)
+    for (int i = 0; i<ballCount; ++i)
     {
-         ballDist_arr[i] = length(pos - multiBallPos[i].xyz) - multiBallPos[i].w;
-         minDist = min(minDist, ballDist_arr[i]);
+         ballDist = length(pos - multiBallPos[i].xyz) - multiBallPos[i].w;
+         minDist = min(minDist, ballDist);
     }
     return minDist;
 }
@@ -249,11 +250,11 @@ vec3 render(vec3 ro, vec3 rd)
 	float spe = pow( clamp( dot( nor, hal ), 0.0, 1.0 ),16.0) * dif * (0.04 + 0.96*pow( clamp(1.0+dot(hal,rd),0.0,1.0), 5.0 ));
 
 	vec3 lin = vec3(0.0);
-    lin += 3.80*dif*vec3(1.30,1.00,0.70);
+    lin += 2.0*dif*vec3(1.30,1.00,0.70);
     lin += 0.55*amb*vec3(0.40,0.60,1.15)*occ;
-    lin += 0.85*dom*vec3(0.40,0.60,1.30)*occ;
+    lin += 0.55*dom*vec3(0.40,0.60,1.30)*occ;
     lin += 0.55*bac*vec3(0.25,0.25,0.25)*occ;
-    lin += 0.25*fre*vec3(1.00,1.00,1.00)*occ;
+    lin += 0.55*fre*vec3(1.00,1.00,1.00)*occ;
 	col = col*lin;
 
     col += 7.00*spe*vec3(1.10,0.90,0.70);
