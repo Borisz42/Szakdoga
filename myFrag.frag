@@ -107,6 +107,7 @@ vec3 iter_fold(vec3 pt) {
         rotZ(pt, rot_z);
         pt=multi_fold(pt, fold_x, fold_y, fold_z);
  //       mengerFold(pt);
+//        sierpinskiFold(pt);
     }
     return pt;
 }
@@ -114,10 +115,11 @@ vec3 iter_fold(vec3 pt) {
 float MultiBallDist(vec3 pos)
 {
     float ballDist;
-    float minDist = 100.0;
+    float minDist = 10.0;
     for (int i = 0; i<ballCount; ++i)
     {
          ballDist = length(pos - multiBallPos[i].xyz) - multiBallPos[i].w;
+        // ballDist = sdBox(pos - multiBallPos[i].xyz, vec3(vec3(multiBallPos[i].w)));
          minDist = min(minDist, ballDist);
     }
     return minDist;

@@ -62,7 +62,7 @@ protected:
 	GLuint	m_loc_multiBallPos;
 	float multiBallPos[80];
 	float multiBallVel[60];
-	int ballCount = 20;
+	int ballCount = 1;
 
 	//Fraktál paraméterek
 	float shift_x = 0.0;
@@ -78,6 +78,7 @@ protected:
 
 
 	float time;
+	bool update_time = true;
 	Uint32 last_time = 1;
 	double delta_time = 0.01;
 	double loopindex = 2.0;

@@ -231,14 +231,15 @@ glm::vec3 CMyApp::iter_fold(glm::vec3 pt) {
 float CMyApp::MultiBallDist(glm::vec3 pos)
 {
 	float ballDist;
-	float minDist = 100.0;
+	float minDist = 10.0;
 	float same;
 	for (int i = 0; i < ballCount; ++i)
 	{
 		same = glm::length(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
 		if (same > 0.00015) 
 		{ 
-			ballDist = same - multiBallPos[i * 4 + 3]  ;
+			ballDist = same - multiBallPos[i * 4 + 3];
+			//ballDist = sdBox(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]), glm::vec3(multiBallPos[i * 4 + 3]));
 			minDist = glm::min(minDist, ballDist);
 		}		
 	}
@@ -299,7 +300,16 @@ void CMyApp::Update()
 {	
 	Last_Framerate = Framerate;
 	Last_Simulationsrate = Simulationsrate;
+	if (update_time)
+	{
+	last_time = SDL_GetTicks();
+	update_time = false;
+	}
+	else
+	{
 	delta_time = (SDL_GetTicks() - last_time) / 1000.0;
+	update_time = true;
+	}
 	m_camera.Update(delta_time * 0.1);
 	time = SDL_GetTicks() / 1000.0f;
 
@@ -315,7 +325,7 @@ void CMyApp::Update()
 		glm::vec3 right = glm::normalize(glm::cross(up, forward));
 		glm::vec3 upward = glm::normalize(glm::cross(forward, right));
 		glm::vec3 temp = eye + forward*(float)2.6;
-		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * 3.14159 / ballCount * i + time/5) * (float)(ballCount / 40.0);
+		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * 3.14159 / ballCount * i + time/5) * (float)(0.025 + ballCount / 40.0);
 	}
 
 	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
@@ -377,10 +387,10 @@ void CMyApp::Update()
 				multiBallVel[i * 3 + 0] *= 10.0;
 				multiBallVel[i * 3 + 1] *= 10.0;
 				multiBallVel[i * 3 + 2] *= 10.0;
-				shoot_time = last_time + (delta_time + 0.0005) * 2000.0;
+				shoot_time = time + delta_time * 2.0;
 			}
 
-			if (last_time < shoot_time && !playerCall)
+			if (time < shoot_time && !playerCall)
 			{
 				multiBallVel[i * 3 + 0] = forward.x * 30;
 				multiBallVel[i * 3 + 1] = forward.y * 30;
@@ -393,8 +403,8 @@ void CMyApp::Update()
 		}
 	}
 
-	last_time = SDL_GetTicks();
-	Framerate = (int)(round(1.0 / glm::max(delta_time, 0.001)));
+
+	Framerate = (int)(round(1.0 / delta_time));
 	Simulationsrate = (int)(round((loopindex + Last_Simulationsrate)/2.0));
 }
 
@@ -403,6 +413,20 @@ void CMyApp::Render(int WindowX, int WindowY)
 {
 	if (ImGui::Begin("MyWindow")) {
 		ImGui::Text("Frame rate: %i FPS", Framerate);
+		static float values[90] = { 60 };
+		static int values_offset = 0;
+		static float refresh_time = 0.0f;
+		if (refresh_time == 0.0f)
+			refresh_time = ImGui::GetTime();
+		while (refresh_time < ImGui::GetTime())
+		{
+			static float phase = 0.0f;
+			values[values_offset] = Framerate;
+			values_offset = (values_offset + 1) % IM_ARRAYSIZE(values);
+			phase += 0.10f * values_offset;
+			refresh_time += 1.0f / 60.0f;
+		}
+		ImGui::PlotLines("", values, IM_ARRAYSIZE(values), values_offset, "", 0.0f, 65.0f, ImVec2(0, 50));
 		ImGui::Text("Physics: %i Simulations/Frame", Simulationsrate);
 		ImGui::Text("Distance from anything: %f", getDist);
 		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
