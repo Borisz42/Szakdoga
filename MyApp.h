@@ -63,6 +63,9 @@ protected:
 	float multiBallPos[80];
 	float multiBallVel[60];
 	int ballCount = 1;
+	bool shoot = true;
+	glm::vec3 roll;
+	float roll_lenght = 0.0;
 
 	//Fraktál paraméterek
 	float shift_x = 0.0;

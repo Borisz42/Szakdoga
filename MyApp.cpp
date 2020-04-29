@@ -5,8 +5,9 @@
 
 #define MAX_STEPS 1000
 #define MAX_DIST 1000.
-#define SURF_DIST .0005
-#define PHYSICS_UNIT_TIME 0.001
+#define SURF_DIST .001
+#define PHYSICS_UNIT_TIME 0.005
+#define PI 3.14159265359
 
 CMyApp::CMyApp(void)
 {
@@ -147,7 +148,7 @@ bool CMyApp::Init()
 	{
 		multiBallPos[i * 4 + 0] = 0.0;
 		multiBallPos[i * 4 + 1] = -3;
-		multiBallPos[i * 4 + 2] = -2.0 + i/5;
+		multiBallPos[i * 4 + 2] = -2.0 + i/5.0;
 		multiBallPos[i * 4 + 3] = 0.07;
 
 		multiBallVel[i * 3 + 0] = 0.0;
@@ -177,6 +178,15 @@ float sdBox(glm::vec3 p, glm::vec3 b)
 	float max2 = glm::max(q.x, max1);
 	return ret1 + glm::min(max2, (float)0.0);
 }
+float sdSphere( glm::vec3 p, float r)
+{
+	return glm::length(p) - r;
+}
+
+float onion(float d, float h)
+{
+	return abs(d) - h;
+}
 
 glm::vec3 rotX(glm::vec3 z, float a) {
 	float s = sin(a);
@@ -200,7 +210,6 @@ glm::vec2 fold(glm::vec2 p, float ang) {
 	p -= n;
 	return p;
 }
-#define PI 3.14159
 
 glm::vec3 CMyApp::multi_fold(glm::vec3 pt, float xx, float yy, float zz) {
 	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(2.0 * xx)));
@@ -236,7 +245,7 @@ float CMyApp::MultiBallDist(glm::vec3 pos)
 	for (int i = 0; i < ballCount; ++i)
 	{
 		same = glm::length(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
-		if (same > 0.00015) 
+		if (same > 0.00011) 
 		{ 
 			ballDist = same - multiBallPos[i * 4 + 3];
 			//ballDist = sdBox(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]), glm::vec3(multiBallPos[i * 4 + 3]));
@@ -247,6 +256,10 @@ float CMyApp::MultiBallDist(glm::vec3 pos)
 }
 
 float CMyApp::GetDist(glm::vec3 pos) {
+	glm::vec3 q = pos - glm::vec3(8.0, -3.0, 0.0);
+	glm::vec3 plane = pos;
+	rotX(plane, -0.3);
+	float onionDist = glm::max(plane.y + 3.0f, onion(sdSphere(glm::vec3(q.y, q.z, q.x), 1.0), 0.02));
 	float boxDist = sdBox(iter_fold(pos), glm::vec3(1., 1., 2.));
 	float planeDist = pos.y + 4;
 	float mod_ballDist = glm::length(glm::vec3(fmod( abs(pos.x), (float)15.0), pos.y, fmod( abs(pos.z), (float)15.0)) - glm::vec3(4.0, -3.0, 8.0)) - 1.0;
@@ -255,6 +268,7 @@ float CMyApp::GetDist(glm::vec3 pos) {
 	float minDist = glm::min(boxDist, planeDist);
 	minDist = glm::min(minDist, mod_ballDist);
 	minDist = glm::min(minDist, multiBallDist);
+	minDist = glm::min(minDist, onionDist);
 
 	return minDist;
 }
@@ -298,17 +312,15 @@ glm::mat3 rotationMatrix(glm::vec3 axis, float angle) {
 
 void CMyApp::Update()
 {	
-	Last_Framerate = Framerate;
-	Last_Simulationsrate = Simulationsrate;
 	if (update_time)
 	{
-	last_time = SDL_GetTicks();
-	update_time = false;
+		last_time = SDL_GetTicks();
+		update_time = false;
 	}
 	else
 	{
-	delta_time = (SDL_GetTicks() - last_time) / 1000.0;
-	update_time = true;
+		delta_time = (SDL_GetTicks() - last_time) / 1000.0;
+		update_time = true;
 	}
 	m_camera.Update(delta_time * 0.1);
 	time = SDL_GetTicks() / 1000.0f;
@@ -322,10 +334,10 @@ void CMyApp::Update()
 
 	for (int i = 0; i < ballCount; ++i)
 	{
-		glm::vec3 right = glm::normalize(glm::cross(up, forward));
+		glm::vec3 right = glm::normalize(glm::cross(up, forward)); 
 		glm::vec3 upward = glm::normalize(glm::cross(forward, right));
 		glm::vec3 temp = eye + forward*(float)2.6;
-		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * 3.14159 / ballCount * i + time/5) * (float)(0.025 + ballCount / 40.0);
+		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * PI / ballCount * i + time/5) * (float)(0.021 + ballCount / 40.0);
 	}
 
 	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
@@ -339,39 +351,38 @@ void CMyApp::Update()
 			float Collision = GetDist(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2])) - multiBallPos[i * 4 + 3];
 			getDist = Collision;
 
-			if (Collision < 0) //Ütközés bármivel
+			if (Collision < 0.0) //Ütközés bármivel
 			{
 				norm = GetNormal(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
 				if (glm::dot(norm, glm::normalize(glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]))) < 0.0)
 				{
-					glm::vec3 temp = rotationMatrix(norm, 3.14159) * glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]);
-					multiBallVel[i * 3 + 0] = temp.x * -1;
-					multiBallVel[i * 3 + 1] = temp.y * -1;
-					multiBallVel[i * 3 + 2] = temp.z * -1;
+					glm::vec3 temp = rotationMatrix(norm, PI) * glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]);
+					multiBallVel[i * 3 + 0] = temp.x * -0.99;
+					multiBallVel[i * 3 + 1] = temp.y * -0.99;
+					multiBallVel[i * 3 + 2] = temp.z * -0.99;
 				}
-				norm *= 0.001;
+				norm *= (Collision-0.0001) * -0.05f;
 				multiBallPos[i * 4 + 0] += norm.x;
 				multiBallPos[i * 4 + 1] += norm.y;
-				multiBallPos[i * 4 + 2] += norm.z;
-				multiBallVel[i * 3 + 1] -= gravity * PHYSICS_UNIT_TIME;
-
-				if (Collision < -0.000001)
+				multiBallPos[i * 4 + 2] += norm.z;	
+				if (Collision < -0.0001)
 				{
 					multiBallVel[i * 3 + 0] *= energyRemaining;
 					multiBallVel[i * 3 + 1] *= energyRemaining;
 					multiBallVel[i * 3 + 2] *= energyRemaining;
 				}
 			}
-			else if (Collision < 0.0005)
+			else if (Collision < 0.0001)
 			{
 				norm = GetNormal(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
-				glm::vec3 roll = glm::normalize(glm::vec3(0.0, -1.0, 0.0) - norm);
+				roll = norm - glm::vec3(0.0, 1.0, 0.0);
+				roll_lenght = glm::length(roll);
 				roll *= gravity;
-				roll *= 3.0;
 				roll *= PHYSICS_UNIT_TIME;
-				multiBallVel[i * 3 + 0] -= roll.x;
-				multiBallVel[i * 3 + 1] -= roll.y;
-				multiBallVel[i * 3 + 2] -= roll.z;
+			
+				multiBallVel[i * 3 + 0] += roll.x;
+				multiBallVel[i * 3 + 1] += roll.y;
+				multiBallVel[i * 3 + 2] += roll.z;
 			}
 			else if (!playerCall)
 			{
@@ -390,13 +401,16 @@ void CMyApp::Update()
 				shoot_time = time + delta_time * 2.0;
 			}
 
-			if (time < shoot_time && !playerCall)
+			if (time < shoot_time && !playerCall && shoot)
 			{
 				multiBallVel[i * 3 + 0] = forward.x * 30;
 				multiBallVel[i * 3 + 1] = forward.y * 30;
 				multiBallVel[i * 3 + 2] = forward.z * 30;
 			}
 
+		}
+		for (int i = 0; i < ballCount; ++i)
+		{
 			multiBallPos[i * 4 + 0] += PHYSICS_UNIT_TIME * multiBallVel[i * 3 + 0];
 			multiBallPos[i * 4 + 1] += PHYSICS_UNIT_TIME * multiBallVel[i * 3 + 1];
 			multiBallPos[i * 4 + 2] += PHYSICS_UNIT_TIME * multiBallVel[i * 3 + 2];
@@ -405,7 +419,7 @@ void CMyApp::Update()
 
 
 	Framerate = (int)(round(1.0 / delta_time));
-	Simulationsrate = (int)(round((loopindex + Last_Simulationsrate)/2.0));
+	Simulationsrate = loopindex;
 }
 
 
@@ -428,6 +442,8 @@ void CMyApp::Render(int WindowX, int WindowY)
 		}
 		ImGui::PlotLines("", values, IM_ARRAYSIZE(values), values_offset, "", 0.0f, 65.0f, ImVec2(0, 50));
 		ImGui::Text("Physics: %i Simulations/Frame", Simulationsrate);
+		ImGui::Text("Physics: %i Simulations/Second", (int)(round(Simulationsrate * (1.0 / delta_time))));
+		ImGui::Text("roll: %f", roll_lenght);
 		ImGui::Text("Distance from anything: %f", getDist);
 		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
 		ImGui::DragFloat("shift_y", &shift_y, 0.001f);
@@ -451,7 +467,8 @@ void CMyApp::Render(int WindowX, int WindowY)
 			rot_y = 0.0;
 			rot_z = 0.0;
 			iterations = 1;
-		}	
+		}ImGui::SameLine();
+		ImGui::Checkbox("Shoot", &shoot);
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("--------------Hogyan mukodik?----------------");
 		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");

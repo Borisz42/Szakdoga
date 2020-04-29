@@ -79,6 +79,16 @@ float sdBox( vec3 p, vec3 b )
   return length(max(q,0.0)) + min(max(q.x,max(q.y,q.z)),0.0);
 }
 
+float sdSphere( in vec3 p, in float r )
+{
+    return length(p)-r;
+}
+
+float onion( in float d, in float h )
+{
+    return abs(d)-h;
+}
+
 vec2 fold(vec2 p, float ang){
     vec2 n=vec2(cos(-ang),sin(-ang));
     p-=2.*min(0.,dot(p,n))*n;
@@ -127,6 +137,11 @@ float MultiBallDist(vec3 pos)
 
 
 float GetDist(vec3 pos, out float col) {
+    vec3 q = pos - vec3(8.0,-3.0,0.0);
+    vec3 plane = pos;
+    rotX(plane, -0.3);
+    float onionDist = max( plane.y+3.0, onion( sdSphere( q.yzx, 1.0 ), 0.02) );
+    
     float boxDist = sdBox(iter_fold(pos), vec3(1., 1., 2.));
     float planeDist = pos.y+4;
     float mod_ballDist = length(vec3(mod(abs(pos.x), 15), pos.y, mod(abs(pos.z), 15)) - vec3(4.0, -3.0, 8.0)) - 1.0; 
@@ -135,6 +150,7 @@ float GetDist(vec3 pos, out float col) {
     float minDist = min(boxDist, planeDist);
     minDist = min(minDist, mod_ballDist);
     minDist = min(minDist, multiBallDist);
+    minDist = min(minDist, onionDist);
 
     if (minDist == planeDist) {col = 2.1;}
     if (minDist == mod_ballDist || minDist == multiBallDist) {col = 3.1;}
@@ -238,7 +254,7 @@ vec3 render(vec3 ro, vec3 rd)
        
     // lighting
     float occ = calcAO( pos, nor );
-	vec3  lig = normalize( vec3(0.0, 0.4, -0.6) );
+	vec3  lig = normalize( vec3(0.0, 1.4, -0.6) );
     vec3  hal = normalize( lig-rd );
 	float amb = sqrt(clamp( 0.5+0.5*nor.y, 0.0, 1.0 ));
     float dif = clamp( dot( nor, lig ), 0.0, 1.0 );
