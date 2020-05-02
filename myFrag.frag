@@ -23,7 +23,7 @@ uniform int iterations;
 uniform int ballCount;
 
 #define MAX_STEPS 100
-#define MAX_DIST 50.
+#define MAX_DIST 60.
 #define SURF_DIST .001
 
 #define PI 3.14159
@@ -84,6 +84,27 @@ float sdSphere( in vec3 p, in float r )
     return length(p)-r;
 }
 
+float sdCapsule( vec3 p, vec3 a, vec3 b, float r )
+{
+  vec3 pa = p - a, ba = b - a;
+  float h = clamp( dot(pa,ba)/dot(ba,ba), 0.0, 1.0 );
+  return length( pa - ba*h ) - r;
+}
+
+float sdCylinder(vec3 p, vec3 a, vec3 b, float r)
+{
+  vec3  ba = b - a;
+  vec3  pa = p - a;
+  float baba = dot(ba,ba);
+  float paba = dot(pa,ba);
+  float x = length(pa*baba-ba*paba) - r*baba;
+  float y = abs(paba-baba*0.5)-baba*0.5;
+  float x2 = x*x;
+  float y2 = y*y*baba;
+  float d = (max(x,y)<0.0)?-min(x2,y2):(((x>0.0)?x2:0.0)+((y>0.0)?y2:0.0));
+  return sign(d)*sqrt(abs(d))/baba;
+}
+
 float onion( in float d, in float h )
 {
     return abs(d)-h;
@@ -140,17 +161,21 @@ float GetDist(vec3 pos, out float col) {
     vec3 q = pos - vec3(8.0,-3.0,0.0);
     vec3 plane = pos;
     rotX(plane, -0.3);
-    float onionDist = max( plane.y+3.0, onion( sdSphere( q.yzx, 1.0 ), 0.02) );
+    float onionDist = max( plane.y+3.0, onion( sdSphere( q.yzx, 1.0 ), 0.05) );
     
     float boxDist = sdBox(iter_fold(pos), vec3(1., 1., 2.));
     float planeDist = pos.y+4;
     float mod_ballDist = length(vec3(mod(abs(pos.x), 15), pos.y, mod(abs(pos.z), 15)) - vec3(4.0, -3.0, 8.0)) - 1.0; 
     float multiBallDist = MultiBallDist(pos);
+    vec3 forward = normalize(at - eye); 
+    float capsuleDist = sdCapsule( pos, eye, eye + forward*100, 1.1);
+    
 
     float minDist = min(boxDist, planeDist);
     minDist = min(minDist, mod_ballDist);
     minDist = min(minDist, multiBallDist);
     minDist = min(minDist, onionDist);
+   // minDist = max(minDist, capsuleDist);
 
     if (minDist == planeDist) {col = 2.1;}
     if (minDist == mod_ballDist || minDist == multiBallDist) {col = 3.1;}
@@ -168,7 +193,7 @@ float RayMarch(vec3 ro, vec3 rd) {
     
     for(int i=0; i<MAX_STEPS; i++) {
     	vec3 p = ro + rd*dist;
-        float dS = GetDist(p);
+        float dS = max( GetDist(p), sdCapsule( p, ro, ro + rd*100, 0.1));
         dist += dS;
         if(dist>MAX_DIST || dS<SURF_DIST) break;
     }
@@ -209,7 +234,7 @@ float calcAO( in vec3 pos, in vec3 nor )
 
 vec3 GetNormal(vec3 p) {
 	float d = GetDist(p);
-    vec2 e = vec2(.00001, 0);
+    vec2 e = vec2(.001, 0);
     
     vec3 n = d - vec3(
         GetDist(p-e.xyy),
@@ -230,6 +255,84 @@ float GetLight(vec3 p) {
     if(d<length(lightPos-p)) dif *= 0.5;
     
     return dif;
+}
+vec3 render_old(vec3 ray_origin, vec3 ray_direction)
+{
+    vec3 col = vec3(135.0, 206.0, 235.0)/255; 
+
+    float distance = RayMarch(ray_origin, ray_direction);
+    float light = 0.0;
+    float getColor = 0.0;
+
+    if (distance < MAX_DIST-2.0) 
+    {
+        vec3 p = ray_origin + ray_direction * distance; 
+        light = GetLight(p);
+        GetDist(p, getColor);
+        if (getColor < 2.0) {
+            col = GetNormal(p); 
+            //col = min(light * 1.5 * normalize(vec3(0.1, 0.2, 0.3)) + 0.1, 1.0);
+        }else if (getColor < 3.0){
+            col = min(light * normalize(vec3(0.1, 0.8, 0.2)) + 0.1, 1.0);     
+        }else if (getColor < 4.0){    
+            col = min(vec3(light)+0.15, 1.0);
+        }
+    }
+    return vec3( clamp(col,0.0,1.0) );
+}
+
+
+vec3 render2(vec3 ro, vec3 rd)
+{ 
+    vec3 col = vec3(0.7, 0.7, 0.9) - max(rd.y,0.0);
+    float dist = RayMarch(ro,rd);;
+    if (dist > MAX_DIST-2.0)  { return vec3( clamp(col,0.0,1.0) ); } 
+	float getColor = 0.0;
+
+    vec3 pos = ro + dist*rd;
+    GetDist(pos, getColor);
+    vec3 nor = (getColor==2.1) ? vec3(0.0,1.0,0.0) : GetNormal(pos);
+    vec3 ref = reflect( rd, nor );
+
+    if (getColor < 2.0) {
+          col = nor*0.6; 
+      }else if (getColor < 3.0){
+          col = vec3(0.01, 0.3, 0.01) * 0.6;     
+      }else if (getColor < 4.0){    
+          col = vec3(0.3);
+      }
+       
+    // lighting
+    float occ = calcAO( pos, nor );
+	vec3  lig = normalize( vec3(0.0, 1.4, -0.6) );
+    vec3  hal = normalize( lig-rd );
+	float amb = sqrt(clamp( 0.5+0.5*nor.y, 0.0, 1.0 ));
+    float dif = clamp( dot( nor, lig ), 0.0, 1.0 );
+    float bac = clamp( dot( nor, normalize(vec3(-lig.x,0.0,-lig.z))), 0.0, 1.0 )*clamp( 1.0-pos.y,0.0,1.0);
+    float dom = smoothstep( -0.2, 0.2, ref.y );
+    float fre = pow( clamp(1.0+dot(nor,rd),0.0,1.0), 2.0 );
+        
+    dif *= calcSoftshadow( pos, lig, 0.01, MAX_DIST );
+    //dom *= calcSoftshadow( pos, ref, 0.01, 15.0 );
+
+	float spe = pow( clamp( dot( nor, hal ), 0.0, 1.0 ),16.0) * dif * (0.04 + 0.96*pow( clamp(1.0+dot(hal,rd),0.0,1.0), 5.0 ));
+
+	vec3 lin = vec3(0.0);
+    lin += 2.0*dif*vec3(1.30,1.00,0.70);
+    lin += 0.55*amb*vec3(0.40,0.60,1.15)*occ;
+    lin += 0.55*dom*vec3(0.40,0.60,1.30)*occ;
+    lin += 0.55*bac*vec3(0.25,0.25,0.25)*occ;
+    lin += 0.55*fre*vec3(1.00,1.00,1.00)*occ;
+	col = col*lin;
+
+    col += 7.00*spe*vec3(1.10,0.90,0.70);
+
+    // gamma
+    col = pow( col, vec3(0.4545) );
+    col = mix( col, vec3(0.7,0.7,0.9), 1.0-exp( -0.00004*dist*dist*dist ) );
+
+
+	return vec3( clamp(col,0.0,1.0) );
 }
 
 vec3 render(vec3 ro, vec3 rd)
@@ -270,9 +373,10 @@ vec3 render(vec3 ro, vec3 rd)
 	vec3 lin = vec3(0.0);
     lin += 2.0*dif*vec3(1.30,1.00,0.70);
     lin += 0.55*amb*vec3(0.40,0.60,1.15)*occ;
-    lin += 0.55*dom*vec3(0.40,0.60,1.30)*occ;
     lin += 0.55*bac*vec3(0.25,0.25,0.25)*occ;
     lin += 0.55*fre*vec3(1.00,1.00,1.00)*occ;
+    lin += 0.55*dom*vec3(0.40,0.60,1.30)*occ;
+    //lin = mix(lin, render2(pos+ref*0.01, ref), 0.2);
 	col = col*lin;
 
     col += 7.00*spe*vec3(1.10,0.90,0.70);
@@ -285,30 +389,8 @@ vec3 render(vec3 ro, vec3 rd)
 	return vec3( clamp(col,0.0,1.0) );
 }
 
-vec3 render_old(vec3 ray_origin, vec3 ray_direction)
-{
-    vec3 col = vec3(135.0, 206.0, 235.0)/255; 
 
-    float distance = RayMarch(ray_origin, ray_direction);
-    float light = 0.0;
-    float getColor = 0.0;
 
-    if (distance < MAX_DIST-2.0) 
-    {
-        vec3 p = ray_origin + ray_direction * distance; 
-        light = GetLight(p);
-        GetDist(p, getColor);
-        if (getColor < 2.0) {
-            col = GetNormal(p); 
-            //col = min(light * 1.5 * normalize(vec3(0.1, 0.2, 0.3)) + 0.1, 1.0);
-        }else if (getColor < 3.0){
-            col = min(light * normalize(vec3(0.1, 0.8, 0.2)) + 0.1, 1.0);     
-        }else if (getColor < 4.0){    
-            col = min(vec3(light)+0.15, 1.0);
-        }
-    }
-    return vec3( clamp(col,0.0,1.0) );
-}
 
 void main()
 {

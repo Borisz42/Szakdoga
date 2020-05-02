@@ -55,17 +55,18 @@ protected:
 
 	float getDist;
 	float energyRemaining = 0.7;
-	float gravity = 15;
+	float gravity = 20;
 	bool playerCall = false;
 	float shoot_time;
 	GLuint	m_loc_ballPos;
 	GLuint	m_loc_multiBallPos;
 	float multiBallPos[80];
 	float multiBallVel[60];
-	int ballCount = 1;
+	int ballCount;
 	bool shoot = true;
 	glm::vec3 roll;
 	float roll_lenght = 0.0;
+	float camera_speed = 10.0;
 
 	//Fraktál paraméterek
 	float shift_x = 0.0;

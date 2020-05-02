@@ -6,7 +6,7 @@
 #define MAX_STEPS 1000
 #define MAX_DIST 1000.
 #define SURF_DIST .001
-#define PHYSICS_UNIT_TIME 0.005
+#define PHYSICS_UNIT_TIME 0.003
 #define PI 3.14159265359
 
 CMyApp::CMyApp(void)
@@ -144,6 +144,7 @@ bool CMyApp::Init()
 	m_loc_iterations = glGetUniformLocation(m_programID, "iterations");
 	m_loc_ballCount = glGetUniformLocation(m_programID, "ballCount");
 
+	ballCount = 1;
 	for (int i = 0; i < 20; ++i)
 	{
 		multiBallPos[i * 4 + 0] = 0.0;
@@ -156,7 +157,6 @@ bool CMyApp::Init()
 		multiBallVel[i * 3 + 2] = 0.0;
 
 	}
-
 
 	return true;
 }
@@ -258,8 +258,8 @@ float CMyApp::MultiBallDist(glm::vec3 pos)
 float CMyApp::GetDist(glm::vec3 pos) {
 	glm::vec3 q = pos - glm::vec3(8.0, -3.0, 0.0);
 	glm::vec3 plane = pos;
-	rotX(plane, -0.3);
-	float onionDist = glm::max(plane.y + 3.0f, onion(sdSphere(glm::vec3(q.y, q.z, q.x), 1.0), 0.02));
+	plane = rotX(plane, -0.3);
+	float onionDist = glm::max(plane.y + 3.0f, onion(sdSphere(glm::vec3(q.y, q.z, q.x), 1.0), 0.05));
 	float boxDist = sdBox(iter_fold(pos), glm::vec3(1., 1., 2.));
 	float planeDist = pos.y + 4;
 	float mod_ballDist = glm::length(glm::vec3(fmod( abs(pos.x), (float)15.0), pos.y, fmod( abs(pos.z), (float)15.0)) - glm::vec3(4.0, -3.0, 8.0)) - 1.0;
@@ -337,7 +337,7 @@ void CMyApp::Update()
 		glm::vec3 right = glm::normalize(glm::cross(up, forward)); 
 		glm::vec3 upward = glm::normalize(glm::cross(forward, right));
 		glm::vec3 temp = eye + forward*(float)2.6;
-		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * PI / ballCount * i + time/5) * (float)(0.021 + ballCount / 40.0);
+		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * PI / ballCount * i + time/2) * (float)(0.021 + ballCount / 40.0);
 	}
 
 	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
@@ -357,38 +357,25 @@ void CMyApp::Update()
 				if (glm::dot(norm, glm::normalize(glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]))) < 0.0)
 				{
 					glm::vec3 temp = rotationMatrix(norm, PI) * glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]);
-					multiBallVel[i * 3 + 0] = temp.x * -0.99;
-					multiBallVel[i * 3 + 1] = temp.y * -0.99;
-					multiBallVel[i * 3 + 2] = temp.z * -0.99;
+					multiBallVel[i * 3 + 0] = temp.x * -(0.98 - PHYSICS_UNIT_TIME);
+					multiBallVel[i * 3 + 1] = temp.y * -(0.98 - PHYSICS_UNIT_TIME);
+					multiBallVel[i * 3 + 2] = temp.z * -(0.98 - PHYSICS_UNIT_TIME);
+					multiBallVel[i * 3 + 0] *= 1.0 - norm.x * (1.0 - energyRemaining);
+					multiBallVel[i * 3 + 1] *= 1.0 - norm.y * (1.0 - energyRemaining);
+					multiBallVel[i * 3 + 2] *= 1.0 - norm.z * (1.0 - energyRemaining);
 				}
-				norm *= (Collision-0.0001) * -0.05f;
-				multiBallPos[i * 4 + 0] += norm.x;
-				multiBallPos[i * 4 + 1] += norm.y;
-				multiBallPos[i * 4 + 2] += norm.z;	
-				if (Collision < -0.0001)
+				if (Collision < -0.0005)
 				{
-					multiBallVel[i * 3 + 0] *= energyRemaining;
-					multiBallVel[i * 3 + 1] *= energyRemaining;
-					multiBallVel[i * 3 + 2] *= energyRemaining;
+					norm *= 0.001f + Collision * 0.00000f;
+					multiBallPos[i * 4 + 0] += norm.x;
+					multiBallPos[i * 4 + 1] += norm.y;
+					multiBallPos[i * 4 + 2] += norm.z;
+					multiBallVel[i * 3 + 0] *= 0.99 - PHYSICS_UNIT_TIME;
+					multiBallVel[i * 3 + 1] *= 0.99 - PHYSICS_UNIT_TIME;
+					multiBallVel[i * 3 + 2] *= 0.99 - PHYSICS_UNIT_TIME;
 				}
-			}
-			else if (Collision < 0.0001)
-			{
-				norm = GetNormal(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
-				roll = norm - glm::vec3(0.0, 1.0, 0.0);
-				roll_lenght = glm::length(roll);
-				roll *= gravity;
-				roll *= PHYSICS_UNIT_TIME;
-			
-				multiBallVel[i * 3 + 0] += roll.x;
-				multiBallVel[i * 3 + 1] += roll.y;
-				multiBallVel[i * 3 + 2] += roll.z;
-			}
-			else if (!playerCall)
-			{
-				multiBallVel[i * 3 + 1] -= gravity * PHYSICS_UNIT_TIME; //Gravitáció
-			}
 
+			}
 
 			if (playerCall)
 			{
@@ -398,16 +385,19 @@ void CMyApp::Update()
 				multiBallVel[i * 3 + 0] *= 10.0;
 				multiBallVel[i * 3 + 1] *= 10.0;
 				multiBallVel[i * 3 + 2] *= 10.0;
-				shoot_time = time + delta_time * 2.0;
+				shoot_time = time + delta_time * 3.0;
 			}
 
 			if (time < shoot_time && !playerCall && shoot)
 			{
-				multiBallVel[i * 3 + 0] = forward.x * 30;
-				multiBallVel[i * 3 + 1] = forward.y * 30;
-				multiBallVel[i * 3 + 2] = forward.z * 30;
+				multiBallVel[i * 3 + 0] += forward.x * 1.0;
+				multiBallVel[i * 3 + 1] += forward.y * 1.0;
+				multiBallVel[i * 3 + 2] += forward.z * 1.0;
 			}
-
+			else 
+			{
+				multiBallVel[i * 3 + 1] -= gravity * PHYSICS_UNIT_TIME; //Gravitáció
+			}
 		}
 		for (int i = 0; i < ballCount; ++i)
 		{
@@ -443,7 +433,6 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::PlotLines("", values, IM_ARRAYSIZE(values), values_offset, "", 0.0f, 65.0f, ImVec2(0, 50));
 		ImGui::Text("Physics: %i Simulations/Frame", Simulationsrate);
 		ImGui::Text("Physics: %i Simulations/Second", (int)(round(Simulationsrate * (1.0 / delta_time))));
-		ImGui::Text("roll: %f", roll_lenght);
 		ImGui::Text("Distance from anything: %f", getDist);
 		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
 		ImGui::DragFloat("shift_y", &shift_y, 0.001f);
@@ -471,14 +460,18 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::Checkbox("Shoot", &shoot);
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("--------------Hogyan mukodik?----------------");
+		ImGui::Text("A fraktal beallitasahoz hasznald a csuszkakat!");
 		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");
-		ImGui::Text("A gyorsbb mozgashoz nyomd le a SHIFT billentyut!");
+		ImGui::Text("A gyorsabb mozgashoz nyomd le a SHIFT billentyut!");
+		ImGui::Text("A sebesseg beallitasahoz hasznald a gorgot, vagy ezt:");
+		ImGui::SliderFloat("moving speed", &camera_speed, 1.0f, 100.0f, "%.1f");
 		ImGui::Text("A kamera mozgatasahoz nyomd le a jobbegergombot!");
 		ImGui::Text("A labda hivasahoz nyomde le a space billenytut!");
 		ImGui::Text("A labda kilovesehez engedd fel a space billenytut!");
-		ImGui::Text("A fraktal beallitasahoz hasznald a csuszkakat!");
+		
 	}
 	ImGui::End();
+
 
 	//ImGui::ShowTestWindow();
 
@@ -529,7 +522,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 
 void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 {
-	m_camera.KeyboardDown(key);
+	m_camera.KeyboardDown(key);       
 	if (key.keysym.sym == SDLK_SPACE) { playerCall = true; }
 }
 
@@ -554,6 +547,16 @@ void CMyApp::MouseUp(SDL_MouseButtonEvent& mouse)
 
 void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 {
+	if (wheel.y > 0 && camera_speed < 100.0) // scroll up
+	{
+		camera_speed *= 1.1;
+		m_camera.SetSpeed(camera_speed);
+	}
+	else if (wheel.y < 0 && camera_speed > 1.0) // scroll down
+	{
+		camera_speed *= 0.9;
+		m_camera.SetSpeed(camera_speed);
+	}
 }
 
 // a két paraméterbe az új ablakméret szélessége (_w) és magassága (_h) található
