@@ -245,10 +245,9 @@ float CMyApp::MultiBallDist(glm::vec3 pos)
 	for (int i = 0; i < ballCount; ++i)
 	{
 		same = glm::length(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
-		if (same > 0.00011) 
+		if (same > 0.00051) 
 		{ 
 			ballDist = same - multiBallPos[i * 4 + 3];
-			//ballDist = sdBox(pos - glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]), glm::vec3(multiBallPos[i * 4 + 3]));
 			minDist = glm::min(minDist, ballDist);
 		}		
 	}
@@ -275,7 +274,7 @@ float CMyApp::GetDist(glm::vec3 pos) {
 
 glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
 	float d = GetDist(p);
-	float e = 0.0001;
+	float e = 0.0005;
 
 	glm::vec3 n = d - glm::vec3(
 		GetDist(p - glm::vec3(e, 0, 0)),
@@ -338,6 +337,7 @@ void CMyApp::Update()
 		glm::vec3 upward = glm::normalize(glm::cross(forward, right));
 		glm::vec3 temp = eye + forward*(float)2.6;
 		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * PI / ballCount * i + time/2) * (float)(0.021 + ballCount / 40.0);
+		if (ballCount == 1) { ballHome[0] = temp; }
 	}
 
 	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
@@ -357,25 +357,26 @@ void CMyApp::Update()
 				if (glm::dot(norm, glm::normalize(glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]))) < 0.0)
 				{
 					glm::vec3 temp = rotationMatrix(norm, PI) * glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]);
-					multiBallVel[i * 3 + 0] = temp.x * -(0.98 - PHYSICS_UNIT_TIME);
-					multiBallVel[i * 3 + 1] = temp.y * -(0.98 - PHYSICS_UNIT_TIME);
-					multiBallVel[i * 3 + 2] = temp.z * -(0.98 - PHYSICS_UNIT_TIME);
+					multiBallVel[i * 3 + 0] = temp.x * -(0.97 - PHYSICS_UNIT_TIME);
+					multiBallVel[i * 3 + 1] = temp.y * -(0.97 - PHYSICS_UNIT_TIME);
+					multiBallVel[i * 3 + 2] = temp.z * -(0.97 - PHYSICS_UNIT_TIME);
 					multiBallVel[i * 3 + 0] *= 1.0 - norm.x * (1.0 - energyRemaining);
 					multiBallVel[i * 3 + 1] *= 1.0 - norm.y * (1.0 - energyRemaining);
 					multiBallVel[i * 3 + 2] *= 1.0 - norm.z * (1.0 - energyRemaining);
 				}
-				if (Collision < -0.0005)
-				{
-					norm *= 0.001f + Collision * 0.00000f;
+				if (Collision < -0.00001)
+				{	
+					float coef = (Collision < -0.01) ? Collision * 0.5f : 0.0f;
+					norm *= 0.00025f - coef;
 					multiBallPos[i * 4 + 0] += norm.x;
 					multiBallPos[i * 4 + 1] += norm.y;
 					multiBallPos[i * 4 + 2] += norm.z;
-					multiBallVel[i * 3 + 0] *= 0.99 - PHYSICS_UNIT_TIME;
-					multiBallVel[i * 3 + 1] *= 0.99 - PHYSICS_UNIT_TIME;
-					multiBallVel[i * 3 + 2] *= 0.99 - PHYSICS_UNIT_TIME;
+					multiBallVel[i * 3 + 0] *= 1.0 - PHYSICS_UNIT_TIME;
+					multiBallVel[i * 3 + 1] *= 1.0 - PHYSICS_UNIT_TIME;
+					multiBallVel[i * 3 + 2] *= 1.0 - PHYSICS_UNIT_TIME;
 				}
-
 			}
+
 
 			if (playerCall)
 			{
@@ -385,14 +386,14 @@ void CMyApp::Update()
 				multiBallVel[i * 3 + 0] *= 10.0;
 				multiBallVel[i * 3 + 1] *= 10.0;
 				multiBallVel[i * 3 + 2] *= 10.0;
-				shoot_time = time + delta_time * 3.0;
+				shoot_time = time + PHYSICS_UNIT_TIME * 50.0;
 			}
 
 			if (time < shoot_time && !playerCall && shoot)
 			{
-				multiBallVel[i * 3 + 0] += forward.x * 1.0;
-				multiBallVel[i * 3 + 1] += forward.y * 1.0;
-				multiBallVel[i * 3 + 2] += forward.z * 1.0;
+				multiBallVel[i * 3 + 0] += forward.x * 0.5;
+				multiBallVel[i * 3 + 1] += forward.y * 0.5;
+				multiBallVel[i * 3 + 2] += forward.z * 0.5;
 			}
 			else 
 			{
@@ -461,13 +462,14 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("--------------Hogyan mukodik?----------------");
 		ImGui::Text("A fraktal beallitasahoz hasznald a csuszkakat!");
+		ImGui::Text("A kamera mozgatasahoz nyomd le a jobbegergombot!");
+		ImGui::Text("A labda hivasahoz nyomde le a space billenytut!");
+		ImGui::Text("A labda kilovesehez engedd fel a space billenytut!");
+		ImGui::Text("(Ha a Shoot nincsen kipipalva csak leesik a labda)");
 		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");
 		ImGui::Text("A gyorsabb mozgashoz nyomd le a SHIFT billentyut!");
 		ImGui::Text("A sebesseg beallitasahoz hasznald a gorgot, vagy ezt:");
 		ImGui::SliderFloat("moving speed", &camera_speed, 1.0f, 100.0f, "%.1f");
-		ImGui::Text("A kamera mozgatasahoz nyomd le a jobbegergombot!");
-		ImGui::Text("A labda hivasahoz nyomde le a space billenytut!");
-		ImGui::Text("A labda kilovesehez engedd fel a space billenytut!");
 		
 	}
 	ImGui::End();

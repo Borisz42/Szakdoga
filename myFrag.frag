@@ -4,11 +4,12 @@ in vec3 vs_out_col;
 in vec2 vs_out_pos;
 out vec4 fs_out_col;
 
+#define Max_ballCount 20
 uniform vec3 eye;
 uniform vec3 at;
 uniform vec3 up;
 uniform float time;
-uniform vec4 multiBallPos[20];
+uniform vec4 multiBallPos[Max_ballCount];
 
 uniform float shift_x;
 uniform float shift_y;
@@ -24,7 +25,7 @@ uniform int ballCount;
 
 #define MAX_STEPS 100
 #define MAX_DIST 60.
-#define SURF_DIST .001
+#define SURF_DIST .0005
 
 #define PI 3.14159
 
