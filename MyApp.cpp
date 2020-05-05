@@ -145,7 +145,7 @@ bool CMyApp::Init()
 	m_loc_ballCount = glGetUniformLocation(m_programID, "ballCount");
 
 	ballCount = 1;
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < Max_ballCount; ++i)
 	{
 		multiBallPos[i * 4 + 0] = 0.0;
 		multiBallPos[i * 4 + 1] = -3;
@@ -329,7 +329,7 @@ void CMyApp::Update()
 	glm::vec3 up = m_camera.GetUp();
 	glm::vec3 forward = glm::normalize(at - eye);
 	forward *= 0.5;
-	glm::vec3 ballHome[20];
+	glm::vec3 ballHome[Max_ballCount];
 
 	for (int i = 0; i < ballCount; ++i)
 	{
@@ -445,7 +445,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::DragFloat("rot_y", &rot_y, 0.001f);
 		ImGui::DragFloat("rot_z", &rot_z, 0.001f);
 		ImGui::SliderInt("iterations", &iterations, 0, 36);
-		ImGui::SliderInt("ball count", &ballCount, 1, 20);
+		ImGui::SliderInt("ball count", &ballCount, 1, Max_ballCount);
 		if (ImGui::Button("Reset values")) {
 			shift_x = 0.0;
 			shift_y = 0.0;
@@ -469,7 +469,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");
 		ImGui::Text("A gyorsabb mozgashoz nyomd le a SHIFT billentyut!");
 		ImGui::Text("A sebesseg beallitasahoz hasznald a gorgot, vagy ezt:");
-		ImGui::SliderFloat("moving speed", &camera_speed, 1.0f, 100.0f, "%.1f");
+		ImGui::SliderFloat("moving speed", &camera_speed, 1.0f, 150.0f, "%.1f");
 		
 	}
 	ImGui::End();
@@ -494,7 +494,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glUniform3f(m_loc_at, at.x, at.y, at.z);
 	glUniform3f(m_loc_up, up.x, up.y, up.z);
 	glUniform1f(m_loc_time, time);
-	glProgramUniform4fv(m_programID, m_loc_multiBallPos, 20, multiBallPos);
+	glProgramUniform4fv(m_programID, m_loc_multiBallPos, Max_ballCount, multiBallPos);
 	glUniform1f(m_loc_shift_x, shift_x);
 	glUniform1f(m_loc_shift_y, shift_y);
 	glUniform1f(m_loc_shift_z, shift_z);
@@ -549,7 +549,7 @@ void CMyApp::MouseUp(SDL_MouseButtonEvent& mouse)
 
 void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 {
-	if (wheel.y > 0 && camera_speed < 100.0) // scroll up
+	if (wheel.y > 0 && camera_speed < 150.0) // scroll up
 	{
 		camera_speed *= 1.1;
 		m_camera.SetSpeed(camera_speed);

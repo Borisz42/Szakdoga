@@ -60,8 +60,9 @@ protected:
 	float shoot_time;
 	GLuint	m_loc_ballPos;
 	GLuint	m_loc_multiBallPos;
-	float multiBallPos[80];
-	float multiBallVel[60];
+	static const int Max_ballCount = 20;  //  a shaderben a #define Max_ballCount értékénél nem lehet nagyobb
+	float multiBallPos[Max_ballCount * 4];
+	float multiBallVel[Max_ballCount * 3];
 	int ballCount;
 	bool shoot = true;
 	glm::vec3 roll;
