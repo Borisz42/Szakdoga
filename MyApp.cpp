@@ -446,6 +446,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::DragFloat("rot_z", &rot_z, 0.001f);
 		ImGui::SliderInt("iterations", &iterations, 0, 36);
 		ImGui::SliderInt("ball count", &ballCount, 1, Max_ballCount);
+		ballCount = (ballCount > Max_ballCount) ? Max_ballCount : ballCount;
 		if (ImGui::Button("Reset values")) {
 			shift_x = 0.0;
 			shift_y = 0.0;
