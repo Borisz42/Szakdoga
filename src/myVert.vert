@@ -15,6 +15,7 @@ uniform float windowY;
 
 
 
+
 void main()
 {
 	gl_Position = vec4( vs_in_pos, 1 );

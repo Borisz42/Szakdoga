@@ -4,7 +4,7 @@ in vec3 vs_out_col;
 in vec2 vs_out_pos;
 out vec4 fs_out_col;
 
-#define Max_ballCount 20
+#define Max_ballCount 100
 uniform vec3 eye;
 uniform vec3 at;
 uniform vec3 up;
@@ -24,11 +24,12 @@ uniform int iterations;
 uniform int ballCount;
 uniform float zoom;
 
-#define MAX_STEPS 100
+#define MAX_STEPS 80
 #define MAX_DIST 60.
-#define SURF_DIST .0005
+#define SURF_DIST .001
 
 #define PI 3.14159
+
 
 void rotX(inout vec3 z, float a) {
     float s = sin(a);
@@ -214,7 +215,7 @@ float calcSoftshadow( in vec3 ro, in vec3 rd, in float mint, in float tmax )
         float s = clamp(8.0*h/t,0.0,1.0);
         res = min( res, s/1.5 );
         t += h;
-        if( res<0.0 || t>tmax ) break;
+        if( res<mint || t>tmax ) break;
     }
     return clamp( res, 0.0, 1.0 );
 }
@@ -391,13 +392,11 @@ vec3 render(vec3 ro, vec3 rd)
 	return vec3( clamp(col,0.0,1.0) );
 }
 
-
-
-
 void main()
 {
 
     vec2 uv = vs_out_pos;
+
     
     vec3 ray_origin = eye;
     vec3 forward = normalize(at - ray_origin); 
@@ -410,6 +409,6 @@ void main()
 
     vec3 col = render(ray_origin, ray_direction);
 
-	fs_out_col = vec4(col,1.0);;
+	fs_out_col = vec4(col,1.0);
 }
 

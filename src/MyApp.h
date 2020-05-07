@@ -60,7 +60,7 @@ protected:
 	float shoot_time;
 	GLuint	m_loc_ballPos;
 	GLuint	m_loc_multiBallPos;
-	static const int Max_ballCount = 20;  //  a shaderben a #define Max_ballCount értékénél nem lehet nagyobb
+	static const int Max_ballCount = 100;  //  a shaderben a #define Max_ballCount értékénél nem lehet nagyobb
 	float multiBallPos[Max_ballCount * 4];
 	float multiBallVel[Max_ballCount * 3];
 	int ballCount;
@@ -70,20 +70,30 @@ protected:
 	float camera_speed = 10.0;
 
 	//Fraktál paraméterek
-	float shift_x = 0.0;
-	float shift_y = 0.0;
+	float shift_x = -0.187;
+	float shift_y = 0.169;
 	float shift_z = 0.0;
-	float fold_x = 0.0;
-	float fold_y = 0.0;
-	float fold_z = 0.0;
-	float rot_x = 0.0;
-	float rot_y = 0.0;
-	float rot_z = 0.0;
-	int iterations = 1;
+	float fold_x = 0.007;
+	float fold_y = 0.562;
+	float fold_z = 0.000;
+	float rot_x = 0.002;
+	float rot_y = 0.262;
+	float rot_z = 0.946;
+	float new_shift_x = shift_x;
+	float new_shift_y = shift_y;
+	float new_shift_z = shift_z;
+	float new_fold_x = fold_x;
+	float new_fold_y = fold_y;
+	float new_fold_z = fold_z;
+	float new_rot_x = rot_x;
+	float new_rot_y = rot_y;
+	float new_rot_z = rot_z;
+	float animation = 0.0;
+	int iterations = 16;
 
 
 
-	float time;
+	float rtime;
 	bool update_time = true;
 	Uint32 last_time = 1;
 	double delta_time = 0.01;

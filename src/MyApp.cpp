@@ -2,6 +2,9 @@
 #include "GLUtils.hpp"
 #include <imgui/imgui.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h> 
+#include <time.h> 
 
 #define MAX_STEPS 1000
 #define MAX_DIST 1000.
@@ -24,6 +27,8 @@ CMyApp::~CMyApp(void)
 
 bool CMyApp::Init()
 {
+	srand(time(NULL));
+
 	// törlési szín 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -323,7 +328,7 @@ void CMyApp::Update()
 		update_time = true;
 	}
 	m_camera.Update(delta_time * 0.1);
-	time = SDL_GetTicks() / 1000.0f;
+	rtime = SDL_GetTicks() / 1000.0f;
 
 	glm::vec3 eye = m_camera.GetEye();
 	glm::vec3 at = m_camera.GetAt();
@@ -336,7 +341,7 @@ void CMyApp::Update()
 	for (int i = 0; i < ballCount; ++i)
 	{
 		glm::vec3 temp = eye + forward*(float)2.6;
-		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * PI / ballCount * i + time/2) * (float)(0.021 + ballCount / 40.0);
+		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * PI / ballCount * i + rtime/2) * (float)(0.021 + ballCount / 40.0);
 		if (ballCount == 1) { ballHome[0] = temp; }
 	}
 
@@ -387,10 +392,10 @@ void CMyApp::Update()
 				multiBallVel[i * 3 + 0] *= 10.0;
 				multiBallVel[i * 3 + 1] *= 10.0;
 				multiBallVel[i * 3 + 2] *= 10.0;
-				shoot_time = time + PHYSICS_UNIT_TIME * 50.0;
+				shoot_time = rtime + PHYSICS_UNIT_TIME * 50.0;
 			}
 
-			if (time < shoot_time && !playerCall && shoot)
+			if (rtime < shoot_time && !playerCall && shoot)
 			{
 				multiBallVel[i * 3 + 0] += forward.x * 0.4;
 				multiBallVel[i * 3 + 1] += forward.y * 0.4;
@@ -417,6 +422,20 @@ void CMyApp::Update()
 
 void CMyApp::Render(int WindowX, int WindowY)
 {
+	float Transpeed = 0.0;
+	if (rtime < animation)
+	{
+		Transpeed = 0.1f*sinf(PI*(1.0f-( (float)animation - (float)rtime )/5.0f));
+		shift_x = glm::mix(shift_x, new_shift_x, Transpeed);
+		shift_y = glm::mix(shift_y, new_shift_y, Transpeed);
+		shift_z = glm::mix(shift_z, new_shift_z, Transpeed);
+		fold_x = glm::mix(fold_x, new_fold_x, Transpeed);
+		fold_y = glm::mix(fold_y, new_fold_y, Transpeed);
+		fold_z = glm::mix(fold_z, new_fold_z, Transpeed);
+		rot_x = glm::mix(rot_x, new_rot_x, Transpeed);
+		rot_y = glm::mix(rot_y, new_rot_y, Transpeed);
+		rot_z = glm::mix(rot_z, new_rot_z, Transpeed);
+	}
 	if (ImGui::Begin("MyWindow")) {
 		ImGui::Text("Frame rate: %i FPS", Framerate);
 		static float values[90] = { 60 };
@@ -436,35 +455,50 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::Text("Physics: %i Simulations/Frame", Simulationsrate);
 		ImGui::Text("Physics: %i Simulations/Second", (int)(round(Simulationsrate * (1.0 / delta_time))));
 		ImGui::Text("Ball distance from anything: %f", getDist);
+		ImGui::Text("Transition speed: %f", Transpeed);
 		ImGui::Text("---------------------------------------------");
-		ImGui::Text("Fraktal iteracioinak szama:");
-		ImGui::SliderInt("iterations", &iterations, 0, 36);
-		ImGui::Text("Fraktal eltolasa tengelyek menten:");
-		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
-		ImGui::DragFloat("shift_y", &shift_y, 0.001f);
-		ImGui::DragFloat("shift_z", &shift_z, 0.001f);
 		ImGui::Text("Fraktal forgatasa tengelyek menten:");
-		ImGui::DragFloat("rot_x", &rot_x, 0.001f);
-		ImGui::DragFloat("rot_y", &rot_y, 0.001f);
-		ImGui::DragFloat("rot_z", &rot_z, 0.001f);
+		ImGui::DragFloat("[rot_x]", &rot_x, 0.001f);
+		ImGui::DragFloat("[rot_y]", &rot_y, 0.001f);
+		ImGui::DragFloat("[rot_z]", &rot_z, 0.001f);
 		ImGui::Text("Fraktal onmagaba hajtasa tengelyek menten:");
-		ImGui::DragFloat("fold_x", &fold_x, 0.001f);
-		ImGui::DragFloat("fold_y", &fold_y, 0.001f);
-		ImGui::DragFloat("fold_z", &fold_z, 0.001f);
+		ImGui::DragFloat("[fold_x]", &fold_x, 0.001f);
+		ImGui::DragFloat("[fold_y]", &fold_y, 0.001f);
+		ImGui::DragFloat("[fold_z]", &fold_z, 0.001f);
+		ImGui::Text("Fraktal eltolasa tengelyek menten:");
+		ImGui::DragFloat("[shift_x]", &shift_x, 0.001f);
+		ImGui::DragFloat("[shift_y]", &shift_y, 0.001f);
+		ImGui::DragFloat("[shift_z]", &shift_z, 0.001f);
+		ImGui::Text("Fraktal iteracioinak szama:");
+		ImGui::SliderInt("[iterations]", &iterations, 1, 36);
 		ImGui::Text("Mozgathato labdak szama:");
-		ImGui::SliderInt("ball count", &ballCount, 1, Max_ballCount);
+		ImGui::SliderInt("[ball count]", &ballCount, 1, Max_ballCount);
 		ballCount = (ballCount > Max_ballCount) ? Max_ballCount : ballCount;
-		if (ImGui::Button("Reset values")) {
-			shift_x = 0.0;
-			shift_y = 0.0;
-			shift_z = 0.0;
-			fold_x = 0.0;
-			fold_y = 0.0;
-			fold_z = 0.0;
-			rot_x = 0.0;
-			rot_y = 0.0;
-			rot_z = 0.0;
-			iterations = 1;
+		if (ImGui::Button("Zero values")) {
+			new_shift_x = 0.0;
+			new_shift_y = 0.0;
+			new_shift_z = 0.0;
+			new_fold_x = 0.0;
+			new_fold_y = 0.0;
+			new_fold_z = 0.0;
+			new_rot_x = 0.0;
+			new_rot_y = 0.0;
+			new_rot_z = 0.0;
+			animation = rtime + 5.0;
+			iterations = 16;
+		}ImGui::SameLine();
+		if (ImGui::Button("Random values")) {
+			new_shift_x = (rand() % 1000) / 5000.0f - 0.1;
+			new_shift_y = (rand() % 1000) / 5000.0f - 0.1;
+			new_shift_z = (rand() % 1000) / 5000.0f - 0.1;
+			new_fold_x =  (rand() % 2000) / 1000.0f - 1;
+			new_fold_y =  (rand() % 2000) / 1000.0f - 1;
+			new_fold_z =  (rand() % 2000) / 1000.0f - 1;
+			new_rot_x =   (rand() % 2000) / 1000.0f - 1;
+			new_rot_y =   (rand() % 2000) / 1000.0f - 1;
+			new_rot_z =   (rand() % 2000) / 1000.0f - 1;
+			iterations = 16;
+			animation = rtime + 5.0;
 		}
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("--------------Hogyan mukodik?----------------");
@@ -472,18 +506,23 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::Text("A kamera mozgatasahoz nyomd le a jobbegergombot!");
 		ImGui::Text("A labda hivasahoz nyomde le a space billenytut!");
 		ImGui::Text("A labda kilovesehez engedd fel a space billenytut!");
-		ImGui::Text("(Ha a Shoot nincsen kipipalva csak siman leesik)");
+		ImGui::Text("(Ha a [shoot] nincsen kipipalva csak siman leesik)");
 		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");
 		ImGui::Text("A gyorsabb mozgashoz nyomd le a SHIFT billentyut!");
 		ImGui::Text("A sebesseg allitasahoz hasznald a gorgot, vagy ezt:");
 		ImGui::SliderFloat("moving speed", &camera_speed, 1.0f, 150.0f, "%.1f");
 		ImGui::Text("A kamera zoomhoz hasznald a ctrl+gorgot, vagy ezt:");
-		ImGui::SliderFloat("zoom", &zoom, 1.000f, 10.000f, "%.3f");
+		ImGui::SliderFloat("[zoom]", &zoom, 1.000f, 10.000f, "%.3f");
 		ImGui::Text("Pipald ki ha szeretned kiloni a labdat:"); ImGui::SameLine();
-		ImGui::Checkbox("Shoot", &shoot);
+		ImGui::Checkbox("[shoot]", &shoot);
+		if (Framerate < 15 && ballCount > 1) ballCount*=0.95;
+		if (Framerate < 10 && iterations > 1) iterations *= 0.9;
+		//if (Framerate > 15 && iterations < 16) iterations += 1;
+		if (Framerate < 5) {iterations = 1; ballCount = 1;}
 		
 	}
 	ImGui::End();
+
 
 
 	//ImGui::ShowTestWindow();
@@ -497,14 +536,14 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glm::vec3 at = m_camera.GetAt();
 	glm::vec3 up = m_camera.GetUp();
 
-	time = SDL_GetTicks() / 1000.0f;
+	rtime = SDL_GetTicks() / 1000.0f;
 
 	glUniform1f(m_loc_window_x, GLfloat(WindowX));
 	glUniform1f(m_loc_window_y, GLfloat(WindowY));
 	glUniform3f(m_loc_eye, eye.x, eye.y, eye.z);
 	glUniform3f(m_loc_at, at.x, at.y, at.z);
 	glUniform3f(m_loc_up, up.x, up.y, up.z);
-	glUniform1f(m_loc_time, time);
+	glUniform1f(m_loc_time, rtime);
 	glProgramUniform4fv(m_programID, m_loc_multiBallPos, Max_ballCount, multiBallPos);
 	glUniform1f(m_loc_shift_x, shift_x);
 	glUniform1f(m_loc_shift_y, shift_y);
