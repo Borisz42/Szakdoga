@@ -22,6 +22,7 @@ uniform float rot_y;
 uniform float rot_z;
 uniform int iterations;
 uniform int ballCount;
+uniform float zoom;
 
 #define MAX_STEPS 100
 #define MAX_DIST 60.
@@ -213,7 +214,7 @@ float calcSoftshadow( in vec3 ro, in vec3 rd, in float mint, in float tmax )
         float s = clamp(8.0*h/t,0.0,1.0);
         res = min( res, s/1.5 );
         t += h;
-        if( res<0.005 || t>tmax ) break;
+        if( res<0.0 || t>tmax ) break;
     }
     return clamp( res, 0.0, 1.0 );
 }
@@ -349,11 +350,11 @@ vec3 render(vec3 ro, vec3 rd)
     vec3 ref = reflect( rd, nor );
 
     if (getColor < 2.0) {
-          col = nor*0.6; 
+          col = vec3(0.01)+nor*0.6; 
       }else if (getColor < 3.0){
           col = vec3(0.01, 0.3, 0.01) * 0.6;     
       }else if (getColor < 4.0){    
-          col = vec3(0.3);
+          col = vec3(0.35);
       }
        
     // lighting
@@ -372,15 +373,15 @@ vec3 render(vec3 ro, vec3 rd)
 	float spe = pow( clamp( dot( nor, hal ), 0.0, 1.0 ),16.0) * dif * (0.04 + 0.96*pow( clamp(1.0+dot(hal,rd),0.0,1.0), 5.0 ));
 
 	vec3 lin = vec3(0.0);
-    lin += 2.0*dif*vec3(1.30,1.00,0.70);
-    lin += 0.55*amb*vec3(0.40,0.60,1.15)*occ;
-    lin += 0.55*bac*vec3(0.25,0.25,0.25)*occ;
-    lin += 0.55*fre*vec3(1.00,1.00,1.00)*occ;
-    lin += 0.55*dom*vec3(0.40,0.60,1.30)*occ;
+    lin += 0.5*dif*vec3(1.00,1.00,0.70);
+    lin += 0.5*amb*vec3(0.40,0.60,1.00)*occ;
+    lin += 0.5*bac*vec3(0.25,0.25,0.25)*occ;
+    lin += 0.5*fre*vec3(1.00,1.00,1.00)*occ;
+    lin += 0.5*dom*vec3(0.40,0.60,1.00)*occ;
     //lin = mix(lin, render2(pos+ref*0.01, ref), 0.2);
 	col = col*lin;
 
-    col += 7.00*spe*vec3(1.10,0.90,0.70);
+    col += 6.00*spe*vec3(1.00,0.90,0.70);
 
     // gamma
     col = pow( col, vec3(0.4545) );
@@ -403,7 +404,7 @@ void main()
     vec3 right = normalize(cross(up, forward));
     vec3 upward = normalize(cross(forward, right));
 
-    vec3 canvas = ray_origin + forward*2.5;
+    vec3 canvas = ray_origin + forward*zoom;
     vec3 canvas_point = canvas + uv.x*right + uv.y*upward;
     vec3 ray_direction = normalize(canvas_point - ray_origin); 
 

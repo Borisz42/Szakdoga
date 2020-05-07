@@ -143,6 +143,7 @@ bool CMyApp::Init()
 	m_loc_rot_z = glGetUniformLocation(m_programID, "rot_z");
 	m_loc_iterations = glGetUniformLocation(m_programID, "iterations");
 	m_loc_ballCount = glGetUniformLocation(m_programID, "ballCount");
+	m_loc_zoom= glGetUniformLocation(m_programID, "zoom");
 
 	ballCount = 1;
 	for (int i = 0; i < Max_ballCount; ++i)
@@ -328,13 +329,12 @@ void CMyApp::Update()
 	glm::vec3 at = m_camera.GetAt();
 	glm::vec3 up = m_camera.GetUp();
 	glm::vec3 forward = glm::normalize(at - eye);
-	forward *= 0.5;
+	glm::vec3 right = glm::normalize(glm::cross(up, forward));
+	glm::vec3 upward = glm::normalize(glm::cross(forward, right));
 	glm::vec3 ballHome[Max_ballCount];
 
 	for (int i = 0; i < ballCount; ++i)
 	{
-		glm::vec3 right = glm::normalize(glm::cross(up, forward)); 
-		glm::vec3 upward = glm::normalize(glm::cross(forward, right));
 		glm::vec3 temp = eye + forward*(float)2.6;
 		ballHome[i] = temp + upward * rotationMatrix(forward, 2.0 * PI / ballCount * i + time/2) * (float)(0.021 + ballCount / 40.0);
 		if (ballCount == 1) { ballHome[0] = temp; }
@@ -343,6 +343,7 @@ void CMyApp::Update()
 	glm::vec3 norm = glm::vec3(0.0, 1.0, 0.0);
 	
 	loopindex = delta_time / PHYSICS_UNIT_TIME;
+
 
 	for (int j = 0; j < loopindex; ++j)
 	{
@@ -356,7 +357,7 @@ void CMyApp::Update()
 				norm = GetNormal(glm::vec3(multiBallPos[i * 4 + 0], multiBallPos[i * 4 + 1], multiBallPos[i * 4 + 2]));
 				if (glm::dot(norm, glm::normalize(glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]))) < 0.0)
 				{
-					glm::vec3 temp = rotationMatrix(norm, PI) * glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]);
+					glm::vec3 temp = glm::vec3(multiBallVel[i * 3 + 0], multiBallVel[i * 3 + 1], multiBallVel[i * 3 + 2]) * rotationMatrix(norm, PI);
 					multiBallVel[i * 3 + 0] = temp.x * -(0.97 - PHYSICS_UNIT_TIME);
 					multiBallVel[i * 3 + 1] = temp.y * -(0.97 - PHYSICS_UNIT_TIME);
 					multiBallVel[i * 3 + 2] = temp.z * -(0.97 - PHYSICS_UNIT_TIME);
@@ -391,9 +392,9 @@ void CMyApp::Update()
 
 			if (time < shoot_time && !playerCall && shoot)
 			{
-				multiBallVel[i * 3 + 0] += forward.x * 0.5;
-				multiBallVel[i * 3 + 1] += forward.y * 0.5;
-				multiBallVel[i * 3 + 2] += forward.z * 0.5;
+				multiBallVel[i * 3 + 0] += forward.x * 0.4;
+				multiBallVel[i * 3 + 1] += forward.y * 0.4;
+				multiBallVel[i * 3 + 2] += forward.z * 0.4;
 			}
 			else 
 			{
@@ -434,17 +435,23 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::PlotLines("", values, IM_ARRAYSIZE(values), values_offset, "", 0.0f, 65.0f, ImVec2(0, 50));
 		ImGui::Text("Physics: %i Simulations/Frame", Simulationsrate);
 		ImGui::Text("Physics: %i Simulations/Second", (int)(round(Simulationsrate * (1.0 / delta_time))));
-		ImGui::Text("Distance from anything: %f", getDist);
+		ImGui::Text("Ball distance from anything: %f", getDist);
+		ImGui::Text("---------------------------------------------");
+		ImGui::Text("Fraktal iteracioinak szama:");
+		ImGui::SliderInt("iterations", &iterations, 0, 36);
+		ImGui::Text("Fraktal eltolasa tengelyek menten:");
 		ImGui::DragFloat("shift_x", &shift_x, 0.001f);
 		ImGui::DragFloat("shift_y", &shift_y, 0.001f);
 		ImGui::DragFloat("shift_z", &shift_z, 0.001f);
-		ImGui::DragFloat("fold_x", &fold_x, 0.001f);
-		ImGui::DragFloat("fold_y", &fold_y, 0.001f);
-		ImGui::DragFloat("fold_z", &fold_z, 0.001f);
+		ImGui::Text("Fraktal forgatasa tengelyek menten:");
 		ImGui::DragFloat("rot_x", &rot_x, 0.001f);
 		ImGui::DragFloat("rot_y", &rot_y, 0.001f);
 		ImGui::DragFloat("rot_z", &rot_z, 0.001f);
-		ImGui::SliderInt("iterations", &iterations, 0, 36);
+		ImGui::Text("Fraktal onmagaba hajtasa tengelyek menten:");
+		ImGui::DragFloat("fold_x", &fold_x, 0.001f);
+		ImGui::DragFloat("fold_y", &fold_y, 0.001f);
+		ImGui::DragFloat("fold_z", &fold_z, 0.001f);
+		ImGui::Text("Mozgathato labdak szama:");
 		ImGui::SliderInt("ball count", &ballCount, 1, Max_ballCount);
 		ballCount = (ballCount > Max_ballCount) ? Max_ballCount : ballCount;
 		if (ImGui::Button("Reset values")) {
@@ -458,19 +465,22 @@ void CMyApp::Render(int WindowX, int WindowY)
 			rot_y = 0.0;
 			rot_z = 0.0;
 			iterations = 1;
-		}ImGui::SameLine();
-		ImGui::Checkbox("Shoot", &shoot);
+		}
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("--------------Hogyan mukodik?----------------");
 		ImGui::Text("A fraktal beallitasahoz hasznald a csuszkakat!");
 		ImGui::Text("A kamera mozgatasahoz nyomd le a jobbegergombot!");
 		ImGui::Text("A labda hivasahoz nyomde le a space billenytut!");
 		ImGui::Text("A labda kilovesehez engedd fel a space billenytut!");
-		ImGui::Text("(Ha a Shoot nincsen kipipalva csak leesik a labda)");
+		ImGui::Text("(Ha a Shoot nincsen kipipalva csak siman leesik)");
 		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");
 		ImGui::Text("A gyorsabb mozgashoz nyomd le a SHIFT billentyut!");
-		ImGui::Text("A sebesseg beallitasahoz hasznald a gorgot, vagy ezt:");
+		ImGui::Text("A sebesseg allitasahoz hasznald a gorgot, vagy ezt:");
 		ImGui::SliderFloat("moving speed", &camera_speed, 1.0f, 150.0f, "%.1f");
+		ImGui::Text("A kamera zoomhoz hasznald a ctrl+gorgot, vagy ezt:");
+		ImGui::SliderFloat("zoom", &zoom, 1.000f, 10.000f, "%.3f");
+		ImGui::Text("Pipald ki ha szeretned kiloni a labdat:"); ImGui::SameLine();
+		ImGui::Checkbox("Shoot", &shoot);
 		
 	}
 	ImGui::End();
@@ -507,6 +517,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glUniform1f(m_loc_rot_z, rot_z);
 	glUniform1i(m_loc_iterations, iterations);
 	glUniform1i(m_loc_ballCount, ballCount);
+	glUniform1f(m_loc_zoom, zoom);
 
 
 	// kapcsoljuk be a VAO-t (a VBO jön vele együtt)
@@ -527,12 +538,14 @@ void CMyApp::KeyboardDown(SDL_KeyboardEvent& key)
 {
 	m_camera.KeyboardDown(key);       
 	if (key.keysym.sym == SDLK_SPACE) { playerCall = true; }
+	if (key.keysym.sym == SDLK_LCTRL) { ctrl = true; }
 }
 
 void CMyApp::KeyboardUp(SDL_KeyboardEvent& key)
 {
 	m_camera.KeyboardUp(key);
 	if (key.keysym.sym == SDLK_SPACE) { playerCall = false; }
+	if (key.keysym.sym == SDLK_LCTRL) { ctrl = false; }
 }
 
 void CMyApp::MouseMove(SDL_MouseMotionEvent& mouse)
@@ -550,15 +563,29 @@ void CMyApp::MouseUp(SDL_MouseButtonEvent& mouse)
 
 void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 {
-	if (wheel.y > 0 && camera_speed < 150.0) // scroll up
+	if (ctrl)
 	{
-		camera_speed *= 1.1;
-		m_camera.SetSpeed(camera_speed);
+		if (wheel.y > 0 && zoom < 10.0) // scroll up
+		{
+			zoom *= 1.05;
+		}
+		else if (wheel.y < 0 && zoom > 1.0) // scroll down
+		{
+			zoom *= 0.95;
+		}
 	}
-	else if (wheel.y < 0 && camera_speed > 1.0) // scroll down
+	else
 	{
-		camera_speed *= 0.9;
-		m_camera.SetSpeed(camera_speed);
+		if (wheel.y > 0 && camera_speed < 150.0) // scroll up
+		{
+			camera_speed *= 1.1;
+			m_camera.SetSpeed(camera_speed);
+		}
+		else if (wheel.y < 0 && camera_speed > 1.0) // scroll down
+		{
+			camera_speed *= 0.9;
+			m_camera.SetSpeed(camera_speed);
+		}
 	}
 }
 
@@ -566,5 +593,4 @@ void CMyApp::MouseWheel(SDL_MouseWheelEvent& wheel)
 void CMyApp::Resize(int _w, int _h)
 {
 	glViewport(0, 0, _w, _h);
-
 }

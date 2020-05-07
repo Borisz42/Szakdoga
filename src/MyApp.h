@@ -82,6 +82,7 @@ protected:
 	int iterations = 1;
 
 
+
 	float time;
 	bool update_time = true;
 	Uint32 last_time = 1;
@@ -91,7 +92,8 @@ protected:
 	int Simulationsrate = 2; 
 	int Last_Framerate = 60;
 	int Last_Simulationsrate = 2;
-
+	float zoom = 3.0;
+	bool ctrl = false;
 
 	// mátrixok helye a shaderekben
 	GLuint	m_loc_world;
@@ -103,6 +105,7 @@ protected:
 	GLuint	m_loc_at;
 	GLuint	m_loc_up;
 	GLuint	m_loc_time;
+	GLuint	m_loc_zoom;
 
 	GLuint  m_loc_shift_x;
 	GLuint  m_loc_shift_y;

@@ -1,0 +1,46 @@
+﻿  gCamera.cpp
+  main.cpp
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.h(57,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+  MyApp.cpp
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.h(57,29): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(153,34): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(154,33): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(261,26): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(262,96): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(265,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(278,18): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(305,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(325,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(339,82): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(360,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(361,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(362,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(363,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(364,71): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(365,71): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(366,71): warning C4244: '*=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(375,56): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(376,56): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(377,56): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(390,23): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(395,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(396,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(397,47): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(401,59): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(406,74): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(407,74): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(408,74): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(414,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(430,28): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(560,22): warning C4305: '*=': truncation from 'double' to 'float'
+C:\Users\Borisz\Desktop\Szakdoga\src\MyApp.cpp(565,22): warning C4305: '*=': truncation from 'double' to 'float'
+  imdock.cpp
+T:\OGLPack\include\imgui\imdock.cpp(984,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(133): message : see declaration of 'strcpy'
+T:\OGLPack\include\imgui\imdock.cpp(985,3): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\ucrt\string.h(90): message : see declaration of 'strcat'
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_sdl_gl3.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\winnt.h(2482,40): error C2338: Windows headers require the default packing option. Changing this can lead to memory corruption. This diagnostic can be disabled by building with WINDOWS_IGNORE_PACKING_MISMATCH defined.
