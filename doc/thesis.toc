@@ -4,40 +4,28 @@
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \contentsline {chapter}{\numberline {2}Felhasználói dokumentáció}{4}{chapter.2}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {section}{\numberline {2.1}Felsorolások}{4}{section.2.1}%
+\select@language {magyar} \contentsline {section}{\numberline {2.1}Felhasználói felület és funkciók}{4}{section.2.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {2.1.1}Szoros térközű felsorolások}{5}{subsection.2.1.1}%
+\select@language {magyar} \contentsline {section}{\numberline {2.2}Rendszerkövetelmények és futtatás}{5}{section.2.2}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {section}{\numberline {2.2}Képek, ábrák}{6}{section.2.2}%
+\select@language {magyar} \contentsline {chapter}{\numberline {3}Fejlesztői dokumentáció}{7}{chapter.3}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {2.2.1}Képek szegélyezése}{6}{subsection.2.2.1}%
+\select@language {magyar} \contentsline {section}{\numberline {3.1}Tételek, definíciók, megjegyzések}{7}{section.3.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {2.2.2}Képek csoportosítása}{7}{subsection.2.2.2}%
+\select@language {magyar} \contentsline {subsection}{\numberline {3.1.1}Egyenletek, matematika}{8}{subsection.3.1.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {section}{\numberline {2.3}Táblázatok}{8}{section.2.3}%
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Forráskódok}{9}{section.3.2}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.1}Sorok és oszlopok egyesítése}{8}{subsection.2.3.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}Algoritmusok}{10}{subsection.3.2.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {2.3.2}Több oldalra átnyúló táblázatok}{8}{subsection.2.3.2}%
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Összegzés}{11}{chapter.4}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {3}Fejlesztői dokumentáció}{11}{chapter.3}%
+\select@language {magyar} \contentsline {chapter}{\numberline {A}Szimulációs eredmények}{12}{appendix.A}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {section}{\numberline {3.1}Tételek, definíciók, megjegyzések}{11}{section.3.1}%
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyzék}{14}{appendix.A}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {3.1.1}Egyenletek, matematika}{12}{subsection.3.1.1}%
+\select@language {magyar} \contentsline {chapter}{Ábrajegyzék}{14}{appendix.A}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {section}{\numberline {3.2}Forráskódok}{13}{section.3.2}%
+\select@language {magyar} \contentsline {chapter}{Táblázatjegyzék}{15}{appendix.A}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}Algoritmusok}{14}{subsection.3.2.1}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Összegzés}{15}{chapter.4}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {A}Szimulációs eredmények}{16}{appendix.A}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyzék}{18}{appendix.A}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Ábrajegyzék}{18}{appendix.A}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Táblázatjegyzék}{19}{appendix.A}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Forráskódjegyzék}{20}{appendix.A}%
+\select@language {magyar} \contentsline {chapter}{Forráskódjegyzék}{16}{appendix.A}%

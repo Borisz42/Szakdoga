@@ -6,7 +6,7 @@
 :: /s 	Delete specified files from all subdirectories.
 :: /q 	Quiet mode, do not ask if ok to delete on global wildcard
 
-FOR /d /r . %%d in (Debug, Release, ipch, .vs) DO @if exist "%%d" rd /s/q "%%d"
+FOR /d /r . %%d in (Debug, ipch, .vs) DO @if exist "%%d" rd /s/q "%%d"
 
 :: DELETE files
 :: /F  Ignore read-only setting and delete anyway (FORCE) 
