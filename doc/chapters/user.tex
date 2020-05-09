@@ -1,44 +1,98 @@
 \chapter{Felhasználói dokumentáció} % User guide
 \label{ch:user}
 
-Ezen fejezet fogja taglalni a program futtatásához és használatához szükséges információkat. A felhasználói felület is tartalmaz rövid leírást, de a program részletes használati útmutatója a soron következő alfejezetben lesz megtalálható.
+Ezen fejezet fogja taglalni a program futtatásához és használatához szükséges információkat. A felhasználói felület is tartalmaz rövid leírást, de a program részletes használati útmutatója a soron következő alfejezetben lesz megtalálható. A programmal egy virtuális teret lehet bejárni, melynek talaján minden irányban végtelen sok mozdíthatatlan gömb található. Van a térben továbbá egy nem aktívan mozgó, de testre szabható fraktálunk, valamint vannak mindenfelé kilőhető és mindenről visszapattanó labdák, melyekkel demonstrálni lehet a programban megírt fizikát.
 
 
-\section{Felhasználói felület és funkciók} % Enumerations and lists
+\section{Felhasználói felület és funkciók} 
 
-Etiam vel odio ante. Etiam pulvinar nibh quis massa auctor congue. Pellentesque quis odio vitae sapien molestie vestibulum sit amet et quam. Pellentesque vel dui eget enim hendrerit finibus at sit amet libero. Quisque sollicitudin ultrices enim, nec porta magna imperdiet vitae. Cras condimentum nunc dui, eget molestie nunc accumsan vel.
+A program sikeres indítása után - melyről a 2.2. fejezetben tudhatunk meg többet - kettő darab ablakkal találjuk szembe magunkat. Ezekről a~\ref{fig:Kezdokepernyo} és~\ref{fig:Terminal} ábrák mutatnak egy-egy képernyőképet.
 
-\begin{itemize}
-	\item Fusce in aliquet neque, in pretium sem.
-	\item Donec tincidunt tellus id lectus pretium fringilla.
-	\item Nunc faucibus, erat pretium tempus tempor, tortor mi fringilla neque, ac congue ex dui vitae mauris.
-\end{itemize}
-
-Donec dapibus sodales ante, at scelerisque nunc laoreet sit amet. Mauris porttitor tincidunt neque, vel ullamcorper neque pulvinar et. Integer eu lorem euismod, faucibus lectus sed, accumsan felis. Nunc ornare mi at augue vulputate, eu venenatis magna mollis. Nunc sed posuere dui, et varius nulla. Sed mollis nibh augue, eget scelerisque eros ornare nec.
-
-\begin{enumerate}
-	\item\label{step:first} Donec pretium et quam a cursus. Ut sollicitudin tempus urna et mollis.
-	\item Aliquam et aliquam turpis, sed fermentum mauris. Nulla eget ex diam.
-	\item Donec eget tellus pharetra, semper neque eget, rutrum diam Step~\ref{step:first}.
-\end{enumerate}
-
-Praesent porta, metus eget eleifend consequat, eros ligula eleifend ex, a pellentesque mi est vitae urna. Vivamus turpis nunc, iaculis non leo eget, mattis vulputate tellus. Maecenas rutrum eros sem, pharetra interdum nulla porttitor sit amet. In vitae viverra ante. Maecenas sit amet placerat orci, sed tincidunt velit. Vivamus mattis, enim vel suscipit elementum, quam odio venenatis elit\footnote{Phasellus faucibus varius purus, nec tristique enim porta vitae.}, et mollis nulla nunc a risus. Praesent purus magna, tristique sed lacus sit amet, convallis malesuada magna. 
-
-\begin{description}
-	\item[Vestibulum venenatis] malesuada enim, ac auctor erat vestibulum et. Phasellus id purus a leo suscipit accumsan.
-	\item[Orci varius natoque] penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam interdum rhoncus nisl, vel pharetra arcu euismod sagittis. Vestibulum ac turpis auctor, viverra turpis at, tempus tellus.
-	\item[Morbi dignissim] erat ut rutrum aliquet. Nulla eu rutrum urna. Integer non urna at mauris scelerisque rutrum sed non turpis.
-\end{description}
-
-\section{Rendszerkövetelmények és futtatás} % Images and figures
-
-Aliquam vehicula luctus mi a pretium. Nulla quam neque, maximus nec velit in, aliquam mollis tortor. Aliquam erat volutpat. Curabitur vitae laoreet turpis. Integer id diam ligula. Nulla sodales purus id mi consequat, eu venenatis odio pharetra. Cras a arcu quam. Suspendisse augue risus, pulvinar a turpis et, commodo aliquet turpis. Nulla aliquam scelerisque mi eget pharetra. Mauris sed posuere elit, ac lobortis metus. Proin lacinia sit amet diam sed auctor. Nam viverra orci id sapien sollicitudin, a aliquam lacus suscipit, Figure~\ref{fig:example-1}:
+A~\ref{fig:Kezdokepernyo} ábrán látható ablak tartalmazza a program lényeges részét, itt jelenik meg a kirajzolt képünk és ebben az ablakban található a "Parameters" feliratú panel, melynek segítségével különböző paramétereket tudunk nyomon követni és módosítani. Az ablak alapértelmezetten 1920x1080 nagyságú, de szabadon átméretezhető, viszont az ablak mérete befolyással van a teljesítményre! Mindig az ablak pontos felbontásában fog renderelni, így nem optimális teljesítmény esetén érdemes megfontolni az ablak kisebbre vételét.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth,height=100px]{elte_cimer_szines}
-	\caption{Quisque ac tincidunt leo}
-	\label{fig:example-1}
+	\includegraphics[width=0.9\textwidth,frame]{Kezdokepernyo}
+	\caption{Fő programablak}
+	\label{fig:Kezdokepernyo}
 \end{figure}
+
+A~\ref{fig:Terminal} ábrán vehetjük szemügyre azt a terminálablakot mely az esetleges hibaüzeneteket fogja kiírni. Ezen kívül ez az ablak más funkcióval nem bír.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{Terminal}
+	\caption{Terminál ablak}
+	\label{fig:Terminal}
+\end{figure}
+
+\subsection{"Parameters" panel}
+
+A "Parameters" felirítú panel nagy jelentőséggel bír, így a jobb olvashatóság végett nem csak a~\ref{fig:Kezdokepernyo} ábra részeként láthatjuk hanem külön is szerepel a~\ref{fig:Parameters1},~\ref{fig:Parameters2} és~\ref{fig:Parameters3} ábrákon.
+
+Ezen a panelen számos információt tudhatunk meg és állíthatunk át a program futásával kapcsolatosan. Alapértelmezetten a fő programablak bal oldalán található, de szabadon mozgatható és átméretezhető az ablakon belül, indításkor pedig az legutóbbi futtatás végén beállított pozíciót és méretet veszi fel. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth,frame]{Parameters1}
+	\caption{A "Parameters" feliratú panel felső harmada}
+	\label{fig:Parameters1}
+\end{figure}
+
+A panel legtetején (\ref{fig:Parameters1} ábra) találhatjuk a \textbf{"Frame rate:"} felirat után az aktuális képfrissítési rátát képkocka/másodperc mértékegységben, illetve közvetlenül ezalatt az utolsó másfél másodperc adatait követhetjük nyomon egy folyamatosan frissülő ábrán. 
+
+A két \textbf{"Physics:"} felirat után olvashatjuk le hogy milyen gyakran van a labdák mozgása frissítve frissítés/képkocka és frissítés/másodperc mértékegységekben. Egy frissítés során minden labda sebessége és pozíciója újraszámolódik, valamint ellenőrzésre kerül az is hogy ütközött-e valamivel. 
+
+A \textbf{"Ball distance from anything:"} felirat után olvasható a dobálható labda távolsága a tőle legközelebb lévő felülettől - több labda esetén az utoljára létrehozottra vonatkozik. Az apró ingadozásából látszik hogy igazából folyamatosan pattog a labda, csak ez a pattogás egy idő után szabad szemmel nem látható.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth,frame]{Parameters2}
+	\caption{A "Parameters" feliratú panel középső harmada}
+	\label{fig:Parameters2}
+\end{figure}
+
+A választóvonal alatti szekcióban (\ref{fig:Parameters2} ábra) a fraktálunkat tudjuk személyre szabni. A fraktálunk úgy rajzolódik ki hogy egy 1x1x2 egység nagyságú téglatesten egymás után többször végrehajtunk különböző transzformációkat. Ezen transzformációk paramétereit tudjuk beállítani a következő 9 db határ nélküli csúszkán - mely ugyanúgy működik mint egy sima csúszka, csak nincsen minimum és és maximum értéke és az egeret tovább is lehet húzni mint a csúszka vége. Mindegyik csúszkának CTRL + kattintással begépelt értéket is meg lehet adni. 
+
+A \textbf{[rot x], [rot y], [rot z]} csúszkákkal azt tudjuk szabályozni hogy mennyire legyen elforgatva a fraktál az X, Y és Z tengelyek körül (radiánban értendők az értékek). 
+
+A \textbf{[fold x], [fold y], [fold z]} csúszkákkal azt tudjuk szabályozni hogy mennyire legyen elforgatva az adott tengely körül a tükrözősík  ami a először a megadott szög (radián) kétszeresével fordul el és tükrözi az alakzatot, majd ellentétes irányban az eredeti szöggel. Itt a három érték 3 különböző tükrözősíkot forgat el a nevükben szereplő tengely mentén. 
+
+A \textbf{[shift x], [shift y], [shift z]} csúszkák szabályozzák hogy mennyire legyen eltolva az alakzat az X, Y és Z tengely mentén.
+
+Végül pedig az \textbf{[iterations]} csúszka, amely már korlátozva van az [1,36] tartományban, beállítja hogy az előző 9 csúszka által paraméterezett 9 transzformáció hányszor legyen végrehajtva a téglatesten. Ez a paraméter van a legnagyobb hatással a futás sebességére, így gyengébb gépeken nem érdemes nagy értéket beállítani. Ha a képfrissítési ráta 10 képkocka/másodperc alá csökken akkor automatikusan elkezd csökkenni a csúszka értéke.
+
+Itt található még két gomb: a \textbf{"Zero values"}, mely a fraktál paramétereket nullára állítja, illetve a \textbf{"Random values"}, mely véletlenszerű értékeket állít be ezeknek. Az iterációk számát egyik sem állítja át. Továbbá van még egy ezekhez szorosan kacsolódó érték ami a \textbf{"Transition speed:"} felirat után olvasható. A gombok által generált új paramétereket egy 5 másodperc hosszú fázisban folyamatosan, apránként közelíti az aktuális paraméterekkel, az előbb említett érték pedig azt fejezi ki hogy milyen súlyozással veszi az aktuális és a célérték átlagát.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth,frame]{Parameters3}
+	\caption{A "Parameters" feliratú panel alsó harmada}
+	\label{fig:Parameters3}
+\end{figure}
+
+Az alsó harmadban (\ref{fig:Parameters2} ábra) található a \textbf{[ball count]} csúszka, itt 1 és 100 között lehet értékeket beállítani. Ez is jelentősen befolyásolja a futás gyorsaságát, így 15 FPS alatt ez az érték is automatikusan csökken.
+
+Van egy rövid ismertető szövege a panelnek, ami azt a célt szolgálja hogy ezen dokumentáció nélkül is tudja használni egy felhasználó ha leül a program elé. Ebben kerülnek ismertetésre a virtuális tér bejárásához szükséges irányítások is. A virtuális térben mozgáshoz a \textbf{WASD} billentyűket kell használni a legtöbb játékban megszokott módon. A mozgási sebességet a \textbf{[moving speed]} csúszkával lehet személyre szabni, illetve ugyanezen csúszka értékét az \textbf{egérgörgővel} is lehet szabályozni. A \textbf{shift} billentyű lenyomására ideiglenesen megnégyszereződik a sebesség, felengedésére visszaáll. A virtuális kamera mozgatásához le kell nyomni a jobbegérgombot és mozgatni az egeret. A kamera látószögét lehet csökkenteni a \textbf{[zoom]} csúszka értékének növelésével, vagy a \textbf{CTRL + görgő} segítségével is.
+
+A labdákat a \textbf{szóköz} billentyű lenyomásával lehet magunkhoz hívni. Egy labda esetén az ablak közepére, több labda esetén a labdák az ablak közepe körül keringenek egy korvonal mentén egyenletesen elhelyezkedve. A szóköz billentyűt felengedve egyszerre "kilövődnek" a labdák, ha be van pipálva a panel alján a \textbf{[shoot]} jelölőnégyzet, ha nincsen bepipálva csak leesnek a gravitációnak megfelelően.
+ 
+\cleardoublepage
+\section{Rendszerkövetelmények és futtatás} 
+
+Az alkalmazás üzembe helyezésének egyetlen követelménye a Windows 7 vagy afeletti operációs rendszer. Azonban az alkalmazás rettentően GPU intenzív, így az optimális futáshoz elengedhetetlen a dedikált videokártya. A teszteléshez használt számítógép specifikációi:
+\begin{compactitem}
+	\item Intel® Core™ i7-8700 CPU
+	\item 16 GB RAM
+	\item NVIDIA GeForce GTX 1660 GPU
+	\item Windows 10 operációs rendszer
+\end{compactitem}
+Ezen konfigurációval, 1920x1080 felbontás mellett a program sebessége elfogadható volt.
+
+Az alkalmazás elindításához a \textbf{FractalCollision.exe} fájlt kell futtatni. Fontos hogy az exe fájl mellett ott legyen a \textbf{myFrag.frag} és a \textbf{myVert.vert} fájlok, illetve ha a rendszeren nincsen külön telepítve akkor az \textbf{SDL2.dll}, valamint a \textbf{glew32.dll} fájloknak is az exe mellett kell lenniük. 
+
+Az alkalmazásból való kilépéshez lehet az \textbf{ESC} billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána még külön be kell zárni a terminálablakot.
+
+Az alkalmazás \textbf{Microsoft Visual Studio} segítségével készült, így ha újra akarnánk fordítani akkor a \textbf{C:/} helyre csomagoljuk ki a mellékelt OGLPack.zip állományt (ez az OpenGL-hez szükséges fájlokat tartalmazza), majd futtassuk a \textbf{subst T: C:/} parancsot. Ezután megnyithatjuk a \textbf{.vcxproj} projektfájlt.
 
 

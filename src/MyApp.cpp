@@ -436,7 +436,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 		rot_y = glm::mix(rot_y, new_rot_y, Transpeed);
 		rot_z = glm::mix(rot_z, new_rot_z, Transpeed);
 	}
-	if (ImGui::Begin("MyWindow")) {
+	if (ImGui::Begin("Parameters")) {
 		ImGui::Text("Frame rate: %i FPS", Framerate);
 		static float values[90] = { 60 };
 		static int values_offset = 0;
@@ -452,28 +452,25 @@ void CMyApp::Render(int WindowX, int WindowY)
 			refresh_time += 1.0f / 60.0f;
 		}
 		ImGui::PlotLines("", values, IM_ARRAYSIZE(values), values_offset, "", 0.0f, 65.0f, ImVec2(0, 50));
-		ImGui::Text("Physics: %i Simulations/Frame", Simulationsrate);
-		ImGui::Text("Physics: %i Simulations/Second", (int)(round(Simulationsrate * (1.0 / delta_time))));
+		ImGui::Text("Physics: %i Updates/Frame", Simulationsrate);
+		ImGui::Text("Physics: %i Updates/Second", (int)(round(Simulationsrate * (1.0 / delta_time))));
 		ImGui::Text("Ball distance from anything: %f", getDist);
-		ImGui::Text("Transition speed: %f", Transpeed);
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("Fraktal forgatasa tengelyek menten:");
-		ImGui::DragFloat("[rot_x]", &rot_x, 0.001f);
-		ImGui::DragFloat("[rot_y]", &rot_y, 0.001f);
-		ImGui::DragFloat("[rot_z]", &rot_z, 0.001f);
+		ImGui::DragFloat("[rot x]", &rot_x, 0.001f);
+		ImGui::DragFloat("[rot y]", &rot_y, 0.001f);
+		ImGui::DragFloat("[rot z]", &rot_z, 0.001f);
 		ImGui::Text("Fraktal onmagaba hajtasa tengelyek menten:");
-		ImGui::DragFloat("[fold_x]", &fold_x, 0.001f);
-		ImGui::DragFloat("[fold_y]", &fold_y, 0.001f);
-		ImGui::DragFloat("[fold_z]", &fold_z, 0.001f);
+		ImGui::DragFloat("[fold x]", &fold_x, 0.001f);
+		ImGui::DragFloat("[fold y]", &fold_y, 0.001f);
+		ImGui::DragFloat("[fold z]", &fold_z, 0.001f);
 		ImGui::Text("Fraktal eltolasa tengelyek menten:");
-		ImGui::DragFloat("[shift_x]", &shift_x, 0.001f);
-		ImGui::DragFloat("[shift_y]", &shift_y, 0.001f);
-		ImGui::DragFloat("[shift_z]", &shift_z, 0.001f);
+		ImGui::DragFloat("[shift x]", &shift_x, 0.001f);
+		ImGui::DragFloat("[shift y]", &shift_y, 0.001f);
+		ImGui::DragFloat("[shift z]", &shift_z, 0.001f);
 		ImGui::Text("Fraktal iteracioinak szama:");
 		ImGui::SliderInt("[iterations]", &iterations, 1, 36);
-		ImGui::Text("Mozgathato labdak szama:");
-		ImGui::SliderInt("[ball count]", &ballCount, 1, Max_ballCount);
-		ballCount = (ballCount > Max_ballCount) ? Max_ballCount : ballCount;
+		ImGui::Text("Transition speed: %f", Transpeed);
 		if (ImGui::Button("Zero values")) {
 			new_shift_x = 0.0;
 			new_shift_y = 0.0;
@@ -485,7 +482,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 			new_rot_y = 0.0;
 			new_rot_z = 0.0;
 			animation = rtime + 5.0;
-			iterations = 16;
+			//iterations = 16;
 		}ImGui::SameLine();
 		if (ImGui::Button("Random values")) {
 			new_shift_x = (rand() % 1000) / 5000.0f - 0.1;
@@ -497,9 +494,13 @@ void CMyApp::Render(int WindowX, int WindowY)
 			new_rot_x =   (rand() % 2000) / 1000.0f - 1;
 			new_rot_y =   (rand() % 2000) / 1000.0f - 1;
 			new_rot_z =   (rand() % 2000) / 1000.0f - 1;
-			iterations = 16;
+			//iterations = 16;
 			animation = rtime + 5.0;
 		}
+		ImGui::Text("---------------------------------------------");
+		ImGui::Text("Mozgathato labdak szama:");
+		ImGui::SliderInt("[ball count]", &ballCount, 1, Max_ballCount);
+		ballCount = (ballCount > Max_ballCount) ? Max_ballCount : ballCount;
 		ImGui::Text("---------------------------------------------");
 		ImGui::Text("--------------Hogyan mukodik?----------------");
 		ImGui::Text("A fraktal beallitasahoz hasznald a csuszkakat!");
@@ -510,7 +511,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::Text("A terben mozgashoz hasznald a WASD billentyuket!");
 		ImGui::Text("A gyorsabb mozgashoz nyomd le a SHIFT billentyut!");
 		ImGui::Text("A sebesseg allitasahoz hasznald a gorgot, vagy ezt:");
-		ImGui::SliderFloat("moving speed", &camera_speed, 1.0f, 150.0f, "%.1f");
+		ImGui::SliderFloat("[moving speed]", &camera_speed, 1.0f, 150.0f, "%.1f");
 		ImGui::Text("A kamera zoomhoz hasznald a ctrl+gorgot, vagy ezt:");
 		ImGui::SliderFloat("[zoom]", &zoom, 1.000f, 10.000f, "%.3f");
 		ImGui::Text("Pipald ki ha szeretned kiloni a labdat:"); ImGui::SameLine();
