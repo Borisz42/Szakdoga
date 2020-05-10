@@ -9,7 +9,7 @@ A megvalósításhoz C++ nyelvet választottam, OpenGL segítségével. Sphere t
 
 ## Program futtatása
 
-Ha csak futtatni szeretnéd, futtasd az **src/Release/FractalCollision.exe** fájlt. Csak úgy tud megleleően futni ha az src/Release mappa metljes tartalma az exe fájl mellett található!
+Ha csak futtatni szeretnéd, futtasd az **src/Release/FractalCollision.exe** fájlt. Csak úgy tud megleleően futni az exe ha az src/Release mappa teljes tartalma fájl mellett található!
 
 Ha szerkeszteni akarod a kódot, csomagold ki a C:/ helyre az alpábbi állományt: [OGLPack.zip](http://cg.elte.hu/~bsc_cg/resources/OGLPack.zip)
 majd futtasd a 
