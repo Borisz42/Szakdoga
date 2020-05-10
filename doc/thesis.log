@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  10 MAY 2020 01:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  10 MAY 2020 21:44
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -1672,11 +1672,11 @@ This may cause the page layout to be inconsistent, however.
 
 [3 <./images/haromszog.png>] (chapters/user.tex
 2. fejezet.
-<./images/Kezdokepernyo.png, id=109, 1446.90562pt x 836.3747pt>
+<./images/Kezdokepernyo.png, id=109, 1445.4pt x 834.86906pt>
 File: ./images/Kezdokepernyo.png Graphic file (type png)
 <use ./images/Kezdokepernyo.png>
 Package pdftex.def Info: ./images/Kezdokepernyo.png  used on input line 15.
-(pdftex.def)             Requested size: 384.1096pt x 222.03386pt.
+(pdftex.def)             Requested size: 384.1096pt x 221.86346pt.
 [4
 
 
@@ -1688,22 +1688,22 @@ File: ./images/Terminal.png Graphic file (type png)
 Package pdftex.def Info: ./images/Terminal.png  used on input line 24.
 (pdftex.def)             Requested size: 384.1096pt x 200.70178pt.
  [5 <./images/Kezdokepernyo.png> <./images/Terminal.png>]
-<./images/Parameters1.png, id=134, 284.56313pt x 126.4725pt>
+<./images/Parameters1.png, id=134, 280.04625pt x 124.21407pt>
 File: ./images/Parameters1.png Graphic file (type png)
 <use ./images/Parameters1.png>
 Package pdftex.def Info: ./images/Parameters1.png  used on input line 37.
-(pdftex.def)             Requested size: 170.71393pt x 75.87636pt.
-<./images/Parameters2.png, id=136, 283.81032pt x 275.52937pt>
+(pdftex.def)             Requested size: 170.71393pt x 75.72307pt.
+<./images/Parameters2.png, id=136, 279.29344pt x 278.54062pt>
 File: ./images/Parameters2.png Graphic file (type png)
 <use ./images/Parameters2.png>
 Package pdftex.def Info: ./images/Parameters2.png  used on input line 50.
-(pdftex.def)             Requested size: 170.71393pt x 165.7393pt.
+(pdftex.def)             Requested size: 170.71393pt x 170.25804pt.
  [6 <./images/Parameters1.png> <./images/Parameters2.png>]
-<./images/Parameters3.png, id=144, 283.81032pt x 250.68657pt>
+<./images/Parameters3.png, id=144, 280.04625pt x 237.88875pt>
 File: ./images/Parameters3.png Graphic file (type png)
 <use ./images/Parameters3.png>
 Package pdftex.def Info: ./images/Parameters3.png  used on input line 69.
-(pdftex.def)             Requested size: 170.71393pt x 150.79561pt.
+(pdftex.def)             Requested size: 170.71393pt x 145.02116pt.
  [7] [8 <./images/Parameters3.png>])
 [9
 
@@ -1767,7 +1767,7 @@ Package logreq Info: Writing requests to 'thesis.run.xml'.
 Here is how much of TeX's memory you used:
  36226 strings out of 480930
  662445 string characters out of 2899293
- 1338816 words of memory out of 3000000
+ 1338830 words of memory out of 3000000
  51398 multiletter control sequences out of 15000+200000
  552634 words of font info for 75 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1787,9 +1787,9 @@ r/jknappen/ec/dpi600\ecti1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fon
 ts/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Borisz\AppData\Local\MiK
 TeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1440.pk> <C:\Users\Borisz\AppDat
 a\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk>
-Output written on thesis.pdf (17 pages, 1150990 bytes).
+Output written on thesis.pdf (17 pages, 1144620 bytes).
 PDF statistics:
- 644 PDF objects out of 1000 (max. 8388607)
+ 648 PDF objects out of 1000 (max. 8388607)
  33 named destinations out of 1000 (max. 500000)
  245 words of extra memory for PDF output out of 10000 (max. 10000000)
 
