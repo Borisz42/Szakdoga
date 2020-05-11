@@ -5,8 +5,8 @@ Ezen fejezet fogja taglalni a program futtatásához és használatához szüks�
 
 
 \section{Felhasználói felület és funkciók} 
-
-A program sikeres indítása után - melyről a 2.2. fejezetben tudhatunk meg többet - kettő darab ablakkal találjuk szembe magunkat. Ezekről a~\ref{fig:Kezdokepernyo} és~\ref{fig:Terminal} ábrák mutatnak egy-egy képernyőképet.
+\label{sec:ui} 
+A program sikeres indítása után - melyről a \ref{sec:futtatas} fejezetben tudhatunk meg többet - kettő darab ablakkal találjuk szembe magunkat. Ezekről a~\ref{fig:Kezdokepernyo} és~\ref{fig:Terminal} ábrák mutatnak egy-egy képernyőképet.
 
 A~\ref{fig:Kezdokepernyo} ábrán látható ablak tartalmazza a program lényeges részét, itt jelenik meg a kirajzolt képünk és ebben az ablakban található a "Parameters" feliratú panel, melynek segítségével különböző paramétereket tudunk nyomon követni és módosítani. Az ablak alapértelmezetten 1920x1080 nagyságú, de szabadon átméretezhető, viszont az ablak mérete befolyással van a teljesítményre! Mindig az ablak pontos felbontásában fog renderelni, így nem optimális teljesítmény esetén érdemes megfontolni az ablak kisebbre vételét.
 
@@ -62,7 +62,7 @@ A \textbf{[shift x], [shift y], [shift z]} csúszkák szabályozzák hogy mennyi
 
 Végül pedig az \textbf{[iterations]} csúszka, amely már korlátozva van az [1,36] tartományban, beállítja hogy az előző 9 csúszka által paraméterezett 9 transzformáció hányszor legyen végrehajtva a téglatesten. Ez a paraméter van a legnagyobb hatással a futás sebességére, így gyengébb gépeken nem érdemes nagy értéket beállítani. Ha a képfrissítési ráta 10 képkocka/másodperc alá csökken akkor automatikusan elkezd csökkenni a csúszka értéke.
 
-Itt található még két gomb: a \textbf{"Zero values"}, mely a fraktál paramétereket nullára állítja, illetve a \textbf{"Random values"}, mely véletlenszerű értékeket állít be ezeknek. Az iterációk számát egyik sem állítja át. Továbbá van még egy ezekhez szorosan kacsolódó érték ami a \textbf{"Transition speed:"} felirat után olvasható. A gombok által generált új paramétereket egy 5 másodperc hosszú fázisban folyamatosan, apránként közelíti az aktuális paraméterekkel, az előbb említett érték pedig azt fejezi ki hogy milyen súlyozással veszi az aktuális és a célérték átlagát.
+Itt található még két gomb: a \textbf{"Zero values"}, mely a fraktál paramétereket nullához közelíti\footnote{Az értékek csak konvergálnak a 0-hoz. Ha valamely paraméter szélsőségesen nagy, előfordulhat hogy a gomb megnyomása után is jelentősen eltér nullától}, illetve a \textbf{"Random values"}, mely véletlenszerű értékeket állít be ezeknek. Az iterációk számát egyik sem állítja át. Továbbá van még egy ezekhez szorosan kacsolódó érték ami a \textbf{"Transition speed:"} felirat után olvasható. A gombok által generált új paramétereket egy 5 másodperc hosszú fázisban folyamatosan, apránként közelíti az aktuális paraméterekkel, az előbb említett érték pedig azt fejezi ki hogy milyen súlyozással veszi az aktuális és a célérték átlagát.
 
 \begin{figure}[H]
 	\centering
@@ -79,7 +79,7 @@ A labdákat a \textbf{szóköz} billentyű lenyomásával lehet magunkhoz hívni
  
 \cleardoublepage
 \section{Rendszerkövetelmények és futtatás} 
-
+\label{sec:futtatas} 
 Az alkalmazás üzembe helyezésének egyetlen követelménye a Windows 7 vagy afeletti operációs rendszer. Azonban az alkalmazás rettentően GPU intenzív, így az optimális futáshoz elengedhetetlen a dedikált videokártya. A teszteléshez használt számítógép specifikációi:
 \begin{compactitem}
 	\item Intel® Core™ i7-8700 CPU

@@ -92,11 +92,14 @@ protected:
 	int iterations = 16;
 
 
-
+	bool TESTING = false;
 	float rtime;
 	bool update_time = true;
 	Uint32 last_time = 1;
 	double delta_time = 0.01;
+	int delta_time_counter = 0;
+	static int const avg = 100;
+	double delta_time_arr[avg] = { 0.0 };
 	double loopindex = 2.0;
 	int Framerate = 60;
 	int Simulationsrate = 2; 
@@ -104,6 +107,7 @@ protected:
 	int Last_Simulationsrate = 2;
 	float zoom = 3.0;
 	bool ctrl = false;
+
 
 	// mátrixok helye a shaderekben
 	GLuint	m_loc_world;

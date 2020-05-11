@@ -6,7 +6,7 @@
 :: /s 	Delete specified files from all subdirectories.
 :: /q 	Quiet mode, do not ask if ok to delete on global wildcard
 
-FOR /d /r . %%d in (obj, Debug, ipch, .vs, FractalCollision.tlog) DO @if exist "%%d" rd /s/q "%%d"
+FOR /d /r . %%d in (x64, obj, Debug, ipch, .vs, FractalCollision.tlog) DO @if exist "%%d" rd /s/q "%%d"
 
 :: DELETE files
 :: /F  Ignore read-only setting and delete anyway (FORCE) 

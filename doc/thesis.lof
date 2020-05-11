@@ -2,9 +2,9 @@
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {1.1.}{\ignorespaces Sphere tracing: A kamerából kiinduló fénysugár mindig csak annyit halad előre amekkora a hozzá legközelebb lévő felület távolsága\relax }}{2}{figure.caption.1}%
+\select@language {magyar} \contentsline {figure}{\numberline {1.1.}{\ignorespaces Sphere tracing: A kamerából kiinduló fénysugár mindig csak annyit halad előre amekkora a hozzá legközelebb lévő felület távolsága \cite {Raymarch94:online}\relax }}{2}{figure.caption.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {1.2.}{\ignorespaces Példa egy IFS-re: a Sierpiński háromszög 5 iterációja\relax }}{3}{figure.caption.2}%
+\select@language {magyar} \contentsline {figure}{\numberline {1.2.}{\ignorespaces Példa egy IFS-re: a Sierpiński háromszög néhány iterációja \cite {Sierpins37:online}\relax }}{3}{figure.caption.2}%
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
@@ -17,6 +17,14 @@
 \select@language {magyar} \contentsline {figure}{\numberline {2.4.}{\ignorespaces A "Parameters" feliratú panel középső harmada\relax }}{6}{figure.caption.6}%
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \contentsline {figure}{\numberline {2.5.}{\ignorespaces A "Parameters" feliratú panel alsó harmada\relax }}{8}{figure.caption.7}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.1.}{\ignorespaces Teljesítményteszt az iterációk számának függvényében\relax }}{12}{figure.caption.8}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.2.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében\relax }}{13}{figure.caption.9}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.3.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében, kirajzolás nélkül\relax }}{14}{figure.caption.10}%
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 

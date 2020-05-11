@@ -124,9 +124,9 @@ vec3 multi_fold(vec3 pt, float xx, float yy, float zz) {
     pt.zx = fold(pt.zx, 2.0 * yy );
     pt.xy = fold(pt.xy, 2.0 * zz );
 
-    pt.yz = fold(pt.yz, -1.0 * xx );
-    pt.zx = fold(pt.zx, -1.0 * yy );
-    pt.xy = fold(pt.xy, -1.0 * zz );
+//    pt.yz = fold(pt.yz, -1.0 * xx );
+//    pt.zx = fold(pt.zx, -1.0 * yy );
+//    pt.xy = fold(pt.xy, -1.0 * zz );
     return pt;
 }
 

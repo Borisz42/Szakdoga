@@ -1,4 +1,89 @@
 \chapter{Fejlesztői dokumentáció} 
 \label{ch:impl}
 
-folyamtban...
+folyamatban...
+
+\section{Tesztelés}
+
+A tesztelés során megvizsgáltam hogy a funkciók (\ref{sec:ui} fejezet) az elvártaknak megfelelően működne-e. A tesztelés során használt számítógép konfiguráció:
+\begin{compactitem}
+	\item Intel® Core™ i7-8700 CPU
+	\item 16 GB RAM
+	\item NVIDIA GeForce GTX 1660 GPU
+	\item Windows 10 operációs rendszer
+\end{compactitem}
+
+\subsection{Működés helyessége}
+
+A következő viselkedéseket vizsgáltam:
+\begin{compactenum}
+	\item A virtuális kamerát lehet forgatni az \textbf{egérrel};
+	\item A virtuális kamera nagyítását lehet állítani a \textbf{CTRL + görgővel} és a csúszkával is;
+	\item A virtuális kamerát lehet mozgatni a \textbf{WASD} billentyűkkel;
+	\item A mozgás sebességét lehet gyorsítani a \textbf{SHIFT} billentyűvel és álítani a görgővel vagy a csúszkával;
+	\item Ha egyszerre gyorsítunk \textbf{SHIFT}-tel és görgővel, a görgő sebessége felülírja a shift gyorsítását;
+	\item A fraktál paramétereit át lehet állítani a \textbf{csúszkákkal} és a fraktál ezen értékeknek megfelelően változik;
+	\item A \textbf{"Zero values"} gomb hatására megközelíti minden érték a nullát;
+	\item A \textbf{"Zero values"} gomb extrém érték esetén: 1000-re állítva egy csúszkát "nullázás" után az értéke 0.423 lett;
+	\item A \textbf{"Random values"} gomb valóban véletlenszerű értékeket állít be. Időnként nem látható fraktálokat eredményez;
+\end{compactenum}
+
+\subsection{Teljesítmény}
+
+Az alkalmazás erősen GPU igényes.  A futás teljesítményét az alábbi kóddal segítségével teszteltem:
+\lstset{caption={A tesztelést végző kód}, label=src:test}
+\begin{lstlisting}[language={C++}]
+if (TESTING)
+	{
+		if (delta_time_counter < avg)
+		{
+			delta_time_arr[delta_time_counter] = delta_time;
+			++delta_time_counter;
+		}
+		else
+		{
+			delta_time_counter = 0;
+			double avg_delta_time = 0.0;
+			for (int i = 0; i < avg; ++i) { avg_delta_time += delta_time_arr[i]; }
+			avg_delta_time /= avg;
+			printf("Avrage of delta time: %f ms   Iterations: %d   Number of spheres: %d \n", avg_delta_time*1000, iterations, ballCount);
+			iterations += 2;
+		}
+	}
+\end{lstlisting}
+
+A kód az \textbf{Update()} függvény alján található. A \textbf{delta\_time} két képfrissítés között eltelt időt jelöli. Ezen kód segítségével \textbf{avg} darab képfrissítési idő átlagát vesszük, ezt kiírjuk az aktuális iterációk száma és mozgatható gömbök száma mellett, majd ez előbbi értékét növeljük növeljük kettővel. A tesztek avg=100 értékkel futottak.
+
+A tesztelés idejére ki lett kapcsolva a vsync, hogy ne befolyásolja a mérést. Ha be lenne kapcsolva akkor az 1/60 s = 16.66 ms-nál kisebb kirajzolási idők eredményét nem tudnánk lemérni. Továbbá az a funkció is ideiglenes ki lett kapcsolva ami alacsony képfrissítési ráta mellett kisebbre veszi az iterációk és gömbök számát.
+
+A kezdeti pozícióhoz képest a kamera nem volt megmozdítva, valamint a kódban a tesztben érintett két paraméteren felül más nem lett átállítva a kezdeti alapértelmezettekhez képest. A futás eredménye a \ref{fig:Test1} ábrán látható.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{Test1}
+	\caption{Teljesítményteszt az iterációk számának függvényében}
+	\label{fig:Test1}
+\end{figure}
+
+Megfigyelhető hogy az iterációk számától lineárisan függ a képfrissítési idő. Bármely két egymást követő sor különbsége 4-6 ms, illetve 10 ietrációs eset ideje nagyjából fele a 20-nak és kb. harmada a 30-nak. Az is észrevehető hogy rettentően lelassítja az alkalmazást az iteráció növelése, elég 36-ig felmenni hogy a tesztelői környezeten 10 FPS alá essen a képfrissítési ráta, ami már határozattan nem folyamatos megjelenítést jelent.
+
+Ha kód (\ref{src:test}) 15.sorát átírjuk \textbf{ballCount += 5} -re akkor azt is meg tudjuk vizsgálni hogy az mozgatható gömbök száma hogyan hat a képfrissítési időre. Ezen futás eredményét a \ref{fig:Test2} ábra mutatja.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{Test2}
+	\caption{Teljesítményteszt a gömbök számának függvényében}
+	\label{fig:Test2}
+\end{figure}
+
+Itt is lineáris összefüggést tapasztalunk, két egymás utáni érték között 1-3 ms eltérés mutatkozik, illetve az is látható hogy jóval kevesebb hatása van a gömbök számának növelése a teljesítményre, a tesztkonfigurációnak 0 iteráció mellett 40 gömb még nem okoz problémát, ellenben 0 gömb mellett 40 iteráció az előző teszt tanulsága szerint már sokkal inkább.
+A gömbökkel is inkább a megjelenítés okozza a gondot, a glDrawArrays() sor ideiglenes kommentezésével a kirajzolást megszüntetjük, ám az ütközések modellezése tovább folytatódik. Ha ezt megtesszük és újra futtatjuk ez előbbi tesztet akkor megtudhatjuk hogy a fizika kiszámolása mennyire lassította a kirajzolást. A futást eredménye a \ref{fig:Test2} ábrán látható.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{Test3}
+	\caption{Teljesítményteszt a gömbök számának függvényében, kirajzolás nélkül}
+	\label{fig:Test3}
+\end{figure}
+
+Észrevehetjük hogy a korábbi tesztnél jóval több gömbbel is közel jelentéktelen a fizika számolási ideje. Ismeretlen okokból 480 gömb felett hirtelen megnő a számolási idő. A teszt során az 1000 ms-os átlag során sem emelkedett meg jelentősen a processzor kihasználtsága, szám szerint 14\%-os volt úgy hogy további programok is futottak a háttérben. Ez a kiugrás előfordulhat hogy nem a kód egy hibájának köszönhető, hanem a futtatási környezetben van valamilyen korlátozás. A jelenség pontos forrása ismeretlen, de mivel csak extrém körülmények között jelentkezik így nem lett sok idő fordítva az ok felkutatására.

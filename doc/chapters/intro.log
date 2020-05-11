@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  10 MAY 2020 01:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  10 MAY 2020 23:26
 entering extended mode
 **./intro.tex
 (intro.tex
@@ -1128,14 +1128,14 @@ Overfull \hbox (15.00003pt too wide) in paragraph at lines 8--9
  []
 
 
-! LaTeX Error: Environment LARGE undefined.
+! LaTeX Error: Environment figure undefined.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.10 \begin{LARGE}
-                  
+l.11 \begin{figure}
+                   [H]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -1147,73 +1147,17 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.11 \begin{center}
-                   
+l.11 \begin{figure}[
+                    H]
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (20.0pt too wide) in paragraph at lines 11--11
-[] 
- []
-
-Missing character: There is no H in font nullfont!
-Missing character: There is no o in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no y in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no n in font nullfont!
-Missing character: There is no v in font nullfont!
-Missing character: There is no a in font nullfont!
-Missing character: There is no l in font nullfont!
-Missing character: There is no s in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no o in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no z in font nullfont!
-Missing character: There is no t in font nullfont!
-Missing character: There is no m in font nullfont!
-Missing character: There is no e in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no ? in font nullfont!
-
-Overfull \hbox (7.7778pt too wide) in paragraph at lines 12--13
- \/cmr/m/n/10 o 
- []
-
-
-! LaTeX Error: \begin{document} ended by \end{LARGE}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.14 \end{LARGE}
-                
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Environment figure undefined.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.16 \begin{figure}
-                   [H]
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
 
 Missing character: There is no [ in font nullfont!
 Missing character: There is no H in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.18 	\includegraphics
-                      [width=0.5\textwidth]{SphereTracing}
+l.13 	\includegraphics
+                      [width=0.4\textwidth]{SphereTracing}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -1229,11 +1173,11 @@ Missing character: There is no h in font nullfont!
 Missing character: There is no = in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no . in font nullfont!
-Missing character: There is no 5 in font nullfont!
+Missing character: There is no 4 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.18 	\includegraphics[width=0.5\textwidth]
+l.13 	\includegraphics[width=0.4\textwidth]
                                            {SphereTracing}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -1242,7 +1186,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.18 	\includegraphics[width=0.5\textwidth]
+l.13 	\includegraphics[width=0.4\textwidth]
                                            {SphereTracing}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -1272,8 +1216,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.19 	\caption
-              {Sphere tracing: A kamerából kiinduló sugár mindig annyit ...
+l.14 	\caption
+              {Sphere tracing: A kamerából kiinduló fénysugár mindig cs...
 
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -1307,6 +1251,9 @@ Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no u in font nullfont!
 Missing character: There is no l in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no y in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no u in font nullfont!
 Missing character: There is no g in font nullfont!
@@ -1317,14 +1264,21 @@ Missing character: There is no n in font nullfont!
 Missing character: There is no d in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no g in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no k in font nullfont!
 Missing character: There is no a in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no y in font nullfont!
 Missing character: There is no i in font nullfont!
 Missing character: There is no t in font nullfont!
+Missing character: There is no h in font nullfont!
+Missing character: There is no a in font nullfont!
 Missing character: There is no l in font nullfont!
-Missing character: There is no p in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no d in font nullfont!
 Missing character: There is no e in font nullfont!
 Missing character: There is no l in font nullfont!
 Missing character: There is no r in font nullfont!
@@ -1354,10 +1308,12 @@ Missing character: There is no b in font nullfont!
 Missing character: There is no b in font nullfont!
 Missing character: There is no l in font nullfont!
 Missing character: There is no v in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no e in font nullfont!
 Missing character: There is no t in font nullfont!
-Missing character: There is no r in font nullfont!
-Missing character: There is no g in font nullfont!
-Missing character: There is no y in font nullfont!
 Missing character: There is no t in font nullfont!
 Missing character: There is no v in font nullfont!
 Missing character: There is no o in font nullfont!
@@ -1365,6 +1321,24 @@ Missing character: There is no l in font nullfont!
 Missing character: There is no s in font nullfont!
 Missing character: There is no g in font nullfont!
 Missing character: There is no a in font nullfont!
+Missing character: There is no [ in font nullfont!
+\citation{Raymarch94:online}
+! Undefined control sequence.
+<write> ...: Citation `\@citeb ' on page \thepage 
+                                                  \space undefined\on@line .
+l.14 ...lület távolsága\cite{Raymarch94:online}
+                                                  }
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+LaTeX Warning: Citation `Raymarch94:online' on page  undefined on input line 14
+.
+
+Missing character: There is no ] in font nullfont!
 
 ! LaTeX Error: \begin{document} ended by \end{figure}.
 
@@ -1372,66 +1346,74 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.21 \end{figure}
+l.16 \end{figure}
                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 16--22
+Overfull \hbox (20.0pt too wide) in paragraph at lines 11--17
 []
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 16--22
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 11--17
 \/cmr/m/n/10 ao
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 16--22
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 11--17
 \/cmr/m/n/10 o
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 16--22
-\/cmr/m/n/10 a
+Overfull \hbox (9.44446pt too wide) in paragraph at lines 11--17
+\/cmr/m/n/10 ea
  []
 
 
-Overfull \hbox (4.44444pt too wide) in paragraph at lines 16--22
-\/cmr/m/n/10 e
- []
-
-
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 16--22
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 11--17
 \/cmr/m/n/10 }o
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 16--22
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 11--17
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 16--22
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 11--17
 \/cmr/m/n/10 o
  []
 
 
-Overfull \hbox (9.44446pt too wide) in paragraph at lines 16--22
+Overfull \hbox (9.44446pt too wide) in paragraph at lines 11--17
 \/cmr/m/n/10 e}o
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 16--22
-\/cmr/m/n/10 a
+Overfull \hbox (5.55557pt too wide) in paragraph at lines 11--17
+\/cmr/m/n/10 u
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 16--22
-\/cmr/m/n/10 aa
+Overfull \hbox (15.43056pt too wide) in paragraph at lines 11--17
+\/cmr/m/n/10 aa[]
  []
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.18 H
+      ogyan valósítom ezt meg? A kirajzoláshoz \textbf{Sphere tracing} m�...
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 Missing character: There is no H in font nullfont!
 Missing character: There is no o in font nullfont!
@@ -1477,7 +1459,7 @@ Missing character: There is no ( in font nullfont!
 ! Undefined control sequence.
 <write> ...e `fig:SphereTracing' on page \thepage 
                                                   \space undefined\on@line .
-l.23 ...racing} módszert (\ref{fig:SphereTracing}
+l.18 ...racing} módszert (\ref{fig:SphereTracing}
                                                    ábra) alkalmazok, így m...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -1486,8 +1468,8 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `fig:SphereTracing' on page  undefined on input line 2
-3.
+LaTeX Warning: Reference `fig:SphereTracing' on page  undefined on input line 1
+8.
 
 Missing character: There is no b in font nullfont!
 Missing character: There is no r in font nullfont!
@@ -1998,242 +1980,242 @@ Missing character: There is no e in font nullfont!
 Missing character: There is no n in font nullfont!
 Missing character: There is no . in font nullfont!
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 23--24
+Overfull \hbox (20.0pt too wide) in paragraph at lines 18--19
 []
  []
 
 
-Overfull \hbox (7.7778pt too wide) in paragraph at lines 23--24
+Overfull \hbox (7.7778pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 o
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (34.44429pt too wide) in paragraph at lines 23--24
+Overfull \hbox (34.44429pt too wide) in paragraph at lines 18--19
 \OT1/cmr/bx/n/10 Sphere
  []
 
 
-Overfull \hbox (23.74292pt too wide) in paragraph at lines 23--24
+Overfull \hbox (23.74292pt too wide) in paragraph at lines 18--19
 \OT1/cmr/bx/n/10 trac-
  []
 
 
-Overfull \hbox (15.33325pt too wide) in paragraph at lines 23--24
+Overfull \hbox (15.33325pt too wide) in paragraph at lines 18--19
 \OT1/cmr/bx/n/10 ing
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 o
  []
 
 
-Overfull \hbox (10.86105pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.86105pt too wide) in paragraph at lines 18--19
 []
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (2.77779pt too wide) in paragraph at lines 23--24
+Overfull \hbox (2.77779pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 
  []
 
 
-Overfull \hbox (20.00005pt too wide) in paragraph at lines 23--24
+Overfull \hbox (20.00005pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 aaue
  []
 
 
-Overfull \hbox (11.66667pt too wide) in paragraph at lines 23--24
+Overfull \hbox (11.66667pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 ee
  []
 
 
-Overfull \hbox (7.7778pt too wide) in paragraph at lines 23--24
+Overfull \hbox (7.7778pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 ao
  []
 
 
-Overfull \hbox (10.55559pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.55559pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 u}o
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (5.55557pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.55557pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 }u
  []
 
 
-Overfull \hbox (4.44444pt too wide) in paragraph at lines 23--24
+Overfull \hbox (4.44444pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 e
  []
 
 
-Overfull \hbox (4.44444pt too wide) in paragraph at lines 23--24
+Overfull \hbox (4.44444pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 e
  []
 
 
-Overfull \hbox (7.7778pt too wide) in paragraph at lines 23--24
+Overfull \hbox (7.7778pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 o
  []
 
 
-Overfull \hbox (15.5556pt too wide) in paragraph at lines 23--24
+Overfull \hbox (15.5556pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 uoo
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (10.55559pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.55559pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 }ou
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 o
  []
 
 
-Overfull \hbox (9.44446pt too wide) in paragraph at lines 23--24
+Overfull \hbox (9.44446pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 oe
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 oa
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 aa
  []
 
 
-Overfull \hbox (10.55559pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.55559pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 u}o
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 o
  []
 
 
-Overfull \hbox (9.44446pt too wide) in paragraph at lines 23--24
+Overfull \hbox (9.44446pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 ea
  []
 
 
-Overfull \hbox (5.55557pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.55557pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 u
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 a
  []
 
 
-Overfull \hbox (10.55559pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.55559pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 ou
  []
 
 
-Overfull \hbox (4.44444pt too wide) in paragraph at lines 23--24
+Overfull \hbox (4.44444pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 e
  []
 
 
-Overfull \hbox (4.44444pt too wide) in paragraph at lines 23--24
+Overfull \hbox (4.44444pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 e
  []
 
 
-Overfull \hbox (15.00003pt too wide) in paragraph at lines 23--24
+Overfull \hbox (15.00003pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 }o}ue
  []
 
 
-Overfull \hbox (5.55557pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.55557pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 u
  []
 
 
-Overfull \hbox (9.44446pt too wide) in paragraph at lines 23--24
+Overfull \hbox (9.44446pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 ea
  []
 
 
-Overfull \hbox (13.8889pt too wide) in paragraph at lines 23--24
+Overfull \hbox (13.8889pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 e}oe
  []
 
 
-Overfull \hbox (5.55557pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.55557pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 u
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 23--24
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 aa
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 }o
  []
 
 
-Overfull \hbox (4.44444pt too wide) in paragraph at lines 23--24
+Overfull \hbox (4.44444pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 e
  []
 
 
-Overfull \hbox (5.00002pt too wide) in paragraph at lines 23--24
+Overfull \hbox (5.00002pt too wide) in paragraph at lines 18--19
 \/cmr/m/n/10 }o 
  []
 
@@ -2244,18 +2226,30 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.25 \begin{figure}
+l.20 \begin{figure}
                    [H]
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.20 \begin{figure}[
+                    H]
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Missing character: There is no [ in font nullfont!
 Missing character: There is no H in font nullfont!
 Missing character: There is no ] in font nullfont!
 ! Undefined control sequence.
-l.27 	\includegraphics
-                      [width=0.5\textwidth]{haromszog}
+l.22 	\includegraphics
+                      [width=0.6\textwidth]{haromszog}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -2271,11 +2265,11 @@ Missing character: There is no h in font nullfont!
 Missing character: There is no = in font nullfont!
 Missing character: There is no 0 in font nullfont!
 Missing character: There is no . in font nullfont!
-Missing character: There is no 5 in font nullfont!
+Missing character: There is no 6 in font nullfont!
 ! Missing number, treated as zero.
 <to be read again> 
                    ]
-l.27 	\includegraphics[width=0.5\textwidth]
+l.22 	\includegraphics[width=0.6\textwidth]
                                            {haromszog}
 A number should have been here; I inserted `0'.
 (If you can't figure out why I needed to see a number,
@@ -2284,7 +2278,7 @@ look up `weird error' in the index to The TeXbook.)
 ! Illegal unit of measure (pt inserted).
 <to be read again> 
                    ]
-l.27 	\includegraphics[width=0.5\textwidth]
+l.22 	\includegraphics[width=0.6\textwidth]
                                            {haromszog}
 Dimensions can be in units of em, ex, in, pt, pc,
 cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
@@ -2310,7 +2304,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.28 	\caption
+l.23 	\caption
               {Példa egy IFS-re: a Sierpiński háromszög 5 iterációja}
 You're in trouble here.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
@@ -2362,36 +2356,49 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.30 \end{figure}
+l.25 \end{figure}
                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (20.0pt too wide) in paragraph at lines 25--31
+Overfull \hbox (20.0pt too wide) in paragraph at lines 20--26
 []
  []
 
 
-Overfull \hbox (4.44444pt too wide) in paragraph at lines 25--31
+Overfull \hbox (4.44444pt too wide) in paragraph at lines 20--26
 \/cmr/m/n/10 e
  []
 
 
-Overfull \hbox (5.55557pt too wide) in paragraph at lines 25--31
+Overfull \hbox (5.55557pt too wide) in paragraph at lines 20--26
 \/cmr/m/n/10 n
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 25--31
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 20--26
 \/cmr/m/n/10 ao
  []
 
 
-Overfull \hbox (10.00003pt too wide) in paragraph at lines 25--31
+Overfull \hbox (10.00003pt too wide) in paragraph at lines 20--26
 \/cmr/m/n/10 ao
  []
+
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.27 E
+      zekhez azonban pontos és lehetőleg előjeles távolságfüggvények ...
+
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 Missing character: There is no E in font nullfont!
 Missing character: There is no z in font nullfont!
@@ -2604,7 +2611,7 @@ Missing character: There is no ( in font nullfont!
 ! Undefined control sequence.
 <write> ...: Reference `fig:Ifs' on page \thepage 
                                                   \space undefined\on@line .
-l.32 ...t a Sierpiński háromszög (\ref{fig:Ifs}
+l.27 ...t a Sierpiński háromszög (\ref{fig:Ifs}
                                                    ábra), amik \textbf{IFS ...
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -2613,7 +2620,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Reference `fig:Ifs' on page  undefined on input line 32.
+LaTeX Warning: Reference `fig:Ifs' on page  undefined on input line 27.
 
 Missing character: There is no b in font nullfont!
 Missing character: There is no r in font nullfont!
@@ -2880,11 +2887,11 @@ Missing character: There is no . in font nullfont!
 
  
 Here is how much of TeX's memory you used:
- 41 strings out of 480930
- 614 string characters out of 2899293
+ 40 strings out of 480930
+ 606 string characters out of 2899293
  244229 words of memory out of 3000000
- 16011 multiletter control sequences out of 15000+200000
+ 16010 multiletter control sequences out of 15000+200000
  532646 words of font info for 25 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 17i,2n,16p,863b,102s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 17i,2n,19p,863b,91s stack positions out of 5000i,500n,10000p,200000b,50000s
 !  ==> Fatal error occurred, no output PDF file produced!

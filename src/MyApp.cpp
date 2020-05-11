@@ -417,6 +417,25 @@ void CMyApp::Update()
 
 	Framerate = (int)(round(1.0 / delta_time));
 	Simulationsrate = loopindex;
+
+	//TESTING = true;
+	if (TESTING)
+	{
+		if (delta_time_counter < avg)
+		{
+			delta_time_arr[delta_time_counter] = delta_time;
+			++delta_time_counter;
+		}
+		else
+		{
+			delta_time_counter = 0;
+			double avg_delta_time = 0.0;
+			for (int i = 0; i < avg; ++i) { avg_delta_time += delta_time_arr[i]; }
+			avg_delta_time /= avg;
+			printf("Avrage of delta time: %f ms   Iterations: %d   Number of spheres: %d \n", avg_delta_time*1000, iterations, ballCount);
+			ballCount += 5;
+		}
+	}
 }
 
 
@@ -425,16 +444,19 @@ void CMyApp::Render(int WindowX, int WindowY)
 	float Transpeed = 0.0;
 	if (rtime < animation)
 	{
-		Transpeed = 0.1f*sinf(PI*(1.0f-( (float)animation - (float)rtime )/5.0f));
-		shift_x = glm::mix(shift_x, new_shift_x, Transpeed);
-		shift_y = glm::mix(shift_y, new_shift_y, Transpeed);
-		shift_z = glm::mix(shift_z, new_shift_z, Transpeed);
-		fold_x = glm::mix(fold_x, new_fold_x, Transpeed);
-		fold_y = glm::mix(fold_y, new_fold_y, Transpeed);
-		fold_z = glm::mix(fold_z, new_fold_z, Transpeed);
-		rot_x = glm::mix(rot_x, new_rot_x, Transpeed);
-		rot_y = glm::mix(rot_y, new_rot_y, Transpeed);
-		rot_z = glm::mix(rot_z, new_rot_z, Transpeed);
+		for (int i = 0; i < (Simulationsrate/5.f); ++i)
+		{
+			Transpeed = 0.04f * sinf(PI * (1.0f - ((float)animation - (float)rtime) / 5.0f));
+			shift_x = glm::mix(shift_x, new_shift_x, Transpeed);
+			shift_y = glm::mix(shift_y, new_shift_y, Transpeed);
+			shift_z = glm::mix(shift_z, new_shift_z, Transpeed);
+			fold_x = glm::mix(fold_x, new_fold_x, Transpeed);
+			fold_y = glm::mix(fold_y, new_fold_y, Transpeed);
+			fold_z = glm::mix(fold_z, new_fold_z, Transpeed);
+			rot_x = glm::mix(rot_x, new_rot_x, Transpeed);
+			rot_y = glm::mix(rot_y, new_rot_y, Transpeed);
+			rot_z = glm::mix(rot_z, new_rot_z, Transpeed);
+		}
 	}
 	if (ImGui::Begin("Parameters")) {
 		ImGui::Text("Frame rate: %i FPS", Framerate);
@@ -518,8 +540,8 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::Checkbox("[shoot]", &shoot);
 		if (Framerate < 15 && ballCount > 1) ballCount*=0.95;
 		if (Framerate < 10 && iterations > 1) iterations *= 0.9;
-		//if (Framerate > 15 && iterations < 16) iterations += 1;
 		if (Framerate < 5) {iterations = 1; ballCount = 1;}
+		//if (Framerate > 15 && iterations < 16) iterations += 1;
 		
 	}
 	ImGui::End();

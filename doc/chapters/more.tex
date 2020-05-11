@@ -1,0 +1,22 @@
+\chapter{További fejlesztési lehetőségek}
+\label{ch:more}
+
+A legnagyobb és legegyértelműbb fejlesztési lehetőség hogy ne csak gömbök tudjanak pattogni mindenfelé, hanem \textbf{tetszőleges alakzatok}. Gömbökkel kitűnően és meglehetősen hatékonyan működik ez a módszer, ám ez abból adódik hogy a gömböknek nem kell foglalkozni az orientációjával.
+
+Természetesen voltak működőképes kísérleteim erre, de sajnos igazán jól működővel határidőre nem tudtam volna elkészülni, ezért inkább kihagytam. Némi kutakodás után nem találtam mást aki megvalósított volna tisztán távolságfüggvények segítségével általános, nem csak gömbökkel működő ütközés érzékelő algoritmust. Szóval \textbf{ez lehet már inkább kutatási téma}, de legalábbis valószínűleg túlmutat egy BSc szakdolgozat szintjén, így nem szégyenlem hogy ki kellett hagynom.
+
+A gömbök egymással való ütközése jelenleg is kicsit furcsa, ami abból adódik hogy minden ütközés úgy van kiszámolva mintha egy mozdulatlan testtel történt volna. Ha figyelembe lenne véve hogy amivel ütközött az mozgásra képes objektum-e, illetve hogy annak milyen az aktuális sebessége akkor \textbf{valósághűbb lenne a labdák egymásnak ütközése}.
+
+Nem kell nagy módosításokat tenni hogy a \textbf{GetDist()} függvény ne csak egy távolsággal hanem egy egyedi objektum azonosítóval is visszatérjen. Ha ez megvan akkor már csak egy megfelelő modellt kellene találni a labdák ütközésére. Például a a sebességvektoraikat kicserélhetnénk kettejük között, úgy hogy mindkettő csökken valamelyest. Esetleg az egyik megkaphatná a saját és a másik vektora megfelelően súlyozott átlagát és fordítva.
+
+A gömbök \textbf{kilövése} lehetne úgyhogy egy (esetleg néhány) labda van középen amit mindig kilövünk egyesével (vagy néhányasával), a többi pedig kering körülötte és kilövéskor a helyére ugranak. Ekkor a kilövést és a labdahívást külön billentyű szabályozná. 
+
+A \textbf{teljesítményre} is lehetne bőven pluszba figyelni. Nagyon sok ismert mód van az Sphere Tracing algoritmus általános javítására, amiből én egyet sem alkalmaztam. Ezeket lehetne kombinálni a \textbf{felbontás} szabályozásával. Persze most is lehet szabályozni a felbontást az ablak átméretezésével, de elegánsabb lenne ha külön lehetne állítani a megjelenítési és a renderelési felbontást.
+
+\textbf{A fraktál generálási módján} is sokat lehetne változtatni. Minden iterációban 9 transzformációt végzünk el a fraktálunkon, ha néhány tengely menti transzformációt kihagynánk az sokat gyorsítana. Esetleg valami érdekesebb (nem alapvető) transzformáció segítségével kevesebb iteráció is elegendő lenne ugyanilyen részletes fraktál létrehozásához. Ennek megváltoztatása azonban részben filozófiai kérdés. Azért maradt így a végső kódban, mert ez általánosan és látványosan szemlélteti, hogy az IFS fraktálok hogyan tevődnek össze.
+
+Ha a teljesítmény javult, a \textbf{fényszámításon} is sokat lehet javítani. Sphere Tracing algoritmussal akár közel fotorealisztikus fényeink is lehetnek. Persze találni kell egy kompromisszumot kinézet és gyorsaság között, de vannak jól ismert trükkök a fények szebbé tételére amik csak minimális teljesítményromlást eredményeznek.
+
+\textbf{A felhasználói felület} is kissé fapados, ennél szebb és hatékonyabb módja is lehetne az értékek bevitelére és leolvasására. Példának okáért egész kényelmesnek és gyorsnak hangzik, ha az értékeket úgy is lehetne szabályozni hogy billentyűlenyomással kiválasztjuk a szerkeszteni kívánt paramétert (mondjuk a számok 1-9-ig és a 0 lenne a nullázás) és egérgörgővel szerkesztjük.
+
+Nem minden fraktál néz ki jól, vannak kifejezetten izgalmasan kinézőek és vannak unalmasabbak. A puszta értékek alapján nem egyértelmű hogy mi határozza meg ezt. Ezért jó lenne ha a szebb példányokat el lehetne menteni. Mivel csak 9 numerikus értékről lenne szó, így nem is lenne komplex a \textbf{mentés és betöltés}, de kellemes funkció lenne.

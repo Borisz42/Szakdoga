@@ -16,5 +16,20 @@
   {}
 \endgroup
 
-\datalist[entry]{none/global//global/global}\enddatalist
+\datalist[entry]{none/global//global/global}
+  \entry{Raymarch94:online}{misc}{}
+    \field{labeltitlesource}{title}
+  \field{howpublished}{\url{https://flafla2.github.io/2016/10/01/raymarching.html}}
+    \field{note}{(Accessed on 05/10/2020)}
+    \field{title}{Raymarching Distance Fields: Concepts and Implementation in
+  Unity}
+  \endentry
+
+  \entry{Sierpins37:online}{misc}{}
+    \field{labeltitlesource}{title}
+  \field{howpublished}{\url{https://jutge.org/doc/cplusplus.com/articles/LyTbqMoL/index.html}}
+    \field{note}{(Accessed on 05/10/2020)}
+    \field{title}{Sierpinski Triangle Fractal - The easies - C++ Articles}
+  \endentry
+\enddatalist
 \endinput
