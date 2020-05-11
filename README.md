@@ -9,11 +9,8 @@ A megvalósításhoz C++ nyelvet választottam, OpenGL segítségével. Sphere t
 
 ## Program futtatása
 
-Ha csak futtatni szeretnéd, futtasd az **src/Release/FractalCollision.exe** fájlt. Csak úgy tud megleleően futni az exe ha az src/Release mappa teljes tartalma fájl mellett található!
+Az alkalmazás elindításához a **FractalCollision.exe** fájlt kell futtatni. Fontos hogy az exe fájl mellett ott legyen a **myFrag.frag** és a **myVert.vert** fájlok, illetve ha a rendszeren nincsen külön telepítve akkor az **SDL2.dll**, valamint a **glew32.dll** fájloknak is az exe mellett kell lenniük. Ezek mind az **src/Release** mappában vannak, így onnan indítva erre nem kell ügyelni.
 
-Ha szerkeszteni akarod a kódot, csomagold ki a C:/ helyre az alpábbi állományt: [OGLPack.zip](http://cg.elte.hu/~bsc_cg/resources/OGLPack.zip)
-majd futtasd a 
-```
-subst T: C:/
-```
-parancsot, ezután nyisd meg Visual Studio-val a projektfájlt. A "Local Windows Debugger" gombra kattintva elundul a program fordítása és futtatása.
+Az alkalmazásból való kilépéshez lehet az **ESC** billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána még külön be kell zárni a terminálablakot.
+
+Az alkalmazás **Microsoft Visual Studio** segítségével készült, így ha újra akarnánk fordítani akkor a **C:/** helyre csomagoljuk ki a mellékelt **OGLPack.zip** állományt (ez az OpenGL-hez szükséges fájlokat tartalmazza), majd futtassuk a **subst T: C:/** parancsot. Ezután megnyithatjuk a **.vcxproj** projektfájlt.
