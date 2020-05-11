@@ -5,7 +5,7 @@ folyamatban...
 
 \section{Tesztelés}
 
-A tesztelés során megvizsgáltam hogy a funkciók (\ref{sec:ui} fejezet) az elvártaknak megfelelően működne-e. A tesztelés során használt számítógép konfiguráció:
+A tesztelés során megvizsgáltam hogy a funkciók (\ref{sec:ui} fejezet) az elvártaknak megfelelően működne-e. Az ehhez használt számítógép konfiguráció:
 \begin{compactitem}
 	\item Intel® Core™ i7-8700 CPU
 	\item 16 GB RAM
@@ -15,7 +15,7 @@ A tesztelés során megvizsgáltam hogy a funkciók (\ref{sec:ui} fejezet) az el
 
 \subsection{Működés helyessége}
 
-A következő viselkedéseket vizsgáltam:
+A következő viselkedéseket ellenőriztem:
 \begin{compactenum}
 	\item A virtuális kamerát lehet forgatni az \textbf{egérrel};
 	\item A virtuális kamera nagyítását lehet állítani a \textbf{CTRL + görgővel} és a csúszkával is;
@@ -30,7 +30,7 @@ A következő viselkedéseket vizsgáltam:
 
 \subsection{Teljesítmény}
 
-Az alkalmazás erősen GPU igényes.  A futás teljesítményét az alábbi kóddal segítségével teszteltem:
+Az alkalmazás erősen GPU igényes.  A futás teljesítményét az alábbi kód segítségével teszteltem:
 \lstset{caption={A tesztelést végző kód}, label=src:test}
 \begin{lstlisting}[language={C++}]
 if (TESTING)
@@ -52,11 +52,11 @@ if (TESTING)
 	}
 \end{lstlisting}
 
-A kód az \textbf{Update()} függvény alján található. A \textbf{delta\_time} két képfrissítés között eltelt időt jelöli. Ezen kód segítségével \textbf{avg} darab képfrissítési idő átlagát vesszük, ezt kiírjuk az aktuális iterációk száma és mozgatható gömbök száma mellett, majd ez előbbi értékét növeljük növeljük kettővel. A tesztek avg=100 értékkel futottak.
+A kód az \textbf{Update()} függvény alján található. A \textbf{delta\_time} két képfrissítés között eltelt időt jelöli. Ezen kód segítségével \textbf{avg} darab képfrissítési idő átlagát vesszük, ezt kiírjuk az aktuális iterációk száma és mozgatható gömbök száma mellett, majd ez előbbi értékét megnöveljük kettővel. A tesztek avg=100 értékkel futottak.
 
-A tesztelés idejére ki lett kapcsolva a vsync, hogy ne befolyásolja a mérést. Ha be lenne kapcsolva akkor az 1/60 s = 16.66 ms-nál kisebb kirajzolási idők eredményét nem tudnánk lemérni. Továbbá az a funkció is ideiglenes ki lett kapcsolva ami alacsony képfrissítési ráta mellett kisebbre veszi az iterációk és gömbök számát.
+A tesztelés idejére ki lett kapcsolva a vsync, hogy ne befolyásolja a mérést. Ha be lenne kapcsolva akkor az 1/60 s = 16.66 ms-nál kisebb kirajzolási idők eredményét nem tudnánk lemérni. Továbbá az a funkció is ideiglenesen ki lett kapcsolva ami alacsony képfrissítési ráta mellett kisebbre veszi az iterációk és gömbök számát.
 
-A kezdeti pozícióhoz képest a kamera nem volt megmozdítva, valamint a kódban a tesztben érintett két paraméteren felül más nem lett átállítva a kezdeti alapértelmezettekhez képest. A futás eredménye a \ref{fig:Test1} ábrán látható.
+A kezdeti pozícióhoz képest a kamera nem volt megmozdítva, valamint a tesztben érintett két paraméteren felül más nem lett átállítva a kezdeti alapértelmezettekhez képest. A futás eredménye a \ref{fig:Test1} ábrán látható.
 
 \begin{figure}[H]
 	\centering
@@ -67,7 +67,7 @@ A kezdeti pozícióhoz képest a kamera nem volt megmozdítva, valamint a kódba
 
 Megfigyelhető hogy az iterációk számától lineárisan függ a képfrissítési idő. Bármely két egymást követő sor különbsége 4-6 ms, illetve 10 ietrációs eset ideje nagyjából fele a 20-nak és kb. harmada a 30-nak. Az is észrevehető hogy rettentően lelassítja az alkalmazást az iteráció növelése, elég 36-ig felmenni hogy a tesztelői környezeten 10 FPS alá essen a képfrissítési ráta, ami már határozattan nem folyamatos megjelenítést jelent.
 
-Ha kód (\ref{src:test}) 15.sorát átírjuk \textbf{ballCount += 5} -re akkor azt is meg tudjuk vizsgálni hogy az mozgatható gömbök száma hogyan hat a képfrissítési időre. Ezen futás eredményét a \ref{fig:Test2} ábra mutatja.
+Ha a \ref{src:test} kód 15.sorát átírjuk \textbf{ballCount += 5} -re akkor azt is meg tudjuk vizsgálni hogy az mozgatható gömbök száma hogyan hat a képfrissítési időre. Ezen futás eredményét a \ref{fig:Test2} ábra mutatja.
 
 \begin{figure}[H]
 	\centering
@@ -76,8 +76,9 @@ Ha kód (\ref{src:test}) 15.sorát átírjuk \textbf{ballCount += 5} -re akkor a
 	\label{fig:Test2}
 \end{figure}
 
-Itt is lineáris összefüggést tapasztalunk, két egymás utáni érték között 1-3 ms eltérés mutatkozik, illetve az is látható hogy jóval kevesebb hatása van a gömbök számának növelése a teljesítményre, a tesztkonfigurációnak 0 iteráció mellett 40 gömb még nem okoz problémát, ellenben 0 gömb mellett 40 iteráció az előző teszt tanulsága szerint már sokkal inkább.
-A gömbökkel is inkább a megjelenítés okozza a gondot, a glDrawArrays() sor ideiglenes kommentezésével a kirajzolást megszüntetjük, ám az ütközések modellezése tovább folytatódik. Ha ezt megtesszük és újra futtatjuk ez előbbi tesztet akkor megtudhatjuk hogy a fizika kiszámolása mennyire lassította a kirajzolást. A futást eredménye a \ref{fig:Test2} ábrán látható.
+Itt is lineáris összefüggést tapasztalunk, két egymás utáni érték között 1-3 ms eltérés mutatkozik, illetve az is látható hogy jóval kevesebb hatása van a gömbök számának növelése a teljesítményre. A tesztkonfigurációnak 0 iteráció mellett 40 gömb még nem okoz problémát, ellenben 0 gömb mellett 40 iteráció az előző teszt tanulsága szerint már sokkal inkább.
+
+A gömbök esetében is inkább a megjelenítés okozza a gondot, a glDrawArrays() sor ideiglenes kommentezésével a kirajzolást megszüntetjük, ám az ütközések modellezését nem befolyásoljuk. Ha ezután újra futtatjuk ez előbbi tesztet, akkor megtudhatjuk hogy a fizika kiszámolása mennyire lassította a kirajzolást. A futás eredménye a \ref{fig:Test2} ábrán látható.
 
 \begin{figure}[H]
 	\centering
@@ -86,4 +87,4 @@ A gömbökkel is inkább a megjelenítés okozza a gondot, a glDrawArrays() sor 
 	\label{fig:Test3}
 \end{figure}
 
-Észrevehetjük hogy a korábbi tesztnél jóval több gömbbel is közel jelentéktelen a fizika számolási ideje. Ismeretlen okokból 480 gömb felett hirtelen megnő a számolási idő. A teszt során az 1000 ms-os átlag során sem emelkedett meg jelentősen a processzor kihasználtsága, szám szerint 14\%-os volt úgy hogy további programok is futottak a háttérben. Ez a kiugrás előfordulhat hogy nem a kód egy hibájának köszönhető, hanem a futtatási környezetben van valamilyen korlátozás. A jelenség pontos forrása ismeretlen, de mivel csak extrém körülmények között jelentkezik így nem lett sok idő fordítva az ok felkutatására.
+Észrevehetjük hogy a korábbi tesztnél jóval több gömbbel is közel jelentéktelen a fizika számolási ideje. Ismeretlen okokból 480 gömb felett hirtelen megnő a számolási idő. A teszt alatt az 1000 ms-os átlag során a processzor kihasználtsága a Windows Task Manager szerint 14\%-os volt, annak ellenére hogy további programok is futottak a háttérben. Ez mutatja, hogy a kiugrás feltétlenül a kód egy hibájának köszönhető, hanem a futtatási környezetben lehet valamilyen korlátozás. A jelenség pontos forrása ismeretlen, de mivel csak extrém körülmények között jelentkezik, így nem lett sok idő fordítva az ok felkutatására.

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  11 MAY 2020 22:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  11 MAY 2020 22:58
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -1750,7 +1750,7 @@ Package pdftex.def Info: ./images/Test2.png  used on input line 74.
 <./images/Test3.png, id=233, 735.49782pt x 383.18156pt>
 File: ./images/Test3.png Graphic file (type png)
 <use ./images/Test3.png>
-Package pdftex.def Info: ./images/Test3.png  used on input line 84.
+Package pdftex.def Info: ./images/Test3.png  used on input line 85.
 (pdftex.def)             Requested size: 384.1096pt x 200.1209pt.
  [13 <./images/Test2.png>]) [14 <./images/Test3.png>] (chapters/sum.tex
 4. fejezet.
@@ -1836,7 +1836,7 @@ m1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec
 jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts
 /pk/ljfour/jknappen/ec/dpi600\eccc1440.pk> <C:\Users\Borisz\AppData\Local\MiKTe
 X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk>
-Output written on thesis.pdf (24 pages, 1385952 bytes).
+Output written on thesis.pdf (24 pages, 1385880 bytes).
 PDF statistics:
  980 PDF objects out of 1000 (max. 8388607)
  78 named destinations out of 1000 (max. 500000)
