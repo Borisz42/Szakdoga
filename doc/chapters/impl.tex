@@ -1,11 +1,11 @@
 \chapter{Fejlesztői dokumentáció} 
 \label{ch:impl}
 
-folyamatban...
+Az alkalmazás \textbf{Microsoft Visual Studio} segítségével készült, így ha újra akarnánk fordítani akkor a \textbf{C:/} helyre csomagoljuk ki a mellékelt OGLPack.zip állományt (ez az OpenGL-hez szükséges fájlokat tartalmazza), majd futtassuk a \textbf{subst T: C:/} parancsot. Ezután megnyithatjuk a \textbf{.vcxproj} projektfájlt.
 
 \section{Tesztelés}
 
-A tesztelés során megvizsgáltam hogy a funkciók (\ref{sec:ui} fejezet) az elvártaknak megfelelően működne-e. Az ehhez használt számítógép konfiguráció:
+A tesztelés során megvizsgáltam hogy a funkciók (\ref{sec:ui}.~fejezet) az elvártaknak megfelelően működne-e. Az ehhez használt számítógép konfiguráció:
 \begin{compactitem}
 	\item Intel® Core™ i7-8700 CPU
 	\item 16 GB RAM
@@ -23,9 +23,9 @@ A következő viselkedéseket ellenőriztem:
 	\item A mozgás sebességét lehet gyorsítani a \textbf{SHIFT} billentyűvel és álítani a görgővel vagy a csúszkával;
 	\item Ha egyszerre gyorsítunk \textbf{SHIFT}-tel és görgővel, a görgő sebessége felülírja a shift gyorsítását;
 	\item A fraktál paramétereit át lehet állítani a \textbf{csúszkákkal} és a fraktál ezen értékeknek megfelelően változik;
-	\item A \textbf{"Zero values"} gomb hatására megközelíti minden érték a nullát;
-	\item A \textbf{"Zero values"} gomb extrém érték esetén: 1000-re állítva egy csúszkát "nullázás" után az értéke 0.423 lett;
-	\item A \textbf{"Random values"} gomb valóban véletlenszerű értékeket állít be. Időnként nem látható fraktálokat eredményez;
+	\item A \textbf{``Zero values''} gomb hatására megközelíti minden érték a nullát;
+	\item A \textbf{``Zero values''} gomb extrém érték esetén: 1000-re állítva egy csúszkát "nullázás" után az értéke 0.423 lett;
+	\item A \textbf{``Random values''} gomb valóban véletlenszerű értékeket állít be. Időnként nem látható fraktálokat eredményez;
 \end{compactenum}
 
 \subsection{Teljesítmény}
@@ -52,39 +52,42 @@ if (TESTING)
 	}
 \end{lstlisting}
 
-A kód az \textbf{Update()} függvény alján található. A \textbf{delta\_time} két képfrissítés között eltelt időt jelöli. Ezen kód segítségével \textbf{avg} darab képfrissítési idő átlagát vesszük, ezt kiírjuk az aktuális iterációk száma és mozgatható gömbök száma mellett, majd ez előbbi értékét megnöveljük kettővel. A tesztek avg=100 értékkel futottak.
+A kód az \textbf{Update()} függvény alján található. A \textbf{delta\_time} két képfrissítés között eltelt időt jelöli. Ezen kód segítségével \textbf{avg} darab képfrissítési idő átlagát vesszük, ezt kiírjuk az aktuális iterációk száma és mozgatható gömbök száma mellett a terminálablakra, majd ez előbbi értékét megnöveljük kettővel. A tesztek avg=100 értékkel futottak.
 
-A tesztelés idejére ki lett kapcsolva a vsync, hogy ne befolyásolja a mérést. Ha be lenne kapcsolva akkor az 1/60 s = 16.66 ms-nál kisebb kirajzolási idők eredményét nem tudnánk lemérni. Továbbá az a funkció is ideiglenesen ki lett kapcsolva ami alacsony képfrissítési ráta mellett kisebbre veszi az iterációk és gömbök számát.
+A tesztelés idejére ki lett kapcsolva a \textbf{vsync}, hogy ne befolyásolja a mérést. Ha be lenne kapcsolva akkor az 1/60 s = 16.66 ms-nál kisebb kirajzolási idők eredményét nem tudnánk lemérni. Továbbá az a funkció is ideiglenesen ki lett kapcsolva ami alacsony képfrissítési ráta mellett kisebbre veszi az iterációk és gömbök számát.
 
-A kezdeti pozícióhoz képest a kamera nem volt megmozdítva, valamint a tesztben érintett két paraméteren felül más nem lett átállítva a kezdeti alapértelmezettekhez képest. A futás eredménye a \ref{fig:Test1} ábrán látható.
+A kezdeti pozícióhoz képest a kamera nem volt megmozdítva, valamint a tesztben érintett két paraméteren felül más nem lett átállítva a kezdeti alapértelmezettekhez képest. A futás eredményéből készült grafikon \aref{fig:Test1}.~ábrán látható.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth,frame]{Test1}
+	\includegraphics[width=0.8\textwidth,frame]{Test1b}
 	\caption{Teljesítményteszt az iterációk számának függvényében}
 	\label{fig:Test1}
 \end{figure}
 
-Megfigyelhető hogy az iterációk számától lineárisan függ a képfrissítési idő. Bármely két egymást követő sor különbsége 4-6 ms, illetve 10 ietrációs eset ideje nagyjából fele a 20-nak és kb. harmada a 30-nak. Az is észrevehető hogy rettentően lelassítja az alkalmazást az iteráció növelése, elég 36-ig felmenni hogy a tesztelői környezeten 10 FPS alá essen a képfrissítési ráta, ami már határozattan nem folyamatos megjelenítést jelent.
 
-Ha a \ref{src:test} kód 15.sorát átírjuk \textbf{ballCount += 5} -re akkor azt is meg tudjuk vizsgálni hogy az mozgatható gömbök száma hogyan hat a képfrissítési időre. Ezen futás eredményét a \ref{fig:Test2} ábra mutatja.
+Megfigyelhető hogy az iterációk számától lineárisan függ a képfrissítési idő. Bármely két egymást követő sor különbsége 4-6 ms, illetve 10 iterációs eset ideje nagyjából fele a 20-nak és kb. harmada a 30-nak. Az is észrevehető hogy rettentően lelassítja az alkalmazást az iteráció növelése, elég 36-ig felmenni hogy a tesztelői környezeten 10 FPS alá essen a képfrissítési ráta (vagyis 100 ms fölé megy a frissítési idő), ami már határozattan nem folyamatos megjelenítést jelent.
+
+Ha \aref{src:test}.~kód 15. sorát átírjuk \textbf{ballCount += 5} -re akkor azt is meg tudjuk vizsgálni hogy az mozgatható gömbök száma hogyan hat a képfrissítési időre. Ezen futás eredményéből készült grafikont \aref{fig:Test2.}~ábra mutatja.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth,frame]{Test2}
+	\includegraphics[width=0.8\textwidth,frame]{Test2b}
 	\caption{Teljesítményteszt a gömbök számának függvényében}
 	\label{fig:Test2}
 \end{figure}
 
-Itt is lineáris összefüggést tapasztalunk, két egymás utáni érték között 1-3 ms eltérés mutatkozik, illetve az is látható hogy jóval kevesebb hatása van a gömbök számának növelése a teljesítményre. A tesztkonfigurációnak 0 iteráció mellett 40 gömb még nem okoz problémát, ellenben 0 gömb mellett 40 iteráció az előző teszt tanulsága szerint már sokkal inkább.
+Itt is nagyjából lineáris összefüggést tapasztalunk, két egymás utáni érték között 1-3 ms eltérés mutatkozik, illetve az is látható hogy jóval kevesebb hatása van a gömbök számának növelése a teljesítményre. A tesztkonfigurációnak 0 iteráció mellett 40 gömb még nem okoz problémát, ellenben 0 gömb mellett 40 iteráció az előző teszt tanulsága szerint már sokkal inkább.
 
-A gömbök esetében is inkább a megjelenítés okozza a gondot, a glDrawArrays() sor ideiglenes kommentezésével a kirajzolást megszüntetjük, ám az ütközések modellezését nem befolyásoljuk. Ha ezután újra futtatjuk ez előbbi tesztet, akkor megtudhatjuk hogy a fizika kiszámolása mennyire lassította a kirajzolást. A futás eredménye a \ref{fig:Test2} ábrán látható.
+A gömbök esetében is inkább a megjelenítés okozza a gondot, a \textbf{glDrawArrays()} sor ideiglenes kommentezésével a kirajzolást lényegében megszüntetjük, ám az ütközések modellezését nem befolyásoljuk. Ha ezután újra futtatjuk ez előbbi tesztet, akkor megtudhatjuk hogy a fizika kiszámolása mennyire lassította a kirajzolást. A futás eredményének egy részéből készült grafikon \aref{fig:Test3}.~ábrán látható. 
+
+A grafikonra 350-nél kevesebb gömbhöz tartozó mérési értékek nem szerepelnek, az azokhoz tartozó számolási idő kevesebb mint 1 ms volt. Ez jól mutatja hogy a kirajzolási időhöz képest az ütközések kiszámolása jelentéktelen.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth,frame]{Test3}
+	\includegraphics[width=0.8\textwidth,frame]{Test3b}
 	\caption{Teljesítményteszt a gömbök számának függvényében, kirajzolás nélkül}
 	\label{fig:Test3}
 \end{figure}
 
-Észrevehetjük hogy a korábbi tesztnél jóval több gömbbel is közel jelentéktelen a fizika számolási ideje. Ismeretlen okokból 480 gömb felett hirtelen megnő a számolási idő. A teszt alatt az 1000 ms-os átlag során a processzor kihasználtsága a Windows Task Manager szerint 14\%-os volt, annak ellenére hogy további programok is futottak a háttérben. Ez mutatja, hogy a kiugrás feltétlenül a kód egy hibájának köszönhető, hanem a futtatási környezetben lehet valamilyen korlátozás. A jelenség pontos forrása ismeretlen, de mivel csak extrém körülmények között jelentkezik, így nem lett sok idő fordítva az ok felkutatására.
+Az ábra alapján viszont itt már inkább exponenciális összefüggést állapíthatunk meg lineáris helyett. Az utolsó érték 490 gömbbel már 1000 ms volt, de ki lett hagyva az ábrázolás megkönnyítése érdekében. A teszt alatt azonban a magasabb értékek során a processzor összesített kihasználtsága a Windows Task Manager szerint 14\%-os volt, és egyik szál sem mutatott állandó teljes terhelést.  A jelenség pontos forrása ismeretlen, de mivel csak extrém körülmények között jelentkezik, így nem lett sok idő fordítva az ok felkutatására.

@@ -150,7 +150,7 @@ bool CMyApp::Init()
 	m_loc_ballCount = glGetUniformLocation(m_programID, "ballCount");
 	m_loc_zoom= glGetUniformLocation(m_programID, "zoom");
 
-	ballCount = 1;
+	ballCount = 450;
 	for (int i = 0; i < Max_ballCount; ++i)
 	{
 		multiBallPos[i * 4 + 0] = 0.0;
@@ -418,7 +418,7 @@ void CMyApp::Update()
 	Framerate = (int)(round(1.0 / delta_time));
 	Simulationsrate = loopindex;
 
-	//TESTING = true;
+	TESTING = true;
 	if (TESTING)
 	{
 		if (delta_time_counter < avg)
@@ -538,9 +538,9 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::SliderFloat("[zoom]", &zoom, 1.000f, 10.000f, "%.3f");
 		ImGui::Text("Check to enable shooting spheres:"); ImGui::SameLine();
 		ImGui::Checkbox("[shoot]", &shoot);
-		if (Framerate < 15 && ballCount > 1) ballCount*=0.95;
-		if (Framerate < 10 && iterations > 1) iterations *= 0.9;
-		if (Framerate < 5) {iterations = 1; ballCount = 1;}
+		//if (Framerate < 15 && ballCount > 1) ballCount*=0.95;
+		//if (Framerate < 10 && iterations > 1) iterations *= 0.9;
+		//if (Framerate < 5) {iterations = 1; ballCount = 1;}
 		//if (Framerate > 15 && iterations < 16) iterations += 1;
 		
 	}
@@ -586,7 +586,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glBindVertexArray(m_vaoID);
 
 	// kirajzolás
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	// VAO kikapcsolasa
 	glBindVertexArray(0);

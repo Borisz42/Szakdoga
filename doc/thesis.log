@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  12 MAY 2020 15:18
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  12 MAY 2020 21:36
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -1736,23 +1736,27 @@ LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 3
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 [11]
-<./images/Test1.png, id=221, 737.00343pt x 384.6872pt>
-File: ./images/Test1.png Graphic file (type png)
-<use ./images/Test1.png>
-Package pdftex.def Info: ./images/Test1.png  used on input line 63.
-(pdftex.def)             Requested size: 384.1096pt x 200.49046pt.
-<./images/Test2.png, id=224, 739.26187pt x 557.08125pt>
-File: ./images/Test2.png Graphic file (type png)
-<use ./images/Test2.png>
-Package pdftex.def Info: ./images/Test2.png  used on input line 74.
-(pdftex.def)             Requested size: 384.1096pt x 289.4544pt.
- [12 <./images/Test1.png>]
-<./images/Test3.png, id=233, 735.49782pt x 383.18156pt>
-File: ./images/Test3.png Graphic file (type png)
-<use ./images/Test3.png>
-Package pdftex.def Info: ./images/Test3.png  used on input line 85.
-(pdftex.def)             Requested size: 384.1096pt x 200.1209pt.
- [13 <./images/Test2.png>]) [14 <./images/Test3.png>] (chapters/sum.tex
+<./images/Test1b.png, id=224, 530.73282pt x 333.49594pt>
+File: ./images/Test1b.png Graphic file (type png)
+<use ./images/Test1b.png>
+Package pdftex.def Info: ./images/Test1b.png  used on input line 63.
+(pdftex.def)             Requested size: 341.43437pt x 214.5511pt.
+
+
+LaTeX Warning: Reference `fig:Test2.' on page 12 undefined on input line 71.
+
+<./images/Test2b.png, id=226, 511.9125pt x 333.49594pt>
+File: ./images/Test2b.png Graphic file (type png)
+<use ./images/Test2b.png>
+Package pdftex.def Info: ./images/Test2b.png  used on input line 75.
+(pdftex.def)             Requested size: 341.43437pt x 222.43355pt.
+[12 <./images/Test1b.png>]
+<./images/Test3b.png, id=234, 536.75531pt x 333.49594pt>
+File: ./images/Test3b.png Graphic file (type png)
+<use ./images/Test3b.png>
+Package pdftex.def Info: ./images/Test3b.png  used on input line 88.
+(pdftex.def)             Requested size: 341.43437pt x 212.13904pt.
+ [13 <./images/Test2b.png>]) [14 <./images/Test3b.png>] (chapters/sum.tex
 4. fejezet.
 ) [15
 
@@ -1802,18 +1806,22 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 116.
  (thesis.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 116.
 Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 116.
+
+
+LaTeX Warning: There were undefined references.
+
 Package logreq Info: Writing requests to 'thesis.run.xml'.
 \openout1 = `thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 36970 strings out of 480930
- 672866 string characters out of 2899293
- 1383492 words of memory out of 3000000
- 52075 multiletter control sequences out of 15000+200000
- 556966 words of font info for 84 fonts, out of 3000000 for 9000
+ 36975 strings out of 480930
+ 672953 string characters out of 2899293
+ 1383494 words of memory out of 3000000
+ 52078 multiletter control sequences out of 15000+200000
+ 557307 words of font info for 85 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 80i,13n,102p,973b,3249s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 80i,13n,102p,1111b,3249s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
 \ectt1200.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappe
 n/ec/dpi600\ectt1000.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljf
@@ -1821,24 +1829,25 @@ our/jknappen/ec/dpi600\ecrm0600.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\f
 onts/pk/ljfour/jknappen/ec/dpi600\tcrm1200.pk> <C:\Users\Borisz\AppData\Local\M
 iKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\Borisz\AppD
 ata\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0700.pk> <C:\Users\
-Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm0800.pk>
+Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\tcbx1200.pk>
  <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\e
-cbx1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
-ec/dpi600\ecbx1728.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
-r/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fon
-ts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Borisz\AppData\Local\MiK
-TeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\Borisz\AppDat
-a\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\Bo
-risz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <
+crm0800.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
+ec/dpi600\ecbx1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
+r/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\Borisz\AppData\Local\MiK
+TeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\Borisz\AppDat
+a\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\Bo
+risz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <
 C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecr
-m1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec
-/dpi600\ecti1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/
-jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts
-/pk/ljfour/jknappen/ec/dpi600\eccc1440.pk> <C:\Users\Borisz\AppData\Local\MiKTe
-X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk>
-Output written on thesis.pdf (24 pages, 1387913 bytes).
+m1200.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecrm1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/
+jknappen/ec/dpi600\ecti1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts
+/pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Borisz\AppData\Local\MiKTe
+X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1440.pk> <C:\Users\Borisz\AppData\
+Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk>
+Output written on thesis.pdf (24 pages, 1277761 bytes).
 PDF statistics:
- 985 PDF objects out of 1000 (max. 8388607)
- 78 named destinations out of 1000 (max. 500000)
+ 998 PDF objects out of 1000 (max. 8388607)
+ 79 named destinations out of 1000 (max. 500000)
  292 words of extra memory for PDF output out of 10000 (max. 10000000)
 

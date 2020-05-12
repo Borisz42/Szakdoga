@@ -28,7 +28,7 @@ A program sikeres indítása után -- melyről \aref{sec:futtatas}. fejezetben t
 
 \subsection{A ``Parameters'' feliratú panel}
 
-A \textbf{``Parameters''} feliratú panel nagy jelentőséggel bír, így a jobb olvashatóság végett nem csak \aref{fig:Kezdokepernyo}~ábra részeként láthatjuk hanem külön is szerepel \aref{fig:Parameters1}., \ref{fig:Parameters2}. és \ref{fig:Parameters3}.~ábrákon.
+A \textbf{``Parameters''} feliratú panel nagy jelentőséggel bír, így a jobb olvashatóság végett nem csak \aref{fig:Kezdokepernyo}.~ábra részeként láthatjuk hanem külön is szerepel \aref{fig:Parameters1}., \ref{fig:Parameters2}. és \ref{fig:Parameters3}.~ábrákon.
 
 Ezen a panelen számos információt tudhatunk meg és állíthatunk át a program futásával kapcsolatosan. Alapértelmezetten a fő programablak bal oldalán található, de szabadon mozgatható és átméretezhető az ablakon belül, indításkor pedig az legutóbbi futtatás végén beállított pozíciót és méretet veszi fel. 
 
@@ -73,7 +73,7 @@ Itt található még két gomb: a \textbf{``Zero values''}, mely a fraktál para
 
 Az alsó harmadban (\ref{fig:Parameters3}.~ábra) található a \textbf{[sphere count]} csúszka, itt 1 és 100 között lehet értékeket beállítani. Ez is jelentősen befolyásolja a futás gyorsaságát, így 15 FPS alatt ez az érték is automatikusan csökken.
 
-Van egy rövid ismertető szövege a panelnek, ami azt a célt szolgálja hogy ezen dokumentáció nélkül is tudja használni egy felhasználó ha leül a program elé. Ebben kerülnek ismertetésre a virtuális tér bejárásához szükséges irányítások is. A mozgáshoz a \textbf{WASD} billentyűket és az egeret lenyomott jobb egérgombbal\footnote{Erre azért volt szükség mert a paraméterek beállításához is az egeret kell használni, muszáj volt elkülöníteni valahogy a kettőt} kell használni a legtöbb játékban megszokott módon -- a kamera szabadon repül bármilyen irányba. A mozgási sebességet a \textbf{[moving speed]} csúszkával lehet személyre szabni, illetve ugyanezen csúszka értékét az \textbf{egérgörgővel} is lehet szabályozni. A \textbf{shift} billentyű lenyomására ideiglenesen megnégyszereződik a sebesség, felengedésére visszaáll. A kamera látószögét lehet csökkenteni a \textbf{[zoom]} csúszka értékének növelésével, vagy a \textbf{CTRL + görgő} segítségével is.
+Van egy rövid ismertető szövege a panelnek, ami azt a célt szolgálja hogy ezen dokumentáció nélkül is tudja használni egy felhasználó ha leül a program elé. Ebben kerülnek ismertetésre a virtuális tér bejárásához szükséges irányítások is. A mozgáshoz a \textbf{WASD} billentyűket és az egeret lenyomott jobb egérgombbal\footnote{Erre azért volt szükség mert a paraméterek beállításához is az egeret kell használni, muszáj volt elkülöníteni valahogy a kettőt} kell használni a legtöbb játékban megszokott módon -- a kamera szabadon repül bármilyen irányba. A mozgási sebességet a \textbf{[moving speed]} csúszkával lehet személyre szabni, illetve ugyanezen csúszka értékét az \textbf{egérgörgővel} is lehet szabályozni. A \textbf{shift} billentyű lenyomására ideiglenesen megnégyszereződik a sebesség, felengedésére visszaáll. A kamera látószögét lehet csökkenteni a \textbf{[zoom]} csúszka értékének növelésével, vagy a \textbf{Ctrl + görgő} segítségével is.
 
 A labdákat a \textbf{szóköz} billentyű nyomva tartásával lehet magunkhoz hívni. Egy labda esetén az ablak közepére, több labda esetén a labdák az ablak közepe körül keringenek egy körvonal mentén egyenletesen elhelyezkedve. A szóköz billentyűt felengedve egyszerre kilövődnek a labdák, ha be van pipálva a panel alján a \textbf{[shoot]} jelölőnégyzet, ha nincsen bepipálva csak leesnek a gravitációnak megfelelően.
  
@@ -89,10 +89,8 @@ Az alkalmazás üzembe helyezésének egyetlen követelménye a Windows 7 vagy a
 \end{compactitem}
 Ezen konfigurációval, 1920x1080 felbontás mellett a program sebessége elfogadható volt.
 
-Az alkalmazás elindításához a \textbf{FractalCollision.exe} fájlt kell futtatni. Fontos hogy az exe fájl mellett ott legyen a \textbf{shader.frag} és a \textbf{shader.vert} fájlok, illetve ha a rendszeren nincsen külön telepítve akkor az \textbf{SDL2.dll}, valamint a \textbf{glew32.dll} fájloknak is az exe mellett kell lenniük. Ezek mind a \textbf{Release} mappában vannak, így onnan indítva erre nem kell ügyelni.
+Az alkalmazás elindításához a \textbf{FractalCollision.exe} fájlt kell futtatni. Fontos hogy az exe fájl mellett ott legyen a \textbf{shader.frag} és a \textbf{shader.vert} fájlok, illetve ha a rendszeren nincsen külön telepítve akkor az \textbf{SDL2.dll}, a \textbf{glew32.dll}, a \textbf{vcruntime140.dll} és a \textbf{msvcp140.dll} fájloknak is az exe mellett kell lenniük. Ezek mind a \textbf{Release} mappában vannak, így onnan indítva erre nem kell ügyelni.
 
-Az alkalmazásból való kilépéshez lehet az \textbf{ESC} billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána még külön be kell zárni a terminálablakot.
-
-Az alkalmazás \textbf{Microsoft Visual Studio} segítségével készült, így ha újra akarnánk fordítani akkor a \textbf{C:/} helyre csomagoljuk ki a mellékelt OGLPack.zip állományt (ez az OpenGL-hez szükséges fájlokat tartalmazza), majd futtassuk a \textbf{subst T: C:/} parancsot. Ezután megnyithatjuk a \textbf{.vcxproj} projektfájlt.
+Az alkalmazásból való kilépéshez lehet az \textbf{Esc} billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána még külön be kell zárni a terminálablakot.
 
 
