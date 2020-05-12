@@ -120,9 +120,9 @@ vec2 fold(vec2 p, float ang){
 }
 
 vec3 multi_fold(vec3 pt, float xx, float yy, float zz) {
-    pt.yz = fold(pt.yz, 2.0 * xx );
-    pt.zx = fold(pt.zx, 2.0 * yy );
-    pt.xy = fold(pt.xy, 2.0 * zz );
+    pt.yz = fold(pt.yz, 1.0 * xx );
+    pt.zx = fold(pt.zx, 1.0 * yy );
+    pt.xy = fold(pt.xy, 1.0 * zz );
 
 //    pt.yz = fold(pt.yz, -1.0 * xx );
 //    pt.zx = fold(pt.zx, -1.0 * yy );
@@ -140,8 +140,11 @@ vec3 iter_fold(vec3 pt) {
         rotY(pt, rot_y);
         rotZ(pt, rot_z);
         pt=multi_fold(pt, fold_x, fold_y, fold_z);
+ //       pt.y = abs(pt.y);
+ //       pt.x = abs(pt.x);
+ //       pt.z = abs(pt.z);
  //       mengerFold(pt);
-//        sierpinskiFold(pt);
+ //       sierpinskiFold(pt);
     }
     return pt;
 }

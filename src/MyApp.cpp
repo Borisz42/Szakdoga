@@ -93,8 +93,8 @@ bool CMyApp::Init()
 	glBindVertexArray(0); // feltöltüttük a VAO-t, kapcsoljuk le
 	glBindBuffer(GL_ARRAY_BUFFER, 0); // feltöltöttük a VBO-t is, ezt is vegyük le
 
-	GLuint vs_ID = loadShader(GL_VERTEX_SHADER,		"myVert.vert");
-	GLuint fs_ID = loadShader(GL_FRAGMENT_SHADER,	"myFrag.frag");
+	GLuint vs_ID = loadShader(GL_VERTEX_SHADER,		"shader.vert");
+	GLuint fs_ID = loadShader(GL_FRAGMENT_SHADER,	"shader.frag");
 
 	// a shadereket tároló program létrehozása
 	m_programID = glCreateProgram();
@@ -510,12 +510,12 @@ void CMyApp::Render(int WindowX, int WindowY)
 			new_shift_x = (rand() % 1000) / 5000.0f - 0.1;
 			new_shift_y = (rand() % 1000) / 5000.0f - 0.1;
 			new_shift_z = (rand() % 1000) / 5000.0f - 0.1;
-			new_fold_x =  (rand() % 2000) / 1000.0f - 1;
-			new_fold_y =  (rand() % 2000) / 1000.0f - 1;
-			new_fold_z =  (rand() % 2000) / 1000.0f - 1;
-			new_rot_x =   (rand() % 2000) / 1000.0f - 1;
-			new_rot_y =   (rand() % 2000) / 1000.0f - 1;
-			new_rot_z =   (rand() % 2000) / 1000.0f - 1;
+			new_fold_x =  (rand() % 2000) / 500.0f - 2.0;
+			new_fold_y =  (rand() % 2000) / 500.0f - 2.0;
+			new_fold_z =  (rand() % 2000) / 500.0f - 2.0;
+			new_rot_x =   (rand() % 2000) / 1000.0f - 1.0;
+			new_rot_y =   (rand() % 2000) / 1000.0f - 1.0;
+			new_rot_z =   (rand() % 2000) / 1000.0f - 1.0;
 			//iterations = 16;
 			animation = rtime + 5.0;
 		}

@@ -183,8 +183,8 @@
     <ClInclude Include="T:\OGLPack\include\imgui\imgui_internal.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="myFrag.frag" />
-    <None Include="myVert.vert" />
+    <None Include="shader.frag" />
+    <None Include="shader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FractalCollision.rc" />

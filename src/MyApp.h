@@ -73,9 +73,9 @@ protected:
 	float shift_x = -0.187;
 	float shift_y = 0.169;
 	float shift_z = 0.0;
-	float fold_x = 0.007;
-	float fold_y = 0.562;
-	float fold_z = 0.000;
+	float fold_x = 0.007*2.0;
+	float fold_y = 0.562*2.0;
+	float fold_z = 0.000*2.0;
 	float rot_x = 0.002;
 	float rot_y = 0.262;
 	float rot_z = 0.946;
