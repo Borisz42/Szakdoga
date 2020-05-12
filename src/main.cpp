@@ -70,10 +70,10 @@ int main( int argc, char* args[] )
 	// hozzuk létre az ablakunkat
 	SDL_Window *win = 0;
     win = SDL_CreateWindow( "Hello SDL&OpenGL!",		// az ablak fejléce
-							100,						// az ablak bal-felsõ sarkának kezdeti X koordinátája
-							100,						// az ablak bal-felsõ sarkának kezdeti Y koordinátája
-							1920,						// ablak szélessége
-							1080,						// és magassága
+							70,						// az ablak bal-felsõ sarkának kezdeti X koordinátája
+							30,						// az ablak bal-felsõ sarkának kezdeti Y koordinátája
+							1820,						// ablak szélessége
+							1000,						// és magassága
 							SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);			// megjelenítési tulajdonságok
 
 
