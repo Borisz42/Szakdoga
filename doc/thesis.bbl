@@ -31,5 +31,42 @@
     \field{note}{(Accessed on 05/10/2020)}
     \field{title}{Sierpinski Triangle Fractal - The easies - C++ Articles}
   \endentry
+
+  \entry{SimpleDi88:online}{misc}{}
+    \field{labeltitlesource}{title}
+  \field{howpublished}{\url{https://en.wikipedia.org/wiki/Simple_DirectMedia_Layer}}
+    \field{note}{(Accessed on 05/13/2020)}
+    \field{title}{Simple DirectMedia Layer - Wikipedia}
+  \endentry
+
+  \entry{OpenGL–W93:online}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://hu.wikipedia.org/wiki/OpenGL}}
+    \field{note}{(Accessed on 05/12/2020)}
+    \field{title}{OpenGL – Wikipédia}
+  \endentry
+
+  \entry{ocornuti13:online}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://github.com/ocornut/imgui}}
+    \field{note}{(Accessed on 05/12/2020)}
+    \field{title}{ocornut/imgui: Dear ImGui: Bloat-free Immediate Mode
+  Graphical User interface for C++ with minimal dependencies}
+  \endentry
+
+  \entry{OpenGLMa34:online}{misc}{}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{https://glm.g-truc.net/0.9.4/api/index.html}}
+    \field{note}{(Accessed on 05/13/2020)}
+    \field{title}{OpenGL Mathematics}
+  \endentry
+
+  \entry{GrafikaB26:online}{misc}{}
+    \field{labeltitlesource}{title}
+  \field{howpublished}{\url{http://cg.elte.hu/index.php/grafika-bsc-gyakorlat-anyagok/}}
+    \field{note}{(Accessed on 05/13/2020)}
+    \field{title}{Grafika BSc Gyakorlat anyagok – ELTE Számítógépes
+  Grafika}
+  \endentry
 \enddatalist
 \endinput

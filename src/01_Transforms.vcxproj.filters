@@ -25,9 +25,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,11 +43,11 @@
     <ClCompile Include="T:\OGLPack\include\imgui\imgui_impl_sdl_gl3.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GLUtils.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -74,6 +71,9 @@
     </ClInclude>
     <ClInclude Include="T:\OGLPack\include\imgui\imgui_impl_sdl_gl3.h">
       <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

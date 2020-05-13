@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  12 MAY 2020 21:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7400 64-bit) (preloaded format=pdflatex 2020.5.6)  13 MAY 2020 03:09
 entering extended mode
 **./thesis.tex
 (thesis.tex
@@ -1444,7 +1444,11 @@ Package: luatex85 2016/06/15 v1.4 pdftex aliases for luatex
 ("C:\Users\Borisz\AppData\Local\Programs\MiKTeX 2.9\tex/latex/preview\prtightpa
 ge.def"
 \PreviewBorder=\dimen301
-))) (thesis.aux)
+))) (thesis.aux
+
+LaTeX Warning: Label `fig:Opengl' multiply defined.
+
+)
 \openout1 = `thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
@@ -1637,84 +1641,107 @@ the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.58 \topicdeclaration
-                       [1] (thesis.toc)
+                       [1] (thesis.toc [1
+
+
+])
 \tf@toc=\write7
 \openout7 = `thesis.toc'.
 
- [1
 
 
-] (chapters/intro.tex
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+Make it at least 14.61858pt.
+We now make it that large for the rest of the document.
+This may cause the page layout to be inconsistent, however.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.62 \tableofcontents
+                      [2] (chapters/intro.tex
 1. fejezet.
-<./images/SphereTracing.png, id=97, 522.753pt x 299.519pt>
+<./images/SphereTracing.png, id=115, 522.753pt x 299.519pt>
 File: ./images/SphereTracing.png Graphic file (type png)
 <use ./images/SphereTracing.png>
 Package pdftex.def Info: ./images/SphereTracing.png  used on input line 13.
 (pdftex.def)             Requested size: 170.71393pt x 97.81325pt.
-[2
+[3
 
 
 
 
 
  <./images/SphereTracing.png>]
-<./images/haromszog.png, id=109, 236.68425pt x 139.11975pt>
+<./images/haromszog.png, id=127, 236.68425pt x 139.11975pt>
 File: ./images/haromszog.png Graphic file (type png)
 <use ./images/haromszog.png>
 Package pdftex.def Info: ./images/haromszog.png  used on input line 22.
 (pdftex.def)             Requested size: 256.07741pt x 150.53578pt.
-)
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
-Make it at least 14.49998pt.
-We now make it that large for the rest of the document.
-This may cause the page layout to be inconsistent, however.
-
-[3 <./images/haromszog.png>] (chapters/user.tex
+) [4 <./images/haromszog.png>]
+(chapters/user.tex
 2. fejezet.
-<./images/Kezdokepernyo.png, id=125, 1445.4pt x 834.86906pt>
+<./images/Kezdokepernyo.png, id=142, 1445.4pt x 834.86906pt>
 File: ./images/Kezdokepernyo.png Graphic file (type png)
 <use ./images/Kezdokepernyo.png>
 Package pdftex.def Info: ./images/Kezdokepernyo.png  used on input line 15.
 (pdftex.def)             Requested size: 384.1096pt x 221.86346pt.
-[4
+[5
 
 
 
 ]
-<./images/Terminal.png, id=134, 736.25063pt x 384.6872pt>
+<./images/Terminal.png, id=152, 736.25063pt x 384.6872pt>
 File: ./images/Terminal.png Graphic file (type png)
 <use ./images/Terminal.png>
 Package pdftex.def Info: ./images/Terminal.png  used on input line 24.
 (pdftex.def)             Requested size: 384.1096pt x 200.70178pt.
- [5 <./images/Kezdokepernyo.png> <./images/Terminal.png>]
-<./images/Parameters1.png, id=150, 280.04625pt x 124.21407pt>
+ [6 <./images/Kezdokepernyo.png> <./images/Terminal.png>]
+<./images/Parameters1.png, id=167, 280.04625pt x 124.21407pt>
 File: ./images/Parameters1.png Graphic file (type png)
 <use ./images/Parameters1.png>
 Package pdftex.def Info: ./images/Parameters1.png  used on input line 37.
 (pdftex.def)             Requested size: 170.71393pt x 75.72307pt.
-<./images/Parameters2.png, id=152, 279.29344pt x 278.54062pt>
+<./images/Parameters2.png, id=169, 279.29344pt x 278.54062pt>
 File: ./images/Parameters2.png Graphic file (type png)
 <use ./images/Parameters2.png>
 Package pdftex.def Info: ./images/Parameters2.png  used on input line 50.
 (pdftex.def)             Requested size: 170.71393pt x 170.25804pt.
- [6 <./images/Parameters1.png> <./images/Parameters2.png>]
-<./images/Parameters3.png, id=161, 280.04625pt x 237.88875pt>
+ [7 <./images/Parameters1.png> <./images/Parameters2.png>]
+<./images/Parameters3.png, id=178, 280.04625pt x 237.88875pt>
 File: ./images/Parameters3.png Graphic file (type png)
 <use ./images/Parameters3.png>
 Package pdftex.def Info: ./images/Parameters3.png  used on input line 69.
 (pdftex.def)             Requested size: 170.71393pt x 145.02116pt.
- [7] [8 <./images/Parameters3.png>])
-[9
+ [8] [9 <./images/Parameters3.png>])
+[10
 
 
 ] (chapters/impl.tex
 3. fejezet.
-[10
+<./images/Sdl.png, id=202, 415.5525pt x 240.9pt>
+File: ./images/Sdl.png Graphic file (type png)
+<use ./images/Sdl.png>
+Package pdftex.def Info: ./images/Sdl.png  used on input line 15.
+(pdftex.def)             Requested size: 213.39568pt x 123.70648pt.
+[11
 
 
 
 ]
+<./images/Opengl.png, id=210, 1927.2pt x 836.12375pt>
+File: ./images/Opengl.png Graphic file (type png)
+<use ./images/Opengl.png>
+Package pdftex.def Info: ./images/Opengl.png  used on input line 25.
+(pdftex.def)             Requested size: 213.39568pt x 92.57353pt.
+ [12 <./images/Sdl.png> <./images/Opengl.png>]
+<./images/GLM.png, id=223, 86.724pt x 65.043pt>
+File: ./images/GLM.png Graphic file (type png)
+<use ./images/GLM.png>
+Package pdftex.def Info: ./images/GLM.png  used on input line 39.
+(pdftex.def)             Requested size: 213.39568pt x 160.05542pt.
+ [13 <./images/GLM.png>]
 ("C:\Users\Borisz\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\lstlang1
 .sty"
 File: lstlang1.sty 2020/03/24 1.8d listings language file
@@ -1726,55 +1753,55 @@ File: lstlang1.sty 2020/03/24 1.8d listings language file
 ("C:\Users\Borisz\AppData\Local\Programs\MiKTeX 2.9\tex/latex/listings\lstmisc.
 sty"
 File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
-)
+) [14]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 35.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 3
-5.
+nput line 90.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 9
+0.
 
 ("C:\Users\Borisz\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\t1cmtt.fd"
 File: t1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-[11]
-<./images/Test1b.png, id=224, 530.73282pt x 333.49594pt>
+<./images/Test1b.png, id=248, 530.73282pt x 333.49594pt>
 File: ./images/Test1b.png Graphic file (type png)
 <use ./images/Test1b.png>
-Package pdftex.def Info: ./images/Test1b.png  used on input line 63.
+Package pdftex.def Info: ./images/Test1b.png  used on input line 118.
 (pdftex.def)             Requested size: 341.43437pt x 214.5511pt.
 
+[15]
 
-LaTeX Warning: Reference `fig:Test2.' on page 12 undefined on input line 71.
+LaTeX Warning: Reference `fig:Test2.' on page 16 undefined on input line 126.
 
-<./images/Test2b.png, id=226, 511.9125pt x 333.49594pt>
+<./images/Test2b.png, id=274, 511.9125pt x 333.49594pt>
 File: ./images/Test2b.png Graphic file (type png)
 <use ./images/Test2b.png>
-Package pdftex.def Info: ./images/Test2b.png  used on input line 75.
+Package pdftex.def Info: ./images/Test2b.png  used on input line 130.
 (pdftex.def)             Requested size: 341.43437pt x 222.43355pt.
-[12 <./images/Test1b.png>]
-<./images/Test3b.png, id=234, 536.75531pt x 333.49594pt>
+[16 <./images/Test1b.png>]
+<./images/Test3b.png, id=282, 536.75531pt x 333.49594pt>
 File: ./images/Test3b.png Graphic file (type png)
 <use ./images/Test3b.png>
-Package pdftex.def Info: ./images/Test3b.png  used on input line 88.
+Package pdftex.def Info: ./images/Test3b.png  used on input line 143.
 (pdftex.def)             Requested size: 341.43437pt x 212.13904pt.
- [13 <./images/Test2b.png>]) [14 <./images/Test3b.png>] (chapters/sum.tex
+ [17 <./images/Test2b.png>]) [18 <./images/Test3b.png>] (chapters/sum.tex
 4. fejezet.
-) [15
+) [19
 
 
 
 ] (chapters/more.tex
 5. fejezet.
-[16
+[20
 
 
 
-]) [17] (appendices/sim.tex
+]) [21] (appendices/sim.tex
 A. f\"uggel\'ek.
-) [18
+) [22
 
 
 
-] [19
+] [23
 
 
 
@@ -1782,21 +1809,21 @@ A. f\"uggel\'ek.
 \tf@lof=\write8
 \openout8 = `thesis.lof'.
 
- [20
+ [24
 
 
 ] (thesis.lot)
 \tf@lot=\write9
 \openout9 = `thesis.lot'.
 
- [21
+ [25
 
 
 ] (thesis.lol)
 \tf@lol=\write10
 \openout10 = `thesis.lol'.
 
- [22
+ [26
 
 
 
@@ -1810,15 +1837,18 @@ Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 116.
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package logreq Info: Writing requests to 'thesis.run.xml'.
 \openout1 = `thesis.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 36975 strings out of 480930
- 672953 string characters out of 2899293
- 1383494 words of memory out of 3000000
- 52078 multiletter control sequences out of 15000+200000
+ 37041 strings out of 480930
+ 674400 string characters out of 2899293
+ 1383968 words of memory out of 3000000
+ 52126 multiletter control sequences out of 15000+200000
  557307 words of font info for 85 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  80i,13n,102p,1111b,3249s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1845,9 +1875,9 @@ jknappen/ec/dpi600\ecti1440.pk> <C:\Users\Borisz\AppData\Local\MiKTeX\2.9\fonts
 /pk/ljfour/jknappen/ec/dpi600\ecbx2074.pk> <C:\Users\Borisz\AppData\Local\MiKTe
 X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1440.pk> <C:\Users\Borisz\AppData\
 Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk>
-Output written on thesis.pdf (24 pages, 1277761 bytes).
+Output written on thesis.pdf (28 pages, 1625671 bytes).
 PDF statistics:
- 998 PDF objects out of 1000 (max. 8388607)
- 79 named destinations out of 1000 (max. 500000)
- 292 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1141 PDF objects out of 1200 (max. 8388607)
+ 97 named destinations out of 1000 (max. 500000)
+ 363 words of extra memory for PDF output out of 10000 (max. 10000000)
 

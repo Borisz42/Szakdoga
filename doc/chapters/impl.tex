@@ -1,7 +1,62 @@
 \chapter{Fejlesztői dokumentáció} 
 \label{ch:impl}
 
-Az alkalmazás \textbf{Microsoft Visual Studio} segítségével készült, így ha újra akarnánk fordítani akkor a \textbf{C:/} helyre csomagoljuk ki a mellékelt OGLPack.zip állományt (ez az OpenGL-hez szükséges fájlokat tartalmazza), majd futtassuk a \textbf{subst T: C:/} parancsot. Ezután megnyithatjuk a \textbf{.vcxproj} projektfájlt.
+Az alkalmazás \textbf{Microsoft Visual Studio} segítségével készült. A kódok elsősorban C++, másodsorban -- a shaderek -- GLSL nyelven íródtak. Ha újra akarnánk fordítani akkor a \textbf{C:/} helyre csomagoljuk ki a mellékelt OGLPack.zip állományt (ez az szükséges csomagokat és függőségeket tartalmazza), majd futtassuk a \textbf{subst T: C:/} parancsot. Ezután megnyithatjuk a \textbf{.vcxproj} projektfájlt.
+
+\section{Fejlesztői eszközök}
+
+A program írása során számos könyvtár és API felhasználásra került. Ebben az alfejezetben ezek kerülnek bemutatásra.
+
+\subsection{Simple DirectMedia Layer (SDL)}
+A Simple DirectMedia Layer (SDL) könyvtár egy crossplatform multimédiás könyvtár, ami alacsony szintű, hatékony hozzáférést ad audio, bemeneti (egér, billentyűzet, joystick), valamint grafikus (OpenGL-en keresztül GPU-hoz) eszközökhöz. Az alkalmazásban az SDL 2.0 van használva. \cite{SimpleDi88:online}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Sdl}
+	\caption{Az SDL logója}
+	\label{fig:Opengl}
+\end{figure}
+
+\subsection{OpenGL API}
+Az OpenGL (Open Graphics Library) egy részletesen kidolgozott szabvány, melyet a Silicon Graphics nevű amerikai cég fejlesztett ki 1992-ben. Olyan API-t takar, amely segítségével egy egyszerű, szabványos felületen keresztül megvalósítható a grafikus kártya kezelése és a háromdimenziós grafika programozása. Az interfész több ezer különböző függvényhívásból áll, melynek segítségével a programozók szinte közvetlenül vezérelhetik a grafikus kártyát, segítségükkel 3 dimenziós alakzatokat rajzolhatnak ki, és a kirajzolás módját szabályozhatják. \cite{OpenGL–W93:online} 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{Opengl}
+	\caption{Az OpenGL logója}
+	\label{fig:Opengl}
+\end{figure}
+
+\subsection{Dear ImGui}
+A \textbf{``Parameters''} feliartú panel megjelenítése ennek segítségével lett megoldva. A Dear ImGui (ImGui) egy egyszerű grafikai interfész könyvtár C++ nyelvhez. Segítségével egyszerűen kezelhetünk gombokat, csúszkákat, egyéb beviteli eszközöket valamint könnyen megjeleníthetünk adatokat. Gyors és hordozható, nincs szükség külső könyvtára csak néhány szimpla forrás fájl beillesztésére. \cite{ocornuti13:online}
+
+\subsection{GLM}
+
+Az OpenGL Mathematics egy headerben importálható C++ könyvtár mely a GLSL specifikációira szabva (elnevezések, funkciók) tartalmaz számtalan matematikai funkciót. Segítségével a GLSL-ben használatos funkciók és típusok C++-ban is használhatóak. \cite{OpenGLMa34:online}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{GLM}
+	\caption{A GLM logója}
+	\label{fig:GLM}
+\end{figure}
+
+\section{Megvalósítás}
+
+A program nem a nulláról íródott. Fel lett használva kiindulási alapként a Számítógépes Grafika BSc gyakorlat tárgy honlapjának \cite{GrafikaB26:online} egyik projektje, hogy a nagyon alapvető kódokat ne kelljen újra megírni. 
+
+\subsection{CMyApp osztály}
+
+Ez a fő osztály. A main.cpp ezen keresztül kezeli le az egér és billentyűzet bemeneteit, szimulálja a fizikát és továbbítja a shaderbe a paramétereket hogy megtörténjen a kirajzolás
+
+Az fontosabb függvényei és rövid leírásuk:
+\begin{description}
+	\item [bool Init()] -- Ebben inicializálódik minden aminek kell.
+	\item [void Update()] -- Minden képernyőfrissítés előtt lefut, ebben történik a ütközések ellenőrzése és a labdák mozgatása a pozícióik frissítése által
+	\item [void Render(int WindowX, int WindowY)] -- Megtörténik a kirajzolás és a shader meghívása. Paraméterként megkapja az ablak méreteit.
+\end{description}
+
+Vannak további segédfüggvények is, de azok a shaderben megvalósított GetDist távolságfüggvény mására készültek el. Az ütközések megállapításához ugyanazon távolságfüggvények szükségesek mint a kirajzoláshoz.
 
 \section{Tesztelés}
 
@@ -20,7 +75,7 @@ A következő viselkedéseket ellenőriztem:
 	\item A virtuális kamerát lehet forgatni az \textbf{egérrel};
 	\item A virtuális kamera nagyítását lehet állítani a \textbf{CTRL + görgővel} és a csúszkával is;
 	\item A virtuális kamerát lehet mozgatni a \textbf{WASD} billentyűkkel;
-	\item A mozgás sebességét lehet gyorsítani a \textbf{SHIFT} billentyűvel és álítani a görgővel vagy a csúszkával;
+	\item A mozgás sebességét lehet gyorsítani a \textbf{SHIFT} billentyűvel és állítani a görgővel vagy a csúszkával;
 	\item Ha egyszerre gyorsítunk \textbf{SHIFT}-tel és görgővel, a görgő sebessége felülírja a shift gyorsítását;
 	\item A fraktál paramétereit át lehet állítani a \textbf{csúszkákkal} és a fraktál ezen értékeknek megfelelően változik;
 	\item A \textbf{``Zero values''} gomb hatására megközelíti minden érték a nullát;

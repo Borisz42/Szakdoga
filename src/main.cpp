@@ -12,20 +12,12 @@
 #include <iostream>
 #include <sstream>
 
-#include "MyApp.h"
+#include "App.h"
 
-void exitProgram()
-{
-	SDL_Quit();
-
-	std::cout << "Kilépéshez nyomj meg egy billentyût..." << std::endl;
-	std::cin.get();
-}
 
 int main( int argc, char* args[] )
 {
-	// állítsuk be, hogy kilépés elõtt hívja meg a rendszer az exitProgram() függvényt - Kérdés: mi lenne enélkül?
-	//atexit( exitProgram );
+
 
 	//
 	// 1. lépés: inicializáljuk az SDL-t
@@ -39,16 +31,6 @@ int main( int argc, char* args[] )
 		return 1;
 	}
 			
-	//
-	// 2. lépés: állítsuk be az OpenGL-es igényeinket, hozzuk létre az ablakunkat, indítsuk el az OpenGL-t
-	//
-
-	// 2a: OpenGL indításának konfigurálása, ezt az ablak létrehozása elõtt kell megtenni!
-
-	// beállíthatjuk azt, hogy pontosan milyen OpenGL context-et szeretnénk létrehozni - ha nem tesszük, akkor
-	// automatikusan a legmagasabb elérhetõ verziójút kapjuk
-    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    //SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
@@ -69,7 +51,7 @@ int main( int argc, char* args[] )
 
 	// hozzuk létre az ablakunkat
 	SDL_Window *win = 0;
-    win = SDL_CreateWindow( "Hello SDL&OpenGL!",		// az ablak fejléce
+    win = SDL_CreateWindow( "Fractal Collision",		// az ablak fejléce
 							70,						// az ablak bal-felsõ sarkának kezdeti X koordinátája
 							30,						// az ablak bal-felsõ sarkának kezdeti Y koordinátája
 							1720,						// ablak szélessége
@@ -122,9 +104,6 @@ int main( int argc, char* args[] )
 		return 1;
 	}
 
-	std::stringstream window_title;
-	window_title << "OpenGL " << glVersion[0] << "." << glVersion[1];
-	SDL_SetWindowTitle(win, window_title.str().c_str());
 
 	//Imgui init
 	ImGui_ImplSdlGL3_Init(win);

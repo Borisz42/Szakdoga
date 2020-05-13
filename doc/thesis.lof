@@ -2,29 +2,35 @@
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {1.1.}{\ignorespaces Sphere tracing: A kamerából kiinduló fénysugár mindig csak annyit halad előre amekkora a hozzá legközelebb lévő felület távolsága \cite {Raymarch94:online}\relax }}{2}{figure.caption.1}%
+\select@language {magyar} \contentsline {figure}{\numberline {1.1.}{\ignorespaces Sphere tracing: A kamerából kiinduló fénysugár mindig csak annyit halad előre amekkora a hozzá legközelebb lévő felület távolsága \cite {Raymarch94:online}\relax }}{3}{figure.caption.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {1.2.}{\ignorespaces Példa egy IFS-re: a Sierpiński háromszög néhány iterációja \cite {Sierpins37:online}\relax }}{3}{figure.caption.2}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \addvspace {10\p@ }
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {2.1.}{\ignorespaces Fő programablak\relax }}{5}{figure.caption.3}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {2.2.}{\ignorespaces Terminálablak\relax }}{5}{figure.caption.4}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {2.3.}{\ignorespaces A ``Parameters'' feliratú panel felső harmada\relax }}{6}{figure.caption.5}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {2.4.}{\ignorespaces A "Parameters" feliratú panel középső harmada\relax }}{6}{figure.caption.6}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {2.5.}{\ignorespaces A "Parameters" feliratú panel alsó harmada\relax }}{8}{figure.caption.7}%
+\select@language {magyar} \contentsline {figure}{\numberline {1.2.}{\ignorespaces Példa egy IFS-re: a Sierpiński háromszög néhány iterációja \cite {Sierpins37:online}\relax }}{4}{figure.caption.2}%
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {3.1.}{\ignorespaces Teljesítményteszt az iterációk számának függvényében\relax }}{12}{figure.caption.8}%
+\select@language {magyar} \contentsline {figure}{\numberline {2.1.}{\ignorespaces Fő programablak\relax }}{6}{figure.caption.3}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {3.2.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében\relax }}{13}{figure.caption.9}%
+\select@language {magyar} \contentsline {figure}{\numberline {2.2.}{\ignorespaces Terminálablak\relax }}{6}{figure.caption.4}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {3.3.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében, kirajzolás nélkül\relax }}{14}{figure.caption.10}%
+\select@language {magyar} \contentsline {figure}{\numberline {2.3.}{\ignorespaces A ``Parameters'' feliratú panel felső harmada\relax }}{7}{figure.caption.5}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {2.4.}{\ignorespaces A "Parameters" feliratú panel középső harmada\relax }}{7}{figure.caption.6}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {2.5.}{\ignorespaces A "Parameters" feliratú panel alsó harmada\relax }}{9}{figure.caption.7}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \addvspace {10\p@ }
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.1.}{\ignorespaces Az SDL logója\relax }}{12}{figure.caption.8}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.2.}{\ignorespaces Az OpenGL logója\relax }}{12}{figure.caption.9}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.3.}{\ignorespaces A GLM logója\relax }}{13}{figure.caption.10}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.4.}{\ignorespaces Teljesítményteszt az iterációk számának függvényében\relax }}{16}{figure.caption.11}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.5.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében\relax }}{17}{figure.caption.12}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.6.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében, kirajzolás nélkül\relax }}{18}{figure.caption.13}%
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 

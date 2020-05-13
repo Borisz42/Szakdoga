@@ -164,7 +164,7 @@
   <ItemGroup>
     <ClCompile Include="gCamera.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MyApp.cpp" />
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="T:\OGLPack\include\imgui\imdock.cpp" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui.cpp" />
     <ClCompile Include="T:\OGLPack\include\imgui\imgui_demo.cpp" />
@@ -174,7 +174,7 @@
   <ItemGroup>
     <ClInclude Include="gCamera.h" />
     <ClInclude Include="GLUtils.hpp" />
-    <ClInclude Include="MyApp.h" />
+    <ClInclude Include="App.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="T:\OGLPack\include\imgui\imconfig.h" />
     <ClInclude Include="T:\OGLPack\include\imgui\imdock.h" />

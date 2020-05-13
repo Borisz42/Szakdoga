@@ -24,7 +24,6 @@ public:
 	void Clean();
 
 	float GetDist(glm::vec3 pos);
-	float RayMarch(glm::vec3 ro, glm::vec3 rd);
 	float MultiBallDist(glm::vec3 pos);
 	glm::vec3 GetNormal(glm::vec3 p);
 	glm::vec3 iter_fold(glm::vec3 pt);
@@ -60,7 +59,7 @@ protected:
 	float shoot_time;
 	GLuint	m_loc_ballPos;
 	GLuint	m_loc_multiBallPos;
-	static const int Max_ballCount = 1000;  //  a shaderben a #define Max_ballCount értékénél nem lehet nagyobb
+	static const int Max_ballCount = 100;  //  a shaderben a #define Max_ballCount értékénél nem lehet nagyobb
 	float multiBallPos[Max_ballCount * 4];
 	float multiBallVel[Max_ballCount * 3];
 	int ballCount;
@@ -89,7 +88,7 @@ protected:
 	float new_rot_y = rot_y;
 	float new_rot_z = rot_z;
 	float animation = 0.0;
-	int iterations = 0;
+	int iterations = 16;
 
 
 	bool TESTING = false;

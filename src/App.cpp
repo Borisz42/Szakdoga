@@ -1,4 +1,4 @@
-﻿#include "MyApp.h"
+﻿#include "App.h"
 #include "GLUtils.hpp"
 #include <imgui/imgui.h>
 #include <math.h>
@@ -150,7 +150,7 @@ bool CMyApp::Init()
 	m_loc_ballCount = glGetUniformLocation(m_programID, "ballCount");
 	m_loc_zoom= glGetUniformLocation(m_programID, "zoom");
 
-	ballCount = 450;
+	ballCount = 1;
 	for (int i = 0; i < Max_ballCount; ++i)
 	{
 		multiBallPos[i * 4 + 0] = 0.0;
@@ -218,15 +218,15 @@ glm::vec2 fold(glm::vec2 p, float ang) {
 }
 
 glm::vec3 CMyApp::multi_fold(glm::vec3 pt, float xx, float yy, float zz) {
-	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(2.0 * xx)));
-	glm::vec2 temp = fold(glm::vec2(pt.z, pt.x), (float)(2.0 * yy));
+	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(1.0 * xx)));
+	glm::vec2 temp = fold(glm::vec2(pt.z, pt.x), (float)(1.0 * yy));
 	pt = glm::vec3(temp.y, pt.y, temp.x);
-	pt = glm::vec3( fold(glm::vec2(pt.x, pt.y), (float)(2.0 * zz)), pt.z);
+	pt = glm::vec3( fold(glm::vec2(pt.x, pt.y), (float)(1.0 * zz)), pt.z);
 
-	pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(-1.0 * xx)));
-	temp = fold(glm::vec2(pt.z, pt.x), (float)(-1.0 * yy));
-	pt = glm::vec3(temp.y, pt.y, temp.x);
-	pt = glm::vec3(fold(glm::vec2(pt.x, pt.y), (float)(-1.0 * zz)), pt.z);
+	//pt = glm::vec3(pt.x, fold(glm::vec2(pt.y, pt.z), (float)(-1.0 * xx)));
+	//temp = fold(glm::vec2(pt.z, pt.x), (float)(-1.0 * yy));
+	//pt = glm::vec3(temp.y, pt.y, temp.x);
+	//pt = glm::vec3(fold(glm::vec2(pt.x, pt.y), (float)(-1.0 * zz)), pt.z);
 
 	return pt;				 
 }
@@ -290,18 +290,6 @@ glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
 	return glm::normalize(n);
 }
 
-float  CMyApp::RayMarch(glm::vec3 ro, glm::vec3 rd) {
-	float dist = 0.;
-
-	for (int i = 0; i < MAX_STEPS; i++) {
-		glm::vec3 p = ro + rd * dist;
-		float dS = GetDist(p);
-		dist += dS;
-		if (dist > MAX_DIST || dS < SURF_DIST) break;
-	}
-
-	return dist;
-}
 
 glm::mat3 rotationMatrix(glm::vec3 axis, float angle) {
 	axis = normalize(axis);
@@ -418,7 +406,7 @@ void CMyApp::Update()
 	Framerate = (int)(round(1.0 / delta_time));
 	Simulationsrate = loopindex;
 
-	TESTING = true;
+	//TESTING = true;
 	if (TESTING)
 	{
 		if (delta_time_counter < avg)
@@ -538,8 +526,8 @@ void CMyApp::Render(int WindowX, int WindowY)
 		ImGui::SliderFloat("[zoom]", &zoom, 1.000f, 10.000f, "%.3f");
 		ImGui::Text("Check to enable shooting spheres:"); ImGui::SameLine();
 		ImGui::Checkbox("[shoot]", &shoot);
-		//if (Framerate < 15 && ballCount > 1) ballCount*=0.95;
-		//if (Framerate < 10 && iterations > 1) iterations *= 0.9;
+		if (Framerate < 15 && ballCount > 1) ballCount*=0.95;
+		if (Framerate < 10 && iterations > 1) iterations *= 0.95;
 		//if (Framerate < 5) {iterations = 1; ballCount = 1;}
 		//if (Framerate > 15 && iterations < 16) iterations += 1;
 		
@@ -586,7 +574,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	glBindVertexArray(m_vaoID);
 
 	// kirajzolás
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 	// VAO kikapcsolasa
 	glBindVertexArray(0);

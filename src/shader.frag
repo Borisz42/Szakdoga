@@ -4,7 +4,7 @@ in vec3 vs_out_col;
 in vec2 vs_out_pos;
 out vec4 fs_out_col;
 
-#define Max_ballCount 1000
+#define Max_ballCount 100
 uniform vec3 eye;
 uniform vec3 at;
 uniform vec3 up;
