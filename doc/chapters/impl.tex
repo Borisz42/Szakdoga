@@ -41,22 +41,130 @@ Az OpenGL Mathematics egy headerben importálható C++ könyvtár mely a GLSL sp
 	\label{fig:GLM}
 \end{figure}
 
+\section{Képalkotási módszer}
+A megjelenítés \textbf{Raycast} technika (\ref{fig:trace_diag}.~ábra) alkalmazásával történik, egy speciális implicit reprezentáción, a távolságfüggvényeken. Ehhez minden pixelre ki kell számolni egy sugár paramétereit. Ezen sugár és felület metszetét a \textbf{Sphere tracing} algoritmussal kapjuk meg. A felületi normálist numerikusan számítjuk ki, melynek segítségével a felület már könnyen árnyalható.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{trace_diag}
+	\caption{A raycast technika ábrázolása. \cite{FileRayt97:online}}
+	\label{fig:trace_diag}
+\end{figure}
+
+A \textbf{sphere tracing} algoritmus egy speciális esete az úgynevezett \textbf{raymarching} algoritmusnak. Működéséhez a kirajzolni kívánt objektumokat távolságfüggvényekkel kell reprezentálni, mely a virtuális tér bármely pontjáról képes meghatározni hogy milyen messze van az objektum felületétől. Az algoritmus egy implementációja \aref{src:raymarch}. forráskód részletben látható.
+
+\lstset{caption={A sphere tarcing algoritmust megvalósító kód}, label=src:raymarch}
+\begin{lstlisting}[language={C++}]
+float RayMarch(vec3 ro, vec3 rd) {
+	float dist=0.0;    
+    for(int i=0; i<MAX_STEPS; i++) {
+    	vec3 p = ro + rd*dist;
+        float dS = GetDist(p);
+        dist += dS;
+        if(dist>MAX_DIST || dS<SURF_DIST ) break;
+    }    
+    return dist;
+}
+\end{lstlisting}
+
+Az algoritmus két paramétert igényel: egy pontot és egy vektort, melyek meghatározzák a sugár kezdőpontját ér irányát. Ezen irány mentén lépked folyamatosan mindig annyit amennyit amekkora a távolság a legközelebbi felülethez képest. Ezt addig csinálja míg már kellően közel lesz (dS<SURF\_DIST), vagy ha már túl messzire ment (dist>MAX\_DIST), vagy esetleg túl sokat lépett (i>MAX\_STEP). 
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth]{SphereTracing}
+	\caption{Sphere tracing: A kamerából kiinduló fénysugár mindig csak annyit halad előre amekkora a hozzá legközelebb lévő felület távolsága \cite{Raymarch94:online}}
+	\label{fig:SphereTracing}
+\end{figure}
+
+Az alkalmazásban teljesítményjavítás érdekében másik feltétel (dS<0.01*dist/MAX\_DIST) lett használva a felületi távolsághoz, mely számításba veszi hogy mennyire messzire vagyunk a kamerától. Ha messzebb vagyunk akkor nincsen szükség akkora részletességre és a felületi távolság így lehet nagyobb is.
+
+\subsection{Fénymodell}
+
+Ha túl messzire ment a sugarunk (dist>MAX\_DIST), akkor egyszerűen a háttér színét adjuk a pixelnek. Egyéb esetben pedig kiszámoljuk az adott pontban a felületi normálist és a fénymodell segítségével megállapítjuk a pixel színét.
+
+A használt fénymodell nagyon sokat számít a kirajzolt kép minőségén. Ezért sok idő és energia lett rászánva ennek megalkotására. Ezen fénymodell komponensei \aref{fig:lighting}.~ábrán láthatóak. Ezek különböző színenkénti súlyozással vett összege alkotja végső színáranyalatot, melyre még egy gamma korrekció és egy ködszerű effekt is került -- ez utóbbi arra szolgál hogy a viszonylag kicsi maximális távolságot leplezze.
+
+\begin{figure}[H]
+	\centering
+	\subfigure[Objektumok alapszíne]{\includegraphics[width=0.3\linewidth]{col}}
+	\hspace{1pt}
+	\subfigure[Módosított ambiens fény]{\includegraphics[width=0.3\linewidth]{amb}}
+	\hspace{1pt}
+	\subfigure[Ambiens eltakarás]{\includegraphics[width=0.3\linewidth]{occ}}
+	\vspace{1pt}
+	\subfigure[Spekuláris]{\includegraphics[width=0.3\linewidth]{spe}}
+	\hspace{1pt}
+	\subfigure[Diffúz * Árnyék]{\includegraphics[width=0.3\linewidth]{shadif}}
+	\hspace{1pt}
+	\subfigure[Ellenfény]{\includegraphics[width=0.3\linewidth]{bac}}
+	\vspace{1pt}
+	\subfigure[Élfény]{\includegraphics[width=0.3\linewidth]{fre}}
+	\hspace{1pt}
+	\subfigure[Árnyékalapú tükröződés]{\includegraphics[width=0.3\linewidth]{shadom}}	
+	\caption{A fénymodell különböző komponensei}
+	\label{fig:lighting}
+\end{figure}
+
+
 \section{Megvalósítás}
 
-A program nem a nulláról íródott. Fel lett használva kiindulási alapként a Számítógépes Grafika BSc gyakorlat tárgy honlapjának \cite{GrafikaB26:online} egyik projektje, hogy a nagyon alapvető kódokat ne kelljen újra megírni. 
+A program írása során a Számítógépes Grafika BSc gyakorlat tárgy honlapjának \cite{GrafikaB26:online} projektjei nyújtottak kiindulási alapot. Számos alapvető függvényhívás lett belőlük felhasználva.
 
 \subsection{CMyApp osztály}
 
-Ez a fő osztály. A main.cpp ezen keresztül kezeli le az egér és billentyűzet bemeneteit, szimulálja a fizikát és továbbítja a shaderbe a paramétereket hogy megtörténjen a kirajzolás
+Ez a fő osztály. A main.cpp ezen keresztül kezeli le az egér és billentyűzet bemeneteit, szimulálja a fizikát és továbbítja a shaderbe a paramétereket hogy megtörténjen a kirajzolás. A fontosabb függvények külön részletezésre kerülnek.
 
-Az fontosabb függvényei és rövid leírásuk:
-\begin{description}
-	\item [bool Init()] -- Ebben inicializálódik minden aminek kell.
-	\item [void Update()] -- Minden képernyőfrissítés előtt lefut, ebben történik a ütközések ellenőrzése és a labdák mozgatása a pozícióik frissítése által
-	\item [void Render(int WindowX, int WindowY)] -- Megtörténik a kirajzolás és a shader meghívása. Paraméterként megkapja az ablak méreteit.
-\end{description}
+\subsubsection{bool Init()}
 
-Vannak további segédfüggvények is, de azok a shaderben megvalósított GetDist távolságfüggvény mására készültek el. Az ütközések megállapításához ugyanazon távolságfüggvények szükségesek mint a kirajzoláshoz.
+Ebben inicializálódik minden aminek kell. Definiálunk két darab háromszöget melyek egy téglalapot alkotva lefedik majd a teljes ablakot. Ezt a téglalapot fogjuk később a shaderben átszínezni hogy megkapjuk a képet. Az uniform változók memóriacímeit is itt határozzuk meg, valamint a mozgatható labdák pozícióját, méretét és sebességét tartalmazó tömbök is itt kapnak kezdőértékeket.
+
+\subsubsection{void Update()}
+
+Minden képernyőfrissítés előtt lefut, ebben történik a ütközések ellenőrzése és a labdák mozgatása a pozícióik frissítése által. 
+
+A labdák befogott pozíciói -- amikhez akkor közelítenek ha lenyomjuk a szóköz billentyűt -- itt kerülnek meghatározásra a kamerát leíró adatok ismeretében. Meg tudunk határozni egy a kamerából előre, egy jobbra és egy felfelé irányba mutató egységhosszú vektort. Ezek megfelelő kombinációjával és egy időtől és a labdák darabszámától függő forgatási mátrix felhasználásával tudjuk a pozíciójukat egy a kamerához képest fix helyzetű kör mentén beállítani. Mivel az időtől is függ a forgatási mátrix, így ezen kör mentén folyamatosan keringnek.
+
+A labdák hívása és kilövése is itt van megvalósítva. A \textbf{SPACE} nyomva tartásakor labdák az imént kiszámolt pozíciójának és a jelenlegi pozíciójának különbségének konstans-szorosát kapja meg sebességül. Ezáltal minél messzebb van a pozíciótól annál gyorsabban közeledik hozzá. Illetve csak a billentyű nyomva tartásakor frissül egy \textbf{shoot\_time} változóban az idő. 
+
+Ha az aktuális idő és a \textbf{shoot\_time} közötti idő csak kis mértékben tér el akkor tudjuk hogy most lett felengedve a billentyű. Ekkor pedig a kamerából előrefelé mutató vektor konstans-szorosa adódik a labdák sebességéhez.
+
+A labdák \textbf{ütközéseinek megállapításához} a kirajzoláshoz is használt távolságfüggvényt használjuk a vizsgált labda középpontjával. Ha ez a távolság kisebb mint a gömb sugara akkor tudjuk valamivel ütköztünk.
+
+A helyes \textbf{viselkedés megállapításához} ismerünk kell az ütközés pontjában a felületi normálist. A normális kiszámolásához használt módszer (\ref{src:norm}. kódrészlet) a távolságfüggvényt használja így egy egyszerűsítést tehetünk: az ütközési pont helyett a gömb középpontjában számoljuk a felületi normálist! Ezáltal az éleken és sarkokon ahol felületi normális nem igazán értelmezhető, ott is jó viselkedést produkáló vektort fogjuk kapni.
+
+\lstset{caption={A felületi normálist kiszámoló függvény}, label=src:norm}
+\begin{lstlisting}[language={C++}]
+float RayMarch(vec3 ro, vec3 rd) {
+	float dist=0.0;    
+    for(int i=0; i<MAX_STEPS; i++) {
+    	vec3 p = ro + rd*dist;
+        float dS = GetDist(p);
+        dist += dS;
+        if(dist>MAX_DIST || dS<SURF_DIST ) break;
+    }    
+    return dist;
+}
+\end{lstlisting}
+
+Ezután már csak a kapott normálisra kell tükröznünk a vizsgált labdánk sebességvektorát és a megfelelő komponenseit némileg csökkenteni, ezzel szimulálva hogy visszapattanáskor veszít egy keveset az energiájából -- ehhez is a normálist használhatjuk, azért kell komponensenként mert a valóságban ha például elrúgunk ívesen egy focilabdát, akkor annak az vízszintes irányú mozgási energiája jóval kevesebbet csökken visszapattanáskor mint a függőleges irányú. 
+
+Fel kell arra is készülnünk ha a \textbf{labdánk belemegy egy másik objektumba}. Ez többnyire akkor történik meg ha nagyon gyorsan mozog a labda és két ellenőrzés között beleér, vagy ha a labda tartásakor direkt belevisszük egy objektumba. Ha benne vagyunk valamiben akkor frissítjük a pozíció értékét a normális irányába egy kis mértékben.  Ezáltal ha esetleg belekerülne valamibe a labdánk akkor kijön belőle automatikusan.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{dot}
+	\caption{A skaláris szorzat előjele és a vektorok közötti szög összefüggése}
+	\label{fig:dot}
+\end{figure}
+
+Mivel tudjuk hogy akár egy másik objektumba is belemehet a labdánk ezért még egy esetre fel kell készülnünk: a másik objektumból kifelé jövet nem szeretnénk hogy ismét tükröződjön a sebességvektor, hiszen akkor állandóan oda-vissza tükröződne és sosem jutna ki a labda. Erre megoldás hogy csak akkor tükrözzük a sebességvektort ha a normálvektorral bezárt szöge \textbf{tompaszög}. Ehhez mindössze a két vektor skaláris szorzatát kell venni és ellenőrizni hogy az eredmény negatív-e.
+
+ 
+\subsubsection{void Render(int WindowX, int WindowY)} 
+
+Megtörténik a kirajzolás és a shader meghívása. Paraméterként megkapja az ablak méreteit. 
+
 
 \section{Tesztelés}
 

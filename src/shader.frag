@@ -199,9 +199,9 @@ float RayMarch(vec3 ro, vec3 rd) {
     
     for(int i=0; i<MAX_STEPS; i++) {
     	vec3 p = ro + rd*dist;
-        float dS = max( GetDist(p), sdCapsule( p, ro, ro + rd*100, 0.1));
+        float dS = GetDist(p);
         dist += dS;
-        if(dist>MAX_DIST || dS<SURF_DIST) break;
+        if(dist>MAX_DIST || dS<0.01*dist/MAX_DIST ) break; //--------------------------------------------------------------------------
     }
     
     return dist;
@@ -250,7 +250,7 @@ vec3 GetNormal(vec3 p) {
     return normalize(n);
 }
 
-float GetLight(vec3 p) {
+float GetLight(vec3 p) {              //render_old része
     vec3 lightPos = vec3(0, 5, 0);                // a fény kiinduló helyzete
     lightPos.xz += vec2(sin(time/time), cos(time/time))*12.; // a fény körpályán mozog
     vec3 l = normalize(lightPos-p);
@@ -314,7 +314,7 @@ vec3 render2(vec3 ro, vec3 rd)
     vec3  hal = normalize( lig-rd );
 	float amb = sqrt(clamp( 0.5+0.5*nor.y, 0.0, 1.0 ));
     float dif = clamp( dot( nor, lig ), 0.0, 1.0 );
-    float bac = clamp( dot( nor, normalize(vec3(-lig.x,0.0,-lig.z))), 0.0, 1.0 )*clamp( 1.0-pos.y,0.0,1.0);
+    float bac = clamp( dot( nor, normalize(vec3(-lig.x,0.0,-lig.z))), 0.0, 1.0 );
     float dom = smoothstep( -0.2, 0.2, ref.y );
     float fre = pow( clamp(1.0+dot(nor,rd),0.0,1.0), 2.0 );
         
@@ -344,7 +344,7 @@ vec3 render2(vec3 ro, vec3 rd)
 vec3 render(vec3 ro, vec3 rd)
 { 
     vec3 col = vec3(0.7, 0.7, 0.9) - max(rd.y,0.0);
-    float dist = RayMarch(ro,rd);;
+    float dist = RayMarch(ro,rd);
     if (dist > MAX_DIST-2.0)  { return vec3( clamp(col,0.0,1.0) ); } 
 	float getColor = 0.0;
 
@@ -360,14 +360,14 @@ vec3 render(vec3 ro, vec3 rd)
       }else if (getColor < 4.0){    
           col = vec3(0.35);
       }
-       
+      
     // lighting
     float occ = calcAO( pos, nor );
 	vec3  lig = normalize( vec3(0.0, 1.4, -0.6) );
     vec3  hal = normalize( lig-rd );
 	float amb = sqrt(clamp( 0.5+0.5*nor.y, 0.0, 1.0 ));
     float dif = clamp( dot( nor, lig ), 0.0, 1.0 );
-    float bac = clamp( dot( nor, normalize(vec3(-lig.x,0.0,-lig.z))), 0.0, 1.0 )*clamp( 1.0-pos.y,0.0,1.0);
+    float bac = clamp( dot( nor, normalize(vec3(-lig.x,0.0,-lig.z))), 0.0, 1.0 );
     float dom = smoothstep( -0.2, 0.2, ref.y );
     float fre = pow( clamp(1.0+dot(nor,rd),0.0,1.0), 2.0 );
         
@@ -390,7 +390,7 @@ vec3 render(vec3 ro, vec3 rd)
     // gamma
     col = pow( col, vec3(0.4545) );
     col = mix( col, vec3(0.7,0.7,0.9), 1.0-exp( -0.00004*dist*dist*dist ) );
-
+    
 
 	return vec3( clamp(col,0.0,1.0) );
 }

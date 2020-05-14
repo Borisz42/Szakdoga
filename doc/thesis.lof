@@ -26,11 +26,19 @@
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \contentsline {figure}{\numberline {3.3.}{\ignorespaces A GLM logója\relax }}{13}{figure.caption.10}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {3.4.}{\ignorespaces Teljesítményteszt az iterációk számának függvényében\relax }}{16}{figure.caption.11}%
+\select@language {magyar} \contentsline {figure}{\numberline {3.4.}{\ignorespaces A raycast technika ábrázolása. \cite {FileRayt97:online}\relax }}{13}{figure.caption.11}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {3.5.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében\relax }}{17}{figure.caption.12}%
+\select@language {magyar} \contentsline {figure}{\numberline {3.5.}{\ignorespaces Sphere tracing: A kamerából kiinduló fénysugár mindig csak annyit halad előre amekkora a hozzá legközelebb lévő felület távolsága \cite {Raymarch94:online}\relax }}{14}{figure.caption.12}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {figure}{\numberline {3.6.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében, kirajzolás nélkül\relax }}{18}{figure.caption.13}%
+\select@language {magyar} \contentsline {figure}{\numberline {3.6.}{\ignorespaces A fénymodell különböző komponensei\relax }}{15}{figure.caption.13}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.7.}{\ignorespaces A skaláris szorzat előjele és a vektorok közötti szög összefüggése\relax }}{18}{figure.caption.16}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.8.}{\ignorespaces Teljesítményteszt az iterációk számának függvényében\relax }}{20}{figure.caption.18}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.9.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében\relax }}{21}{figure.caption.19}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {figure}{\numberline {3.10.}{\ignorespaces Teljesítményteszt a gömbök számának függvényében, kirajzolás nélkül\relax }}{22}{figure.caption.20}%
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \addvspace {10\p@ }
 \defcounter {refsection}{0}\relax 

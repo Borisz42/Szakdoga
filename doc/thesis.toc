@@ -22,26 +22,36 @@
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \contentsline {subsection}{\numberline {3.1.4}GLM}{13}{subsection.3.1.4}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {section}{\numberline {3.2}Megvalósítás}{13}{section.3.2}%
+\select@language {magyar} \contentsline {section}{\numberline {3.2}Képalkotási módszer}{13}{section.3.2}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}CMyApp osztály}{13}{subsection.3.2.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {3.2.1}Fénymodell}{15}{subsection.3.2.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {section}{\numberline {3.3}Tesztelés}{14}{section.3.3}%
+\select@language {magyar} \contentsline {section}{\numberline {3.3}Megvalósítás}{16}{section.3.3}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {3.3.1}Működés helyessége}{14}{subsection.3.3.1}%
+\select@language {magyar} \contentsline {subsection}{\numberline {3.3.1}CMyApp osztály}{16}{subsection.3.3.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {subsection}{\numberline {3.3.2}Teljesítmény}{15}{subsection.3.3.2}%
+\select@language {magyar} \contentsline {subsubsection}{bool Init()}{16}{section*.14}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Összegzés}{19}{chapter.4}%
+\select@language {magyar} \contentsline {subsubsection}{void Update()}{16}{section*.15}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {5}További fejlesztési lehetőségek}{20}{chapter.5}%
+\select@language {magyar} \contentsline {subsubsection}{void Render(int WindowX, int WindowY)}{18}{section*.17}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {A}Függelék}{22}{appendix.A}%
+\select@language {magyar} \contentsline {section}{\numberline {3.4}Tesztelés}{18}{section.3.4}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyzék}{23}{appendix.A}%
+\select@language {magyar} \contentsline {subsection}{\numberline {3.4.1}Működés helyessége}{18}{subsection.3.4.1}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Ábrajegyzék}{24}{appendix*.14}%
+\select@language {magyar} \contentsline {subsection}{\numberline {3.4.2}Teljesítmény}{19}{subsection.3.4.2}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Táblázatjegyzék}{25}{appendix*.14}%
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Összegzés}{23}{chapter.4}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Forráskódjegyzék}{26}{appendix*.14}%
+\select@language {magyar} \contentsline {chapter}{\numberline {5}További fejlesztési lehetőségek}{24}{chapter.5}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {chapter}{\numberline {A}Függelék}{26}{appendix.A}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyzék}{27}{appendix.A}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {chapter}{Ábrajegyzék}{28}{appendix*.21}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {chapter}{Táblázatjegyzék}{29}{appendix*.21}%
+\defcounter {refsection}{0}\relax 
+\select@language {magyar} \contentsline {chapter}{Forráskódjegyzék}{30}{appendix*.21}%
