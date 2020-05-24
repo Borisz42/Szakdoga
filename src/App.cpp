@@ -432,7 +432,7 @@ void CMyApp::Render(int WindowX, int WindowY)
 	float Transpeed = 0.0;
 	if (rtime < animation)
 	{
-		for (int i = 0; i < (Simulationsrate/5.f); ++i)
+		for (int i = 0; i < delta_time / (1.f / 60.f); ++i)
 		{
 			Transpeed = 0.04f * sinf(PI * (1.0f - ((float)animation - (float)rtime) / 5.0f));
 			shift_x = glm::mix(shift_x, new_shift_x, Transpeed);

@@ -9,7 +9,9 @@ A megvalósításhoz C++ nyelvet választottam, OpenGL segítségével. Sphere t
 
 ## Program futtatása
 
-Az alkalmazás elindításához a **FractalCollision.exe** fájlt kell futtatni. Fontos hogy az exe fájl mellett ott legyen a **myFrag.frag** és a **myVert.vert** fájlok, illetve ha a rendszeren nincsen külön telepítve akkor az **SDL2.dll**, valamint a **glew32.dll** fájloknak is az exe mellett kell lenniük. Ezek mind az **src/Release** mappában vannak, így onnan indítva erre nem kell ügyelni.
+A futtatáshoz szükséges legalább Windows 7 opreációs rendszer és OpenGL 3.0 támogatottság, vagyis nagyjából minden 2009 utáni számítógép alkalmas a futtatásra. Az optimális élményhez elengedhetetlen a dedikált viedókártya.
+
+Az alkalmazás elindításához a **FractalCollision.exe** fájlt kell futtatni. A program sok csomagot használ ami nem feltétlen található meg minden számítógépen, így a **Release** mappában megtalálható minden ami a működéséhez szükséges, így abból a mappából indítva biztosan működni fog. 
 
 Az alkalmazásból való kilépéshez lehet az **ESC** billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána még külön be kell zárni a terminálablakot.
 

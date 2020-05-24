@@ -135,16 +135,15 @@ A helyes \textbf{viselkedés megállapításához} ismerünk kell az ütközés 
 
 \lstset{caption={A felületi normálist kiszámoló függvény}, label=src:norm}
 \begin{lstlisting}[language={C++}]
-float RayMarch(vec3 ro, vec3 rd) {
-	float dist=0.0;    
-    for(int i=0; i<MAX_STEPS; i++) {
-    	vec3 p = ro + rd*dist;
-        float dS = GetDist(p);
-        dist += dS;
-        if(dist>MAX_DIST || dS<SURF_DIST ) break;
-    }    
-    return dist;
-}
+glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
+	float d = GetDist(p);
+	float e = 0.0005;
+	glm::vec3 n = d - glm::vec3(
+		GetDist(p - glm::vec3(e, 0, 0)),
+		GetDist(p - glm::vec3(0, e, 0)),
+		GetDist(p - glm::vec3(0, 0, e)));
+	return glm::normalize(n);
+}}
 \end{lstlisting}
 
 Ezután már csak a kapott normálisra kell tükröznünk a vizsgált labdánk sebességvektorát és a megfelelő komponenseit némileg csökkenteni, ezzel szimulálva hogy visszapattanáskor veszít egy keveset az energiájából -- ehhez is a normálist használhatjuk, azért kell komponensenként mert a valóságban ha például elrúgunk ívesen egy focilabdát, akkor annak az vízszintes irányú mozgási energiája jóval kevesebbet csökken visszapattanáskor mint a függőleges irányú. 
@@ -154,7 +153,7 @@ Fel kell arra is készülnünk ha a \textbf{labdánk belemegy egy másik objektu
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{dot}
-	\caption{A skaláris szorzat előjele és a vektorok közötti szög összefüggése}
+	\caption{A skaláris szorzat előjele és a vektorok közötti szög összefüggése \cite{13DotPro79:online}}
 	\label{fig:dot}
 \end{figure}
 
@@ -189,6 +188,11 @@ A következő viselkedéseket ellenőriztem:
 	\item A \textbf{``Zero values''} gomb hatására megközelíti minden érték a nullát;
 	\item A \textbf{``Zero values''} gomb extrém érték esetén: 1000-re állítva egy csúszkát "nullázás" után az értéke 0.423 lett;
 	\item A \textbf{``Random values''} gomb valóban véletlenszerű értékeket állít be. Időnként nem látható fraktálokat eredményez;
+	\item A \textbf{SPACE} billentyű nyomva tartásakor a labdák megjelennek a felhasználó előtt. Ha közeli akadályba ütköztek akkor nem tudnak;
+	\item A \textbf{SPACE} billentyű felengedésekor a labdák kilövődnek ha be van pipálva a \textbf{[shoot]}, és leesnek a gravitációnak megfelelően ha nincsen;
+	\item A \textbf{labdák} ütközése tárgyakkal valósághűnek tűnik;
+	\item A \textbf{labdák} ütközése egymással közepesen valóságosnak tűnik, a kezdőpozíció alatti félgömbhéjba folyamatosan eltolják egymást.
+	\item A \textbf{labdák} legurulása lejtős felületeken lassabb mint kellene, közepesen valósághű.
 \end{compactenum}
 
 \subsection{Teljesítmény}

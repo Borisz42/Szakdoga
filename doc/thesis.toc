@@ -42,16 +42,14 @@
 \defcounter {refsection}{0}\relax 
 \select@language {magyar} \contentsline {subsection}{\numberline {3.4.2}Teljesítmény}{19}{subsection.3.4.2}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {4}Összegzés}{23}{chapter.4}%
+\select@language {magyar} \contentsline {chapter}{\numberline {4}Összegzés}{24}{chapter.4}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {5}További fejlesztési lehetőségek}{24}{chapter.5}%
+\select@language {magyar} \contentsline {chapter}{\numberline {5}További fejlesztési lehetőségek}{25}{chapter.5}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{\numberline {A}Függelék}{26}{appendix.A}%
+\select@language {magyar} \contentsline {chapter}{\numberline {A}Függelék}{27}{appendix.A}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Irodalomjegyzék}{27}{appendix.A}%
+\select@language {magyar} \contentsline {chapter}{Irodalomjegyzék}{28}{appendix.A}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Ábrajegyzék}{28}{appendix*.21}%
+\select@language {magyar} \contentsline {chapter}{Ábrajegyzék}{30}{appendix*.21}%
 \defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Táblázatjegyzék}{29}{appendix*.21}%
-\defcounter {refsection}{0}\relax 
-\select@language {magyar} \contentsline {chapter}{Forráskódjegyzék}{30}{appendix*.21}%
+\select@language {magyar} \contentsline {chapter}{Forráskódjegyzék}{31}{appendix*.21}%
