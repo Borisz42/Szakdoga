@@ -1,6 +1,5 @@
 #version 130
 
-in vec3 vs_out_col;
 in vec2 vs_out_pos;
 out vec4 fs_out_col;
 
@@ -24,9 +23,9 @@ uniform int iterations;
 uniform int ballCount;
 uniform float zoom;
 
-#define MAX_STEPS 80
+#define MAX_STEPS 200
 #define MAX_DIST 60.
-#define SURF_DIST .001
+#define SURF_DIST .01
 
 #define PI 3.14159
 
@@ -201,7 +200,7 @@ float RayMarch(vec3 ro, vec3 rd) {
     	vec3 p = ro + rd*dist;
         float dS = GetDist(p);
         dist += dS;
-        if(dist>MAX_DIST || dS<0.01*dist/MAX_DIST ) break; //--------------------------------------------------------------------------
+        if(dist>MAX_DIST || dS<SURF_DIST*dist/MAX_DIST ) break; //--------------------------------------------------------------------------
     }
     
     return dist;
