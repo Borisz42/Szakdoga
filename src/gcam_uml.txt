@@ -1,0 +1,33 @@
+- m_speed:float
+- m_viewMatrix:glm::mat4
+- m_matViewProj:glm::mat4
+- m_slow:bool
+- m_eye:glm::vec3
+- m_up:glm::vec3
+- m_at:glm::vec3
+- m_u:float
+- m_v:float
+- m_dist:float
+- m_fw:glm::vec3
+- m_st:glm::vec3	
+- m_matProj:glm::mat4	
+- m_goFw:float	
+- m_goRight:float	
+
++ gCamera(glm::vec3 _eye, glm::vec3 _at, glm::vec3 _up)
++ GetViewMatrix():glm::mat4
++ Update(float _deltaTime)
++ SetView(glm::vec3 _eye, glm::vec3 _at, glm::vec3 _up)
++ SetProj(float _angle, float _aspect, float _zn, float _zf) 
++ LookAt(glm::vec3 _at) 
++ SetSpeed(float _val)
++ GetEye():glm::vec3
++ GetAt():glm::vec3 
++ GetUp():glm::vec3
++ GetProj():glm::mat4 
++ GetViewProj():glm::mat4 
++ Resize(int _w, int _h) 
++ KeyboardDown(SDL_KeyboardEvent& key)
++ KeyboardUp(SDL_KeyboardEvent& key)
++ MouseMove(SDL_MouseMotionEvent& mouse)
+- UpdateUV(float du, float dv)

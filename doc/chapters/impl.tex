@@ -7,17 +7,17 @@ Az alkalmazás \textbf{Microsoft Visual Studio} segítségével készült. A kó
 
 A program írása során számos könyvtár és API felhasználásra került. Ebben az alfejezetben ezek kerülnek bemutatásra.
 
-\subsection{Simple DirectMedia Layer (SDL)}
+\subsubsection{Simple DirectMedia Layer (SDL)}
 A Simple DirectMedia Layer (SDL) könyvtár egy crossplatform multimédiás könyvtár, ami alacsony szintű, hatékony hozzáférést ad audio, bemeneti (egér, billentyűzet, joystick), valamint grafikus (OpenGL-en keresztül GPU-hoz) eszközökhöz. Az alkalmazásban az SDL 2.0 van használva. \cite{SimpleDi88:online}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{Sdl}
 	\caption{Az SDL logója}
-	\label{fig:Opengl}
+	\label{fig:Sdl}
 \end{figure}
 
-\subsection{OpenGL API}
+\subsubsection{OpenGL API}
 Az OpenGL (Open Graphics Library) egy részletesen kidolgozott szabvány, melyet a Silicon Graphics nevű amerikai cég fejlesztett ki 1992-ben. Olyan API-t takar, amely segítségével egy egyszerű, szabványos felületen keresztül megvalósítható a grafikus kártya kezelése és a háromdimenziós grafika programozása. Az interfész több ezer különböző függvényhívásból áll, melynek segítségével a programozók szinte közvetlenül vezérelhetik a grafikus kártyát, segítségükkel 3 dimenziós alakzatokat rajzolhatnak ki, és a kirajzolás módját szabályozhatják. \cite{OpenGL–W93:online} 
 
 \begin{figure}[H]
@@ -27,10 +27,10 @@ Az OpenGL (Open Graphics Library) egy részletesen kidolgozott szabvány, melyet
 	\label{fig:Opengl}
 \end{figure}
 
-\subsection{Dear ImGui}
+\subsubsection{Dear ImGui}
 A \textbf{``Parameters''} feliartú panel megjelenítése ennek segítségével lett megoldva. A Dear ImGui (ImGui) egy egyszerű grafikai interfész könyvtár C++ nyelvhez. Segítségével egyszerűen kezelhetünk gombokat, csúszkákat, egyéb beviteli eszközöket valamint könnyen megjeleníthetünk adatokat. Gyors és hordozható, nincs szükség külső könyvtára csak néhány szimpla forrás fájl beillesztésére. \cite{ocornuti13:online}
 
-\subsection{GLM}
+\subsubsection{GLM}
 
 Az OpenGL Mathematics egy headerben importálható C++ könyvtár mely a GLSL specifikációira szabva (elnevezések, funkciók) tartalmaz számtalan matematikai funkciót. Segítségével a GLSL-ben használatos funkciók és típusok C++-ban is használhatóak. \cite{OpenGLMa34:online}
 
@@ -42,6 +42,8 @@ Az OpenGL Mathematics egy headerben importálható C++ könyvtár mely a GLSL sp
 \end{figure}
 
 \section{Képalkotási módszer}
+\label{sec:kepmod}
+
 A megjelenítés \textbf{Raycast} technika (\ref{fig:trace_diag}.~ábra) alkalmazásával történik, egy speciális implicit reprezentáción, a távolságfüggvényeken. Ehhez minden pixelre ki kell számolni egy sugár paramétereit. Ezen sugár és felület metszetét a \textbf{Sphere tracing} algoritmussal kapjuk meg. A felületi normálist numerikusan számítjuk ki, melynek segítségével a felület már könnyen árnyalható.
 
 \begin{figure}[H]
@@ -74,7 +76,7 @@ Az algoritmus két paramétert igényel: egy pontot és egy vektort, melyek megh
 	\centering
 	\includegraphics[width=0.4\textwidth]{SphereTracing}
 	\caption{Sphere tracing: A kamerából kiinduló fénysugár mindig csak annyit halad előre amekkora a hozzá legközelebb lévő felület távolsága \cite{Raymarch94:online}}
-	\label{fig:SphereTracing}
+	\label{fig:SphereTracing2}
 \end{figure}
 
 Az alkalmazásban teljesítményjavítás érdekében másik feltétel (dS<0.01*dist/MAX\_DIST) lett használva a felületi távolsághoz, mely számításba veszi hogy mennyire messzire vagyunk a kamerától. Ha messzebb vagyunk akkor nincsen szükség akkora részletességre és a felületi távolság így lehet nagyobb is.
@@ -83,7 +85,7 @@ Az alkalmazásban teljesítményjavítás érdekében másik feltétel (dS<0.01*
 
 Ha túl messzire ment a sugarunk (dist>MAX\_DIST), akkor egyszerűen a háttér színét adjuk a pixelnek. Egyéb esetben pedig kiszámoljuk az adott pontban a felületi normálist és a fénymodell segítségével megállapítjuk a pixel színét.
 
-A használt fénymodell nagyon sokat számít a kirajzolt kép minőségén. Ezért sok idő és energia lett rászánva ennek megalkotására. Ezen fénymodell komponensei \aref{fig:lighting}.~ábrán láthatóak. Ezek különböző színenkénti súlyozással vett összege alkotja végső színáranyalatot, melyre még egy gamma korrekció és egy ködszerű effekt is került -- ez utóbbi arra szolgál hogy a viszonylag kicsi maximális távolságot leplezze.
+A használt fénymodell nagyon sokat számít a kirajzolt kép minőségén. Ezért sok idő és energia lett rászánva ennek megalkotására, a végeredményre Ingio Quilez munkássága \cite{iqShader82:online} nagy befolyást gyakorlot. Ezen fénymodell komponensei \aref{fig:lighting}.~ábrán láthatóak. Ezek különböző színenkénti súlyozással vett összege alkotja végső színáranyalatot, melyre még egy gamma korrekció és egy ködszerű effekt is került -- ez utóbbi arra szolgál hogy a viszonylag kicsi maximális távolságot leplezze.
 
 \begin{figure}[H]
 	\centering
@@ -102,22 +104,31 @@ A használt fénymodell nagyon sokat számít a kirajzolt kép minőségén. Ez�
 	\subfigure[Élfény]{\includegraphics[width=0.3\linewidth]{fre}}
 	\hspace{1pt}
 	\subfigure[Árnyékalapú tükröződés]{\includegraphics[width=0.3\linewidth]{shadom}}	
-	\caption{A fénymodell különböző komponensei}
+	\caption{A fénymodell különböző komponensei.}
 	\label{fig:lighting}
 \end{figure}
 
 
 \section{Megvalósítás}
 
-A program írása során a Számítógépes Grafika BSc gyakorlat tárgy honlapjának \cite{GrafikaB26:online} projektjei nyújtottak kiindulási alapot. Számos alapvető függvényhívás lett belőlük felhasználva.
+A program írása során a Számítógépes Grafika BSc gyakorlat tárgy honlapjának \cite{GrafikaB26:online} projektjei nyújtottak kiindulási alapot. Az SDL működtetése és számos alapvető függvényhívás lett belőlük felhasználva.
 
 \subsection{CMyApp osztály}
 
 Ez a fő osztály. A main.cpp ezen keresztül kezeli le az egér és billentyűzet bemeneteit, szimulálja a fizikát és továbbítja a shaderbe a paramétereket hogy megtörténjen a kirajzolás. A fontosabb függvények külön részletezésre kerülnek.
 
+\begin{figure}[H]
+	\centering
+	\subfigure[A diagram felső fele]{\includegraphics[width=0.4\linewidth]{cmyapp1}}
+	\hspace{1pt}
+	\subfigure[A diagram alsó fele]{\includegraphics[width=0.4\linewidth]{cmyapp2}}
+	\caption{A CMyApp osztálydiagramja (két részre szedve a hosszúsága miatt)}
+	\label{fig:uml}
+\end{figure}
+
 \subsubsection{bool Init()}
 
-Ebben inicializálódik minden aminek kell. Definiálunk két darab háromszöget melyek egy téglalapot alkotva lefedik majd a teljes ablakot. Ezt a téglalapot fogjuk később a shaderben átszínezni hogy megkapjuk a képet. Az uniform változók memóriacímeit is itt határozzuk meg, valamint a mozgatható labdák pozícióját, méretét és sebességét tartalmazó tömbök is itt kapnak kezdőértékeket.
+Ebben inicializálódik minden aminek kell. Definiálunk két darab háromszöget melyek összerakva egy olyan négyzetlapot alkotnak ami az XY síkot (-1,-1)-től (1,1)-ig lefedik. Ezt a négyzetlapot fogjuk később a shaderben átszínezni hogy megkapjuk a képet. Az uniform változók memóriacímeit is itt határozzuk meg, valamint a mozgatható labdák pozícióját, méretét és sebességét tartalmazó tömbök is itt kapnak kezdőértékeket.
 
 \subsubsection{void Update()}
 
@@ -148,12 +159,12 @@ glm::vec3 CMyApp::GetNormal(glm::vec3 p) {
 
 Ezután már csak a kapott normálisra kell tükröznünk a vizsgált labdánk sebességvektorát és a megfelelő komponenseit némileg csökkenteni, ezzel szimulálva hogy visszapattanáskor veszít egy keveset az energiájából -- ehhez is a normálist használhatjuk, azért kell komponensenként mert a valóságban ha például elrúgunk ívesen egy focilabdát, akkor annak az vízszintes irányú mozgási energiája jóval kevesebbet csökken visszapattanáskor mint a függőleges irányú. 
 
-Fel kell arra is készülnünk ha a \textbf{labdánk belemegy egy másik objektumba}. Ez többnyire akkor történik meg ha nagyon gyorsan mozog a labda és két ellenőrzés között beleér, vagy ha a labda tartásakor direkt belevisszük egy objektumba. Ha benne vagyunk valamiben akkor frissítjük a pozíció értékét a normális irányába egy kis mértékben.  Ezáltal ha esetleg belekerülne valamibe a labdánk akkor kijön belőle automatikusan.
+Fel kell arra is készülnünk ha a \textbf{labdánk belemegy egy másik objektumba}. Ez többnyire akkor történik meg ha nagyon gyorsan mozog a labda és két ellenőrzés között beleér, vagy ha a labda tartásakor direkt belevisszük egy objektumba. Ha benne vagyunk valamiben akkor frissítjük a pozíció értékét a normális irányába egy kis mértékben. Ezáltal ha esetleg belekerülne valamibe a labdánk akkor kijön belőle automatikusan.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{dot}
-	\caption{A skaláris szorzat előjele és a vektorok közötti szög összefüggése \cite{13DotPro79:online}}
+	\caption{A skaláris szorzat előjele és a vektorok közötti szög összefüggése \cite{13DotPro51:online}}
 	\label{fig:dot}
 \end{figure}
 
@@ -162,7 +173,91 @@ Mivel tudjuk hogy akár egy másik objektumba is belemehet a labdánk ezért mé
  
 \subsubsection{void Render(int WindowX, int WindowY)} 
 
-Megtörténik a kirajzolás és a shader meghívása. Paraméterként megkapja az ablak méreteit. 
+Paraméterként megkapja az ablak méreteit. Az imgui panel ebben a függvényben hívódik meg és töltődik fel a megjelenített tartalommal, illetve itt kapják meg a felületen bevitt értékeket a megfelelő változók. Itt hívódik meg továbba a shader is, melynek rengeteg uniform válozót adunk át:
+\begin{compactitem}
+	\item \textbf{WindowX, WindowY} - az ablak méretei
+	\item \textbf{eye, at, up} - a kamerát definiáló vektorok
+	\item \textbf{rtime} - az indítás óta eltelt idő másodpercben
+	\item \textbf{multiBallPos} - a mozgó labdák koordinátáit és méreteit tartalmazó \textbf{tömb}
+	\item \textbf{shift\_x, shift\_y, shift\_z} - az eltolás transzfomácó paraméterei
+	\item \textbf{fold\_x, fold\_y, fold\_z} - a tükrözés tranformációk paraméterei
+	\item \textbf{rot\_x, rot\_y, rot\_z} - a forgatás traszformáció paraméterei
+	\item \textbf{iterations} - a fraktál iterációinak száma
+	\item \textbf{ballCount} - a mozgó labdák száma
+	\item \textbf{zoom} - a kamera látószögét befolyásoló paraméter
+\end{compactitem}
+
+A kép megalkotása teljes egészében a shaderben történik. Miután megtörtént az imgui panel konfigurásála és az uniform változók átadása, a \textbf{glDrawArrays()} függvény hívásával a vertex shaderbe juttatjuk az inicializáció során létrehozott és a futás során sehol nem módosított négyzetet.
+
+Kezdetben egy négyzetet adtunk meg és ezt ablak formájúra kell nyújtani. A vertex shaderben az ablak méreteinek ismeretében kompenzáljuk a torzítást, azáltal hogy a továbbadott vektor x komponensét megszorozzuk az ablak szélességének és magasságának hányadosával. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{NDC}
+	\caption{NDC (Normalized Device Coordinates) - az ablak koordinátáit normalizáltuk, hogy a ball alsó sarok (-1,-1), a jobb felső sarok (+1,+1) legyen. \cite{PythonOp51:online} }
+	\label{fig:NDC}
+\end{figure}
+
+Ennek köszönhetően a fragment shaderben a bemeneti vektorunk egy olyan leképezés eredménye, ami az ablak minden pixeléhez hozzárendel egy -1 és 1 közötti (X,Y) koordinátapárost ahogy az \aref{fig:NDC}. ábrán is látható. Ezután a fragment sahderben \aref{sec:kepmod}. fejezetben ismertetett elmélet alapján megalkotársa kerül a kép.
+
+\subsection{gCamera osztály}
+
+Ez az osztály egy általános megvalósítása egy virtuális kamerának és közel egy-az egyben lett felhasználva a Számítógépes Grafika BSc gyakorlat tárgy honlapjának \cite{GrafikaB26:online} projektjeiből. 
+
+Csak a kamerát mozgató függvényekre és az általuk befolyásolt eye, at és up vektorokra van szükség. Ezen három vektor segítségével lehet majd a shaderben megállapítani a sugarak irányát és kiindulási pontját.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\textwidth]{gcam}
+	\caption{A gCamera osztálydiagrammja}
+	\label{fig:gcam}
+\end{figure}
+
+Ebben az osztályban valósul meg a virtuális kamera mozgatása, hiszen a helyváltoztatáshoz mindössze a kamerát leíró vektorokat kell megfelelően transzfomálni. Az ehhez szükséges függvények kerülnek részletezésre.
+
+\subsubsection{void Update(float \_deltaTime)}
+
+Ez a függvény minden kirajzolás előtt meghívódik és frissíti a kamerát definiáló vektorokat. Ehhez ismernünk kell az előre (\textbf{m\_fw}) és az oldalra mutató (\textbf{m\_st}) vektorokat melyeket a megfelelő szorzóval egyszerűen hozzáadunk az \textbf{eye} és \textbf{at} vektorainkhoz (\textbf{m\_eye} és \textbf{m\_at}) ahogyan azt \aref{src:updt}. kódrészletben is láthatjuk.
+
+\lstset{caption={Az \textbf{eye} és \textbf{at} vektorok frissítése}, label=src:updt}
+\begin{lstlisting}[language={C++}]
+	m_eye += (m_goFw*m_fw + m_goRight*m_st)*m_speed*_deltaTime;
+	m_at  += (m_goFw*m_fw + m_goRight*m_st)*m_speed*_deltaTime;
+\end{lstlisting}
+
+A szorzókat (\textbf{m\_goFw} és \textbf{m\_goRight}) a billenytűk fogják szabályozni. Megfigyelhetjük ha ezen változók értéke +1 vagy -1 akkor előre-hátra és jobbra-ballra is tudunk menni. Ellenben ha mindkettő nulla, akkor nem változnak az \textbf{eye} és \textbf{at} vektoriank, vagyis ekkor nem fog mozogni a virtuális kamera. 
+
+Látható továbbá hogy a mozgás mértéke az \textbf{m\_speed} változótól és a \textbf{\_deltaTime-tól} fognak függeni. A felületen az \textbf{m\_speed} értékét állítjuk át az osztály \textbf{SetSpeed(float \_val)} függvényen keresztül, ezzel szabályozván a mozgási sebességet.
+
+
+\subsubsection{void KeyboardDown(SDL\_KeyboardEvent\& key) }
+
+A \textbf{WASD} és a \textbf{SHIFT} billenytűk segítségével tudunk mozogni a térben ezért ezeket a billenytűket folyamatason figyelni kell hogy le vannak-e nyomva. Ez egy switch és a paraméterül kapott esemény segítségével történik meg.
+
+A \textbf{W} és \textbf{S} billentyűk lenyomására az \textbf{m\_goFw} változó értéke rendre 1 és -1 értéket kap. Az \textbf{A} és \textbf{D} billentyűk hatására pedig hasonlóképpen az \textbf{m\_goRight} változónak adunk 1 és -1 értéket.
+
+A \textbf{SHIFT} billenytű lenyomására, ha az \textbf{m\_slow} változó éréke hamis, akkor az \textbf{m\_speed} változó értékét növeljük a négyszeresére, illetve az az \textbf{m\_slow-t} igazra állítjuk. Azért szükséges ezen változó figyelése mert csak egyszer szeretnénk megnégyszerezni a sebességet. 
+
+\subsubsection{void KeyboardUp(SDL\_KeyboardEvent\& key) }
+
+A billentyűk felengedését külön kell kezelni, ez ugyanolyan elven történik mint a \textbf{KeyboardDown()} esetében: A \textbf{W} és \textbf{S} billentyűk felengedésére az \textbf{m\_goFw} változó értéke 0 lesz. Az \textbf{A} és \textbf{D} billentyűk felengedésére pedig az \textbf{m\_goRight} változót nullázzuk.
+
+A \textbf{SHIFT} billenytű felengedésére, ha az \textbf{m\_slow} változó éréke igaz, akkor az \textbf{m\_speed} változó értékét változtatjuk a negyedére, valamint az \textbf{m\_slow} hamis lesz.
+
+\subsubsection{void UpdateUV(float du, float dv)}
+
+Ez a függvény \aref{src:updt}. kódrészletben is látható \textbf{m\_fw} és \textbf{m\_st}, vagyis az előre és oladra mutató vektoroknak fog megfelelő értéket adni és frissíti az \textbf{m\_at} vektorunkat. Az osztály \textbf{MouseMove(SDL\_MouseMotionEvent\& mouse)} függvénye fogja megadni neki a \textbf{du} és \textbf{dv} paramétereket az egér függőleges és vízszintes elmozdulása alapján. Ez is minden kirajzolás előtt meghívódik.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{polar}
+	\caption{Polár koordinták \cite{Spherica72:online}}
+	\label{fig:polar}
+\end{figure}
+
+Az \textbf{m\_at} vektorunkat (mely azt határozza meg hogy merre néz a kamera) leírjuk polárkoordinátákkal és a megfelelő szögekhez hozzáadjuk -- az értelmezési tarttományok figyelembe vételével -- a paraméterül kapott \textbf{du} és \textbf{dv} értékeket. Ezután átszámoljuk az így kapott vektort Descartes-féle koordinátákra és ez lesz a \textbf{m\_at} vektorunk új értéke.
+
+Az \textbf{m\_fw} vetort az \textbf{m\_at} és \textbf{m\_eye} különbsége fogja adni, az \textbf{m\_st} vetort pedig a \textbf{m\_fw} és \textbf{m\_up} vektoriális szorzata.
 
 
 \section{Tesztelés}
@@ -175,6 +270,7 @@ A tesztelés során megvizsgáltam hogy a funkciók (\ref{sec:ui}.~fejezet) az e
 	\item Windows 10 operációs rendszer
 \end{compactitem}
 
+\cleardoublepage
 \subsection{Működés helyessége}
 
 A következő viselkedéseket ellenőriztem:
@@ -186,15 +282,17 @@ A következő viselkedéseket ellenőriztem:
 	\item Ha egyszerre gyorsítunk \textbf{SHIFT}-tel és görgővel, a görgő sebessége felülírja a shift gyorsítását;
 	\item A fraktál paramétereit át lehet állítani a \textbf{csúszkákkal} és a fraktál ezen értékeknek megfelelően változik;
 	\item A \textbf{``Zero values''} gomb hatására megközelíti minden érték a nullát;
-	\item A \textbf{``Zero values''} gomb extrém érték esetén: 1000-re állítva egy csúszkát "nullázás" után az értéke 0.423 lett;
-	\item A \textbf{``Random values''} gomb valóban véletlenszerű értékeket állít be. Időnként nem látható fraktálokat eredményez;
+	\item A \textbf{``Zero values''} gomb extrém érték esetén: 10000-re állítva egy csúszkát "nullázás" után az értéke 0.481 lett, 36-os iteráció mellett;
+	\item A \textbf{``Random values''} gomb valóban véletlenszerű értékeket állít be. Időnként nem látható fraktálokat eredményez, minél nagyobb az iterácó értéke annál gyakrabban;
 	\item A \textbf{SPACE} billentyű nyomva tartásakor a labdák megjelennek a felhasználó előtt. Ha közeli akadályba ütköztek akkor nem tudnak;
 	\item A \textbf{SPACE} billentyű felengedésekor a labdák kilövődnek ha be van pipálva a \textbf{[shoot]}, és leesnek a gravitációnak megfelelően ha nincsen;
 	\item A \textbf{labdák} ütközése tárgyakkal valósághűnek tűnik;
 	\item A \textbf{labdák} ütközése egymással közepesen valóságosnak tűnik, a kezdőpozíció alatti félgömbhéjba folyamatosan eltolják egymást.
 	\item A \textbf{labdák} legurulása lejtős felületeken lassabb mint kellene, közepesen valósághű.
+	\item A \textbf{labdák} legurulása lejtős felületeken nem egyenletes, bizonyos irányú lejtők kevésbé működnek jól.
 \end{compactenum}
 
+\cleardoublepage
 \subsection{Teljesítmény}
 
 Az alkalmazás erősen GPU igényes.  A futás teljesítményét az alábbi kód segítségével teszteltem:
@@ -235,7 +333,7 @@ A kezdeti pozícióhoz képest a kamera nem volt megmozdítva, valamint a tesztb
 
 Megfigyelhető hogy az iterációk számától lineárisan függ a képfrissítési idő. Bármely két egymást követő sor különbsége 4-6 ms, illetve 10 iterációs eset ideje nagyjából fele a 20-nak és kb. harmada a 30-nak. Az is észrevehető hogy rettentően lelassítja az alkalmazást az iteráció növelése, elég 36-ig felmenni hogy a tesztelői környezeten 10 FPS alá essen a képfrissítési ráta (vagyis 100 ms fölé megy a frissítési idő), ami már határozattan nem folyamatos megjelenítést jelent.
 
-Ha \aref{src:test}.~kód 15. sorát átírjuk \textbf{ballCount += 5} -re akkor azt is meg tudjuk vizsgálni hogy az mozgatható gömbök száma hogyan hat a képfrissítési időre. Ezen futás eredményéből készült grafikont \aref{fig:Test2.}~ábra mutatja.
+Ha \aref{src:test}.~kód 15. sorát átírjuk \textbf{ballCount += 5} -re akkor azt is meg tudjuk vizsgálni hogy az mozgatható gömbök száma hogyan hat a képfrissítési időre. Ezen futás eredményéből készült grafikont \aref{fig:Test2}.~ábra mutatja.
 
 \begin{figure}[H]
 	\centering
@@ -257,4 +355,10 @@ A grafikonra 350-nél kevesebb gömbhöz tartozó mérési értékek nem szerepe
 	\label{fig:Test3}
 \end{figure}
 
-Az ábra alapján viszont itt már inkább exponenciális összefüggést állapíthatunk meg lineáris helyett. Az utolsó érték 490 gömbbel már 1000 ms volt, de ki lett hagyva az ábrázolás megkönnyítése érdekében. A teszt alatt azonban a magasabb értékek során a processzor összesített kihasználtsága a Windows Task Manager szerint 14\%-os volt, és egyik szál sem mutatott állandó teljes terhelést.  A jelenség pontos forrása ismeretlen, de mivel csak extrém körülmények között jelentkezik, így nem lett sok idő fordítva az ok felkutatására.
+Az ábra alapján viszont itt már inkább exponenciális összefüggést állapíthatunk meg lineáris helyett. Az utolsó érték 490 gömbbel már 1000 ms volt, de ki lett hagyva az ábrázolás megkönnyítése érdekében. A teszt alatt azonban a magasabb értékek során a processzor összesített kihasználtsága a Windows Task Manager szerint 14\%-os volt, és egyik szál sem mutatott állandó teljes terhelést. 
+
+A fizika futása nem lett több szálra bontva, így nem meglepő hogy csak \textbf{egyetlen processzormagot használ} igazán, azonban az furcsa hogy azt az egyet nem teljes mértékben. A jelenség pontos forrása ismeretlen, könnyen lehet hogy a hardver vagy az operációs rendszer korlátozza biztonsági okokból, ellenben a probléma csak extrém körülmények között jelentkezik, így nem lett sok idő fordítva az ok felkutatására. 
+
+A többi paraméter nincsen mérhető befolyással a teljesítményre. Fontos megjegyezni hogy a kirajzolás módja miatt a kamera pozíciója is befolyásolja a sebességet. Ha egyenesen felfelé nézünk, a sugár lépései jelentősen megnőnek, hiszen mindig a legközelebb lévő felület távolságát lépjük előre, így néhány iteráció elegendő ahhoz hogy kiléphessünk a maximális távolsággal a \textbf{RayMarch()} ciklusából.
+
+Ugyanezen okból kifolyólag a talajtól közel kiinduló, azzal párhuzamos sugarak kis lépésekben tudnak csak haladni, így több iteráció szükséges a \textbf{RayMarch()} ciklusából való kilépéshez, ami lassabb kirajzolási sebességet eredményez.
