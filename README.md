@@ -16,3 +16,7 @@ Az alkalmazás elindításához a **FractalCollision.exe** fájlt kell futtatni.
 Az alkalmazásból való kilépéshez lehet az **ESC** billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána még külön be kell zárni a terminálablakot.
 
 Az alkalmazás **Microsoft Visual Studio** segítségével készült, így ha újra akarnánk fordítani akkor a **C:/** helyre csomagoljuk ki a mellékelt **OGLPack.zip** állományt (ez az OpenGL-hez szükséges fájlokat tartalmazza), majd futtassuk a **subst T: C:/** parancsot. Ezután megnyithatjuk a **.vcxproj** projektfájlt.
+
+## Dokumentáció
+
+Az alkalmazáshoz készült dokumentáció - azaz maga szakdolgozat - LaTeX-ben íródott egy Overleaf nevű online szövegszerkesztő segítségével. Az eredeti példány megtikenthető ezen a linken:  https://www.overleaf.com/read/srcjrcqkkfwz
