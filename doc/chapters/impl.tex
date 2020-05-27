@@ -82,7 +82,7 @@ Az algoritmus két paramétert igényel: egy pontot és egy vektort, melyek megh
 Az alkalmazásban teljesítményjavítás érdekében másik feltétel (dS<0.01*dist/MAX\_DIST) lett használva a felületi távolsághoz, mely számításba veszi hogy mennyire messzire vagyunk a kamerától. Ha messzebb vagyunk akkor nincsen szükség akkora részletességre és a felületi távolság így lehet nagyobb is.
 
 \subsection{Fénymodell}
-
+\label{sec:lighting}
 Ha túl messzire ment a sugarunk (dist>MAX\_DIST), akkor egyszerűen a háttér színét adjuk a pixelnek. Egyéb esetben pedig kiszámoljuk az adott pontban a felületi normálist és a fénymodell segítségével megállapítjuk a pixel színét.
 
 A használt fénymodell nagyon sokat számít a kirajzolt kép minőségén. Ezért sok idő és energia lett rászánva ennek megalkotására, a végeredményre Ingio Quilez munkássága \cite{iqShader82:online} nagy befolyást gyakorlot. Ezen fénymodell komponensei \aref{fig:lighting}.~ábrán láthatóak. Ezek különböző színenkénti súlyozással vett összege alkotja végső színáranyalatot, melyre még egy gamma korrekció és egy ködszerű effekt is került -- ez utóbbi arra szolgál hogy a viszonylag kicsi maximális távolságot leplezze.
@@ -259,6 +259,68 @@ Az \textbf{m\_at} vektorunkat (mely azt határozza meg hogy merre néz a kamera)
 
 Az \textbf{m\_fw} vetort az \textbf{m\_at} és \textbf{m\_eye} különbsége fogja adni, az \textbf{m\_st} vetort pedig a \textbf{m\_fw} és \textbf{m\_up} vektoriális szorzata.
 
+\subsection{Fragment shader}
+A megjelenítés erősen támaszkodik a fragment shaderre, a \ref{sec:kepmod}. alfejezetben a képalkotás elméleti része már nagy vonalakban ismertetve lett, ebben az alfejezetben ennek az implementációját mutatom be. A függvények ismertetésének sorrendje nagyságrendileg a meghívásuk sorrendjét követi.
+
+\subsubsection{void main()}
+Az unifom változóként megkapott \textbf{eye, at} és \textbf{up} vektorok és a vertex shaderből érkező normalizált ablakkoordináták segítségével néhány vektorművelet felhasználásval kiszámoljuk a sugarak kiinduló pontját és irányát. Ezt átadjuk a \textbf{render()} függvénynek ami visszatér az adott pixel színével.
+
+\subsubsection{vec3 render(vec3 ro, vec3 rd)}
+A paramétereivel meghívja a \textbf{RayMarch()} függvényt, mellyel meg tudjuk határozni hogy az aktuális sugár a virtuális terünk mely pontjában ütközött. Ebben a pontban GetNormal() függvénnyel meghatározzuk a felületi normálist. Ezek ismeretében az alkalmazott fénymodellünkkel\footnote{\Aref{sec:lighting}. fejezetben a fénymodellről már volt szó, az implementációját nagyon hosszan lehetne részletezni de többnyire szabány megoldások és önmagyarázó kódokal készült, így erre nem kerül sor.} meg tudjuk állapítni hogy milyen színű legyen a paraméterként megkapott sugárnyalábhoz tartozó pixelünk és ennek az rgb kódjával tér vissza a függvény. 
+
+\subsubsection{vec3 GetNormal(vec3 p)}
+A paraméterként kapott pontban kiszámolja felületi normálist. Ehhez kiszámoljuk a deriváltat az adott pontban a \ref{eq:normal}. képlet segítségével és az eredményt normálizáljuk. Az \textbf{$\epsilon$} értékét az implementációban 0.001-nek választottam. Ha az érték túl nagy akkor pontatlan lesz a norma, ha túl kicsi akkor a számábrázolás pontatlansága miatt léphetnek fel pontatlanságok.
+\begin{equation}
+\label{eq:normal}
+f^{\prime}(x, y, z)=\left[\begin{array}{l}
+f(x, y, z)-f(x-\epsilon, y, z) \\
+f(x, y, z)-f(x, y-\epsilon, z) \\
+f(x, y, z)-f(x, y, z-\epsilon)
+\end{array}\right]
+\end{equation}
+
+
+\subsubsection{float RayMarch(vec3 ro, vec3 rd)}
+\Aref{sec:kepmod}. fejezetben az implementációja is részletezve lett. Meghívódik benne a \textbf{GetDist()} névvel illetetett távolságfüggvény. A felületi távolsággal kapcsolatos kilépési feltétel javításán kívül ez egy szabvány implementációja a \textbf{Sphere tracing} algoritmusnak.
+
+\subsubsection{float GetDist(vec3 pos, out float col)}
+A paraméterül kapott \textbf{pos} ponttól kiszámolja az összes felület uniójától vett távolságot. A testek felületét leíró függvények Igio Quilez honlapján \cite{InigoQui87:online} található gyűjteményből származnak. Összességében a sík, a téglatest és a gömb függvényei vannak különféle módon tarszformálva. Minden alakzhoz tarozó függvény visszatér a megfelelő távolsággal, majd ezeknek a minimuma lesz a függvény visszatérési értéke. 
+
+A függvénynek egy out paramétere is, amit nem kell feltétlenün megadnunk. Ez a paraméter annak függvényében kap értéket hogy melyik objektumtól származik a legkisebb távolságérték. Ez az érték akkor kerül ellenőrzésre a \textbf{render()}-ben amikor a \textbf{RayMarch()} segítségével már megállípatottuk hogy hol állt meg a kiküldött sugárnyaláb. Ezen érték felhasználásával minden objektumnak adhatunk egy a fényektől és megvilágítsától független alapszínt.
+
+Ez az alapszín egyébként a fraktál esetén a felületi normális átkonvertálva rgb értékekbe. Ugyanezt a színezési technikát kapja a a kezdeti pozíció alatt található félgömbhéj is. 
+
+A fraktálunk pedig egy szerű téglatest amire az \textbf{iter\_fold()} transzofmációs függvény lett alkalmazva.
+
+\subsubsection{vec3 iter\_fold(vec3 pt)}
+Paraméterül egy pontot kap, amire az adott traszforméciókat elvégzi, majd a transzformált ponttal tér vissza. Ez a függvény egy ciklust tartalmaz, mely az unifom változóként megkaptt \textbf{iterations}-szor fogja megismételni minden tengelyre az eltolás, forgatás és tükrözés (fold) traszformációkat -- amiket unifom változóként megkapott paraméterekkel hajt végre -- egymás után a kapott pontra.
+
+\begin{description}
+	\item[Az eltolás] pont esetében csak annyit tesz hogy a megfelelő koordiátákból kivonjuk az eltolás koordinátáit.
+	\item[A forgatás] a klasszikus 3 dimenziós forgatási mátrixokra épül:
+$$\begin{array}{l}
+R_{x, \vartheta}=\left[\begin{array}{ccc}
+1 & 0 & 0 \\
+0 & \cos (\vartheta) & -\sin (\vartheta) \\
+0 & \sin (\vartheta) & \cos (\vartheta)
+\end{array}\right] \\
+\\
+R_{y, \vartheta}=\left[\begin{array}{ccc}
+\cos (\vartheta) & 0 & \sin (\vartheta) \\
+0 & 1 & 0 \\
+-\sin (\vartheta) & 0 & \cos (\vartheta)
+\end{array}\right] \\
+\\
+R_{z, \vartheta}=\left[\begin{array}{ccc}
+\cos (\vartheta) & -\sin (\vartheta) & 0 \\
+\sin (\vartheta) & \cos (\vartheta) & 0 \\
+0 & 0 & 1
+\end{array}\right]
+\end{array}$$
+	\item[A tükrözés] (fold) egy eltolás a tükrözés síkjára merőlegesen, úgy hogy annyival kerül eltolásra amilyen távolságra van a tükrözés síkjától. Csak a sík egyik oldalán lévő pontokkal végezzül el ezt, a másik oldalán lévő pontokat nem mozdítjuk. Ezáltal már nem lesz egybevágósági traszformáció, és emiatt nem is mondható tükrözésnek, ezért lett a \textbf{fold} kifejezés használva rá.
+\end{description}
+
+Fontos hogy a transzformációk között legyen olyan ami nem egybevágósági transzformáció, amenniyben nem lenne akkor hiába iterálnánk akármennyit, az alakzat formája nem változna. Lényegében ez az egyetlen kikötése a fraktál generátornak, amíg ez teljesül addig tetszőlegesen variálhatjuk a traszformációkat hogy hatékonyaabban lehessen kiszámlni az alakzatat vagy éppen izgalmasabb formákat kapjunk.
 
 \section{Tesztelés}
 
