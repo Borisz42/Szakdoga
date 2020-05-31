@@ -9,9 +9,9 @@ A gömbök egymással való ütközése jelenleg is kicsit furcsa, ami abból ad
 
 Nem kell nagy módosításokat tenni hogy a \textbf{GetDist()} függvény ne csak egy távolsággal hanem egy egyedi objektum azonosítóval is visszatérjen. Ha ez megvan akkor már csak egy megfelelő modellt kellene találni a labdák ütközésére. Például a a sebességvektoraikat kicserélhetnénk kettejük között, úgy hogy mindkettő csökken valamelyest. Esetleg az egyik megkaphatná a saját és a másik vektora megfelelően súlyozott átlagát és fordítva.
 
-A gömbök \textbf{kilövése} lehetne úgyhogy egy (esetleg néhány) labda van középen amit mindig kilövünk egyesével (vagy néhányasával), a többi pedig kering körülötte és kilövéskor a helyére ugranak. Ekkor a kilövést és a labdahívást külön billentyű szabályozná. 
+A gömbök \textbf{kilövése} lehetne úgy, hogy egy (esetleg néhány) labda van középen amit mindig kilövünk egyesével (vagy néhányasával), a többi pedig kering körülötte és kilövéskor a helyére ugranak. Ekkor a kilövést és a labdahívást külön billentyű szabályozná. 
 
-Az alkalmazás \textbf{teljesítményét} is lehetne javítani. Nagyon sok ismert mód van a Sphere Tracing algoritmus általános javítására, amiből én egyet sem alkalmaztam. Ezeket lehetne kombinálni a \textbf{felbontás} szabályozásával. Persze most is lehet szabályozni a felbontást az ablak átméretezésével, de elegánsabb lenne ha külön lehetne állítani a megjelenítési és a renderelési felbontást.
+Az alkalmazás \textbf{teljesítményét} is lehetne javítani. Nagyon sok ismert mód van a Sphere Tracing algoritmus általános javítására. Ezeket lehetne kombinálni a \textbf{felbontás} szabályozásával. Persze most is lehet szabályozni a felbontást az ablak átméretezésével, de elegánsabb lenne ha külön lehetne állítani a megjelenítési és a renderelési felbontást.
 
 \textbf{A fraktál generálási módján} is sokat lehetne változtatni. Minden iterációban 9 transzformációt végzünk el a fraktálunkon, ha néhány tengely menti transzformációt kihagynánk az sokat gyorsítana. Esetleg valami érdekesebb (nem alapvető) transzformáció segítségével kevesebb iteráció is elegendő lenne ugyanilyen részletes fraktál létrehozásához. Ennek megváltoztatása azonban részben filozófiai kérdés. Az eltolás, forgatás, tükrözés a legalapvetőbb geometriai transzformációk és alacsony iterációs számnál még jól követhető hogy hogyan hatnak az alakzatra.
 

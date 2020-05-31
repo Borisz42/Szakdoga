@@ -8,7 +8,7 @@ Ezen fejezet taglalja a program futtatásához és használatához szükséges i
 \label{sec:ui} 
 A program sikeres indítása után -- melyről \aref{sec:futtatas}. fejezetben tudhatunk meg többet -- kettő darab ablakkal találjuk szembe magunkat. Ezekről \aref{fig:Kezdokepernyo}. és \ref{fig:Terminal}.~ábrák mutatnak egy-egy képernyőképet.
 
-\Aref{fig:Kezdokepernyo}. ábrán látható ablak tartalmazza a program lényeges részét, itt jelenik meg a kirajzolt képünk és ebben az ablakban található a \textbf{``Parameters''} feliratú panel, melynek segítségével különböző paramétereket tudunk nyomon követni és módosítani. Az ablak alapértelmezetten 1920x1080 nagyságú, de szabadon átméretezhető, viszont az ablak mérete befolyással van a teljesítményre! Mindig az ablak pontos felbontásában fog renderelni, így nem optimális teljesítmény esetén érdemes megfontolni az ablak kisebbre vételét.
+\Aref{fig:Kezdokepernyo}. ábrán látható ablak tartalmazza a program lényeges részét, itt jelenik meg a kirajzolt képünk és ebben az ablakban található a \textbf{``Parameters''} feliratú panel, melynek segítségével a futás  különböző paramétereit tudjuk nyomon követni és módosítani. Az ablak alapértelmezetten 1720x900 nagyságú, de szabadon átméretezhető, viszont az ablak mérete befolyással van a teljesítményre! Mindig az ablak pontos felbontásában fog renderelni, így nem optimális teljesítmény esetén érdemes megfontolni az ablak kisebbre vételét.
 
 \begin{figure}[H]
 	\centering
@@ -17,7 +17,7 @@ A program sikeres indítása után -- melyről \aref{sec:futtatas}. fejezetben t
 	\label{fig:Kezdokepernyo}
 \end{figure}
 
-\Aref{fig:Terminal}. ábrán vehetjük szemügyre azt a terminálablakot mely az esetleges hibaüzeneteket fogja kiírni. Ezen kívül ez az ablak más funkcióval nem bír.
+\Aref{fig:Terminal}. ábrán vehetjük szemügyre azt a terminálablakot mely az esetleges hibaüzeneteket fogja kiírni. Ezen kívül ez az ablak más funkcióval nem rendelkezik.
 
 \begin{figure}[H]
 	\centering
@@ -39,43 +39,84 @@ Ezen a panelen számos információt tudhatunk meg és állíthatunk át a progr
 	\label{fig:Parameters1}
 \end{figure}
 
-A panel legtetején (\ref{fig:Parameters1}.~ábra) találhatjuk a \textbf{``Frame rate:''} felirat után az aktuális képfrissítési rátát képkocka/másodperc mértékegységben, illetve közvetlenül ezalatt az utolsó másfél másodperc adatait követhetjük nyomon egy folyamatosan frissülő grafikonon. 
+A panel legtetején (\ref{fig:Parameters1}.~ábra) találhatjuk a \textbf{``Frame rate:''} felirat után az aktuális képfrissítési rátát képkocka/másodperc (FPS) mértékegységben, illetve közvetlenül ezalatt az utolsó másfél másodperc értékeit követhetjük nyomon egy folyamatosan frissülő grafikonon. 
 
 A két \textbf{``Physics:''} felirat után olvashatjuk le hogy milyen gyakran van a labdák mozgása frissítve frissítés/képkocka és frissítés/másodperc mértékegységekben. Egy frissítés során minden labda sebessége és pozíciója újraszámolódik, valamint ellenőrzésre kerül az is hogy ütközött-e valamivel. 
 
-A \textbf{``Ball distance from anything:''} felirat után olvasható a dobálható labda távolsága a tőle legközelebb lévő felülettől - több labda esetén az utoljára létrehozottra vonatkozik. Az apró ingadozásából látszik hogy igazából folyamatosan pattog a labda, csak ez a pattogás egy idő után elhanyagolható mértékű lesz.
+A \textbf{``Ball distance from anything:''} felirat után olvasható a dobálható labda távolsága a tőle legközelebb lévő felülettől -- több labda esetén az utoljára létrehozottra vonatkozik. Az apró ingadozásából látszik hogy igazából folyamatosan pattog a labda, csak ez a pattogás egy idő után elhanyagolható mértékű lesz.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth,frame]{Parameters2}
-	\caption{A "Parameters" feliratú panel középső harmada}
+	\caption{A ``Parameters'' feliratú panel középső harmada}
 	\label{fig:Parameters2}
 \end{figure}
 
-A választóvonal alatti szekcióban (\ref{fig:Parameters2}.~ábra) a fraktálunkat tudjuk személyre szabni. A fraktálunk úgy rajzolódik ki hogy egy 1x1x2 egység nagyságú téglatesten egymás után többször végrehajtunk különböző transzformációkat. Ezen transzformációk paramétereit tudjuk beállítani a következő 9 db határ nélküli csúszkán - mely ugyanúgy működik mint egy sima csúszka, csak nincsen minimum és és maximum értéke és az egeret tovább is lehet húzni mint a csúszka vége. Mindegyik csúszkának CTRL + kattintással begépelt értéket is meg lehet adni. 
+A választóvonal alatti szekcióban (\ref{fig:Parameters2}.~ábra) a fraktálunkat tudjuk személyre szabni. A fraktálunk úgy rajzolódik ki hogy egy 1x1x2 egység nagyságú téglatesten egymás után többször végrehajtunk különböző transzformációkat. Ezen transzformációk paramétereit tudjuk beállítani a következő 9 db határ nélküli csúszkán -- mely ugyanúgy működik mint egy hagyományos csúszka, csak nincsen minimum és maximum értéke és az egeret tovább is lehet húzni mint a csúszka vége. Mindegyik csúszkának CTRL + kattintással, vagy duplakattintással begépelt értéket is meg lehet adni. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{scrn4}
+	\caption{A megfelelő paraméterekkel látványos fraktálokat kaphatunk}
+	\label{fig:erdekes1}
+\end{figure}
 
 A \textbf{[rot x], [rot y], [rot z]} csúszkákkal azt tudjuk szabályozni hogy mennyire legyen elforgatva egy iterációban a fraktál az X, Y és Z tengelyek körül (radiánban értendők az értékek). 
 
-A \textbf{[fold x], [fold y], [fold z]} csúszkákkal azt tudjuk szabályozni hogy mennyire legyen elforgatva az adott tengely körül a tükrözősík  ami a megadott szöggel (radián) fordul el és tükrözi az alakzatot iterációnkként. Itt a három érték 3 különböző tükrözősíkot forgat el a nevükben szereplő tengely mentén. 
+A \textbf{[fold x], [fold y], [fold z]} csúszkákkal azt tudjuk szabályozni hogy mennyire legyen elforgatva az adott tengely körül a tükrözősík ami a megadott szöggel (radián) fordul el és tükrözi az a sík egyik oldalán lévő pontokat a másikra -- de csak az egyik oldalt, így ez nem egybevágósági transzformáció, ezért nem tükrözésként van elnevezve. Itt a három érték 3 különböző tükrözősíkot forgat el a nevükben szereplő tengely mentén. 
 
 A \textbf{[shift x], [shift y], [shift z]} csúszkák szabályozzák hogy mennyire legyen eltolva az alakzat iterációnként az X, Y és Z tengely mentén.
 
-Végül pedig az \textbf{[iterations]} csúszka, amely már korlátozva van az [1,36] tartományban, beállítja hogy az előző 9 csúszka által paraméterezett 9 transzformáció hányszor legyen végrehajtva a téglatesten. Ez a paraméter van a legnagyobb hatással a futás sebességére, így gyengébb gépeken nem érdemes nagy értéket beállítani. Ha a képfrissítési ráta 10 képkocka/másodperc alá csökken akkor automatikusan elkezd csökkenni a csúszka értéke.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{scrn6}
+	\caption{Bármilyen paraméter esetén képesek a labdák helyes ütközésre}
+	\label{fig:erdekes2}
+\end{figure}
 
-Itt található még két gomb: a \textbf{``Zero values''}, mely a fraktál paramétereket nullához közelíti\footnote{Az értékek csak konvergálnak a 0-hoz. Ha valamely paraméter szélsőségesen nagy, előfordulhat hogy a gomb megnyomása után is jelentősen eltér nullától}, illetve a \textbf{``Random values''}, mely véletlenszerű értékeket állít be ezeknek. Az iterációk számát egyik sem állítja át. Továbbá van még egy ezekhez szorosan kacsolódó érték ami a \textbf{``Transition speed:''} felirat után olvasható. A gombok által generált új paramétereket egy 5 másodperc hosszú fázisban folyamatosan, apránként közelíti az aktuális paraméterekkel, az előbb említett érték pedig azt fejezi ki hogy milyen súlyozással veszi az aktuális és a célérték átlagát.
+Végül pedig az \textbf{[iterations]} csúszka -- amely már korlátozva van az [1,36] tartományban -- beállítja hogy az előző 9 csúszka által paraméterezett 9 transzformáció hányszor legyen végrehajtva a téglatesten. Ez a paraméter van a legnagyobb hatással a futás sebességére, így gyengébb gépeken nem érdemes nagy értéket beállítani. Ha a képfrissítési ráta 10 képkocka/másodperc alá csökken akkor automatikusan elkezd csökkenni a csúszka értéke.
+
+Itt található még két gomb: a \textbf{``Zero values''}, mely a fraktál paramétereket nullához közelíti\footnote{Az értékek csak konvergálnak a 0-hoz. Ha valamely paraméter szélsőségesen nagy, előfordulhat hogy a gomb megnyomása után is jelentősen eltér nullától}, illetve a \textbf{``Random values''}, mely véletlenszerű értékeket állít be ezeknek. Az iterációk számát egyik sem állítja át, csak a többi fraktálra vonatkozó paraméterre van hatással. 
+
+Továbbá van még egy ezekhez szorosan kacsolódó érték ami a \textbf{``Transition~speed:''} felirat után olvasható. A gombok által generált új paramétereket egy 5 másodperc hosszú fázisban folyamatosan, apránként közelíti az aktuális paraméterekkel, az előbb említett érték pedig azt fejezi ki hogy milyen súlyozással veszi az aktuális és a célérték átlagát.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.4\textwidth,frame]{Parameters3}
-	\caption{A "Parameters" feliratú panel alsó harmada}
+	\caption{A ``Parameters'' feliratú panel alsó harmada}
 	\label{fig:Parameters3}
 \end{figure}
 
 Az alsó harmadban (\ref{fig:Parameters3}.~ábra) található a \textbf{[sphere count]} csúszka, itt 1 és 100 között lehet értékeket beállítani. Ez is jelentősen befolyásolja a futás gyorsaságát, így 15 FPS alatt ez az érték is automatikusan csökken.
 
-Van egy rövid ismertető szövege a panelnek, ami azt a célt szolgálja hogy ezen dokumentáció nélkül is tudja használni egy felhasználó ha leül a program elé. Ebben kerülnek ismertetésre a virtuális tér bejárásához szükséges irányítások is. A mozgáshoz a \textbf{WASD} billentyűket és az egeret lenyomott jobb egérgombbal\footnote{Erre azért volt szükség mert a paraméterek beállításához is az egeret kell használni, muszáj volt elkülöníteni valahogy a kettőt} kell használni a legtöbb játékban megszokott módon -- a kamera szabadon repül bármilyen irányba. A mozgási sebességet a \textbf{[moving speed]} csúszkával lehet személyre szabni, illetve ugyanezen csúszka értékét az \textbf{egérgörgővel} is lehet szabályozni. A \textbf{shift} billentyű lenyomására ideiglenesen megnégyszereződik a sebesség, felengedésére visszaáll. A kamera látószögét lehet csökkenteni a \textbf{[zoom]} csúszka értékének növelésével, vagy a \textbf{Ctrl + görgő} segítségével is.
+Van egy rövid ismertető szövege a panelnek, ami azt a célt szolgálja hogy ezen dokumentáció nélkül is tudja használni egy felhasználó ha leül a program elé. Ebben kerülnek ismertetésre a virtuális tér bejárásához szükséges irányítások is. A mozgáshoz a \textbf{WASD} billentyűket és az egeret lenyomott jobb egérgombbal\footnote{Erre azért volt szükség mert a paraméterek beállításához is az egeret kell használni, muszáj volt elkülöníteni valahogy a kettőt} kell használni a legtöbb játékban megszokott módon. A kamera szabadon repül bármilyen irányba. 
 
-A labdákat a \textbf{szóköz} billentyű nyomva tartásával lehet magunkhoz hívni. Egy labda esetén az ablak közepére, több labda esetén a labdák az ablak közepe körül keringenek egy körvonal mentén egyenletesen elhelyezkedve. A szóköz billentyűt felengedve egyszerre kilövődnek a labdák, ha be van pipálva a panel alján a \textbf{[shoot]} jelölőnégyzet, ha nincsen bepipálva csak leesnek a gravitációnak megfelelően.
+A mozgási sebességet a \textbf{[moving speed]} csúszkával lehet személyre szabni, illetve ugyanezen csúszka értékét az \textbf{egérgörgővel} is lehet szabályozni. A \textbf{SHIFT} billentyű lenyomására ideiglenesen megnégyszereződik a sebesség, felengedésére visszaáll. A kamera látószögét lehet csökkenteni a \textbf{[zoom]} csúszka értékének növelésével, vagy a \textbf{CTRL + görgő} segítségével is.
+
+\begin{figure}[H]
+	\centering
+	\subfigure[\textbf{$zoom = 1$}]{\includegraphics[width=0.45\linewidth,frame]{zoom1}}
+	\hspace{1pt}
+	\subfigure[\textbf{$zoom = 10$}]{\includegraphics[width=0.45\linewidth,frame]{zoom2}}
+	\caption{A \textbf{[zoom]} paraméter hatása a képre (a kamera mozgatása nélkül)}
+	\label{fig:zoom}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{scrn5}
+	\caption{A labdák helyzete a szóköz lenyomása közben}
+	\label{fig:home}
+\end{figure}
+
+A labdákat a \textbf{szóköz} billentyű nyomva tartásával lehet magunkhoz hívni. Egy labda esetén az ablak közepére, több labda esetén a labdák az ablak közepe körül keringenek egy körvonal mentén egyenletesen elhelyezkedve, mely \aref{fig:home} ábárn is megfigyelhető. A szóköz billentyűt felengedve egyszerre kilövődnek a labdák, ha be van pipálva a panel alján a \textbf{[shoot]} jelölőnégyzet, ha nincsen bepipálva csak leesnek a gravitációnak megfelelően.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\textwidth,frame]{scrn1}
+	\caption{A labdák kilövése utáni pillanatkép}
+	\label{fig:home}
+\end{figure}
  
 \cleardoublepage
 \section{Rendszerkövetelmények és futtatás} 
@@ -89,8 +130,8 @@ Az alkalmazás üzembe helyezésének követelménye a Windows 7 vagy afeletti o
 \end{compactitem}
 Ezen konfigurációval, 1920x1080 felbontás mellett a program sebessége elfogadható volt.
 
-Az alkalmazás elindításához a \textbf{FractalCollision.exe} fájlt kell futtatni. Fontos hogy az exe fájl mellett ott legyen a \textbf{shader.frag} és a \textbf{shader.vert} fájlok, illetve ha a rendszeren nincsen külön telepítve akkor az \textbf{SDL2.dll}, a \textbf{glew32.dll}, a \textbf{vcruntime140.dll} és a \textbf{msvcp140.dll} fájloknak is az exe mellett kell lenniük. Ezek mind a \textbf{Release} mappában vannak, így onnan indítva erre nem kell ügyelni.
+Az alkalmazás elindításához a \textbf{FractalCollision.exe} fájlt kell futtatni. Fontos hogy az exe fájl mellett ott legyen a \textbf{shader.frag} és a \textbf{shader.vert} fájlok, illetve ha a rendszeren nincsenek telepítve akkor az \textbf{SDL2.dll}, a \textbf{glew32.dll}, a \textbf{vcruntime140.dll} és a \textbf{msvcp140.dll} fájloknak is az exe mellett kell lenniük. Ezek mind a \textbf{Release} mappában vannak, így onnan indítva erre nem kell ügyelni.
 
-Az alkalmazásból való kilépéshez lehet az \textbf{Esc} billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána még külön be kell zárni a terminálablakot.
+Az alkalmazásból való kilépéshez lehet az \textbf{Esc} billentyűt vagy a jobb felső sarokban az ablak bezárás gombját használni. Ha bezárjuk a terminálablakot akkor mindkét ablak bezárul, ha először a fő programablakot zárjuk be akkor utána előfrodulhat hogy még külön be kell zárni a terminálablakot -- az esetek többségében azonban magától bezárul.
 
 
