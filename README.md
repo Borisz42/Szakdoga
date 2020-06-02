@@ -19,4 +19,4 @@ Az alkalmazás **Microsoft Visual Studio** segítségével készült, így ha ú
 
 ## Dokumentáció
 
-Az alkalmazáshoz készült dokumentáció - azaz maga szakdolgozat - LaTeX-ben íródott egy Overleaf nevű online szövegszerkesztő segítségével. Az eredeti példány megtikenthető ezen a linken:  https://www.overleaf.com/read/srcjrcqkkfwz
+Az alkalmazáshoz készült dokumentáció - azaz maga szakdolgozat - LaTeX-ben íródott egy Overleaf nevű online szövegszerkesztő segítségével. A **/doc** mappában megtalálhatóak a forrásfájlok, az eredeti példány pedig megtikenthető ezen a linken:  https://www.overleaf.com/read/srcjrcqkkfwz
